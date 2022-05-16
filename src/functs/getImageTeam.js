@@ -14,7 +14,8 @@ import benevento from "./../imgs/benevento.png"
 
 
 function getImageTeam(squadra) {
-    switch (squadra){
+    return "./../imgs/"+squadra+".png"
+    /*switch (squadra){
         case "milan":
         return milan
         case "inter":
@@ -41,7 +42,7 @@ function getImageTeam(squadra) {
         return benevento
         default :
         return         
-    }
+    }*/
 
 }
 
