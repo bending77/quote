@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import getAllLeagues from "./mayorLeagues";
-import getCampionati from "./getCampionati";
-import getSquadre from "./getSquadre";
+import getAllLeagues from "../functs/mayorLeagues";
+import getCampionati from "../functs/getCampionati";
+import getSquadre from "../functs/getSquadre";
 import Dropdown from "./Dropdown";
 import InputNumber from "./InputNumber";
 

@@ -1,5 +1,5 @@
-import getImage from "./getImage";
-import getImageTeam from "./getImageTeam";
+import getImage from "../functs/getImage";
+import getImageTeam from "../functs/getImageTeam";
 
 function Tabella(props) {
     const handleRowClick = (e) => {

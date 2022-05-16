@@ -1,7 +1,6 @@
 import { useState } from "react";
 import GetCsv from "./comps/GetCsv";
 import './AppStyle.css';
-import './backgroundStyle.css';
 import Dashboard from "./comps/Dashboard"
 
 
