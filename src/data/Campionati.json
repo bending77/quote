@@ -6,7 +6,7 @@
     },
     {
         "name" : "liga1", 
-        "teams" : ["Barcellona", "Real madrid", "atletico madrid"]
+        "teams" : ["Barcellona", "Real madrid", "atletico madrid", "Pippo"]
     },
     {
         "name" : "premier", 
