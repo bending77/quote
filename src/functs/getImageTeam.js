@@ -1,5 +1,6 @@
 function getImageTeam(squadra) {
-    return "./../imgs/"+squadra+".png"
+    let teamImage = './'+squadra+'.png';
+    return teamImage
 }
 
 export default getImageTeam;
