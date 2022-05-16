@@ -24,6 +24,8 @@ function Dashboard(props) {
                 props.cleanForm()
                 setStato(4)
             break;
+            default : 
+            break;
        }
     };
 
@@ -201,6 +203,8 @@ function Dashboard(props) {
                 form = ""
                 formTitle = "Filtra"
                 tastoCerca = ""
+            break;
+            default : 
             break;
             
         }
