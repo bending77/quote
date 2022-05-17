@@ -1,7 +1,7 @@
 function FormSchedina(props) {
 
     
-    var counter = -1
+    /*var counter = -1
     var partite = (props.schedinaList).map((partita =>{
         counter = counter + 1;
         return (
@@ -11,7 +11,7 @@ function FormSchedina(props) {
                 </div>
             </div>               
             )
-    }));
+    }));*/
 
     
 
