@@ -1,14 +1,24 @@
 import Form from "./Form";
 import { useState } from "react";
 import Tabella from "./Tabella"
+import OutputStats from "./OutputStats";
+import statdata from './../data/Stats';
+import InputNumber from "./InputNumber";
+import FormSchedina from "./FormSchedina";
 function Dashboard(props) {
-
     const [stato, setStato] = useState(0);
     // stato 0 main menu 
     // stato 1 form inserimento
     // stato 2 tabella 
     // stato 3 form con partita caricata
-    // stato 4 form double allowed
+    // stato 4 form double allowed x filtrare le schedine
+    // stato 5 risultati del calcolo statistiche
+    // stato 6 form inserimento schedina
+    let statJSON = JSON.parse(JSON.stringify(statdata));
+    const [statistiche, setstatistiche] = useState(statJSON);
+
+    const [schedinaList, setschedinaList] = useState([]);
+
 
 
     const handletasto = (e) => {
@@ -24,13 +34,38 @@ function Dashboard(props) {
                 props.cleanForm()
                 setStato(4)
             break;
+            case "pronosticobtn" : 
+                let numero = document.querySelector('#numeroPartite').value
+                document.querySelector('#numeroPartite').value = ''
+                if (numero < 1){
+                    console.log('inserisci un numero di partite valido prima di iniziare')
+                }else{
+                    let lista = []
+                    for (let i = 0 ; i < numero; i++){
+                        lista.push({})
+                    }
+                    setschedinaList(lista)
+                    setStato(6)
+                }
+            break;
             default : 
             break;
        }
     };
 
     const goMainMenu = () => {
-        setStato(0) 
+        if (stato === 5){
+            setstatistiche(JSON.parse(JSON.stringify(statdata)))
+            props.cleanForm()
+            setStato(4)
+        }else{
+            if (stato === 3){
+                setStato(2)
+            }else{
+                setStato(0)
+            }
+
+        }   
      };
 
      const explode = (valore) => {
@@ -43,6 +78,7 @@ function Dashboard(props) {
         setStato(2)
     }
 
+
     const removePartita = () => {
         props.removePartita()
         setStato(2)
@@ -50,112 +86,132 @@ function Dashboard(props) {
 
     const cercaPartite = () => {
         let partite = props.cercaPartite()
-        let risultati = {partiteTrovate : 0,
-        uno : 0, due : 0, x : 0, unox : 0, unodue : 0, xdue : 0,
-        goal : 0, noGoal : 0, golCasa : 0, golFuori : 0, 
-        u15 : 0, o15 : 0, u25 : 0, o25 : 0, u35 : 0, o35 : 0,
-        c0 : 0, c1 : 0, c2 : 0, c3 : 0, c4 : 0, cp4 : 0, f0 : 0, f1 : 0, f2 : 0, f3 : 0, f4 : 0, fp4 : 0
-        }
+        let risultati = statJSON
         risultati.partiteTrovate = partite.length
 
+        //calcola le statistiche
         for (let i = 0; i < partite.length; i++) {
             let match = partite[i]
             //risultati
             if (match.golCasa > match.golOspite){
-                risultati.uno = risultati.uno +1
-                risultati.unox = risultati.unox +1
-                risultati.unodue = risultati.unodue +1
+                risultati.statGroups[0].stats.uno.valore = risultati.statGroups[0].stats.uno.valore +1
+                risultati.statGroups[0].stats.unox.valore = risultati.statGroups[0].stats.unox.valore +1
+                risultati.statGroups[0].stats.unodue.valore = risultati.statGroups[0].stats.unodue.valore +1
             }
             if (match.golCasa === match.golOspite){
-                risultati.x = risultati.x +1
-                risultati.unox = risultati.unox +1
-                risultati.xdue = risultati.xdue +1
+                risultati.statGroups[0].stats.x.valore = risultati.statGroups[0].stats.x.valore +1
+                risultati.statGroups[0].stats.unox.valore = risultati.statGroups[0].stats.unox.valore +1
+                risultati.statGroups[0].stats.xdue.valore = risultati.statGroups[0].stats.xdue.valore +1
             }
             if (match.golCasa < match.golOspite){
-                risultati.due = risultati.due +1
-                risultati.unodue = risultati.unodue +1
-                risultati.xdue = risultati.xdue +1
+                risultati.statGroups[0].stats.due.valore = risultati.statGroups[0].stats.due.valore +1
+                risultati.statGroups[0].stats.unodue.valore = risultati.statGroups[0].stats.unodue.valore +1
+                risultati.statGroups[0].stats.xdue.valore = risultati.statGroups[0].stats.xdue.valore +1
             }
             //gol nogol
-            if (match.golCasa === 0 && match.golOspite === 0){
-                risultati.noGoal = risultati.noGoal +1
+            if (parseFloat(match.golCasa) === 0 && parseFloat(match.golOspite) === 0){
+                risultati.statGroups[1].stats.noGoal.valore = risultati.statGroups[1].stats.noGoal.valore +1
             }
-            if (match.golCasa > 0 && match.golOspite > 0){
-                risultati.goal = risultati.goal +1
+            if (parseFloat(match.golCasa) > 0 && parseFloat(match.golOspite) > 0){
+                risultati.statGroups[1].stats.goal.valore = risultati.statGroups[1].stats.goal.valore +1
             }
-            if (match.golCasa > 0){
-                risultati.golCasa = risultati.golCasa +1
+            if (parseFloat(match.golCasa) > 0){
+                risultati.statGroups[1].stats.golCasa.valore = risultati.statGroups[1].stats.golCasa.valore +1
             }
-            if (match.golOspite > 0){
-                risultati.golFuori = risultati.golFuori +1
+            if (parseFloat(match.golOspite) > 0){
+                risultati.statGroups[1].stats.golFuori.valore = risultati.statGroups[1].stats.golFuori.valore +1
             }
             //underover 
-            if (match.golCasa + match.golOspite <= 1){
-                risultati.u15 = risultati.u15 +1
+            if (parseFloat(match.golCasa) + parseFloat(match.golOspite) <= 1){
+                risultati.statGroups[2].stats.u15.valore = risultati.statGroups[2].stats.u15.valore +1
             }
-            if (match.golCasa + match.golOspite > 1){
-                risultati.o15 = risultati.o15 +1
+            if (parseFloat(match.golCasa) + parseFloat(match.golOspite) > 1){
+                risultati.statGroups[2].stats.o15.valore = risultati.statGroups[2].stats.o15.valore +1
             }
-            if (match.golCasa + match.golOspite <= 2){
-                risultati.u25 = risultati.u25 +1
+            if (parseFloat(match.golCasa) + parseFloat(match.golOspite) <= 2){
+                risultati.statGroups[2].stats.u25.valore = risultati.statGroups[2].stats.u25.valore +1
             }
-            if (match.golCasa + match.golOspite > 2){
-                risultati.o25 = risultati.o25 +1
+            if (parseFloat(match.golCasa) + parseFloat(match.golOspite) > 2){
+                risultati.statGroups[2].stats.o25.valore = risultati.statGroups[2].stats.o25.valore +1
             }
-            if (match.golCasa + match.golOspite <= 3){
-                risultati.u35 = risultati.u35 +1
+            if (parseFloat(match.golCasa) + parseFloat(match.golOspite) <= 3){
+                risultati.statGroups[2].stats.u35.valore = risultati.statGroups[2].stats.u35.valore +1
             }
-            if (match.golCasa + match.golOspite > 3){
-                risultati.o35 = risultati.o35 +1
+            if (parseFloat(match.golCasa) + parseFloat(match.golOspite) > 3){
+                risultati.statGroups[2].stats.o35.valore = risultati.statGroups[2].stats.o35.valore +1
             }
             //numgol
-            if (match.golCasa === 0){
-                risultati.c0 = risultati.c0 +1
+            if (parseFloat(match.golCasa) === 0){
+                risultati.statGroups[3].stats.c0.valore = risultati.statGroups[3].stats.c0.valore +1
             }
-            if (match.golCasa === 1){
-                risultati.c1 = risultati.c1 +1
+            if (parseFloat(match.golCasa) === 1){
+                risultati.statGroups[3].stats.c1.valore = risultati.statGroups[3].stats.c1.valore +1
             }
-            if (match.golCasa === 2){
-                risultati.c2 = risultati.c2 +1
+            if (parseFloat(match.golCasa) === 2){
+                risultati.statGroups[3].stats.c2.valore = risultati.statGroups[3].stats.c2.valore +1
             }
-            if (match.golCasa === 3){
-                risultati.c3 = risultati.c3 +1
+            if (parseFloat(match.golCasa) === 3){
+                risultati.statGroups[3].stats.c3.valore = risultati.statGroups[3].stats.c3.valore +1
             }
-            if (match.golCasa === 4){
-                risultati.c4 = risultati.c4 +1
+            if (parseFloat(match.golCasa) === 4){
+                risultati.statGroups[3].stats.c4.valore = risultati.statGroups[3].stats.c4.valore +1
             }
-            if (match.golCasa > 4){
-                risultati.cp4 = risultati.cp4 +1
+            if (parseFloat(match.golCasa) > 4){
+                risultati.statGroups[3].stats.cp4.valore = risultati.statGroups[3].stats.cp4.valore +1
             }
-            if (match.golOspite === 0){
-                risultati.f0 = risultati.f0 +1
+            if (parseFloat(match.golOspite) === 0){
+                risultati.statGroups[3].stats.f0.valore = risultati.statGroups[3].stats.f0.valore +1
             }
-            if (match.golOspite === 1){
-                risultati.f1 = risultati.f1 +1
+            if (parseFloat(match.golOspite) === 1){
+                risultati.statGroups[3].stats.f1.valore = risultati.statGroups[3].stats.f1.valore +1
             }
-            if (match.golOspite === 2){
-                risultati.f2 = risultati.f2 +1
+            if (parseFloat(match.golOspite) === 2){
+                risultati.statGroups[3].stats.f2.valore = risultati.statGroups[3].stats.f2.valore +1
             }
-            if (match.golOspite === 3){
-                risultati.f3 = risultati.f3 +1
+            if (parseFloat(match.golOspite) === 3){
+                risultati.statGroups[3].stats.f3.valore = risultati.statGroups[3].stats.f3.valore +1
             }
-            if (match.golOspite === 4){
-                risultati.f4 = risultati.f4 +1
+            if (parseFloat(match.golOspite) === 4){
+                risultati.statGroups[3].stats.f4.valore = risultati.statGroups[3].stats.f4.valore +1
             }
-            if (match.golOspite > 4){
-                risultati.fp4 = risultati.fp4 +1
+            if (parseFloat(match.golOspite) > 4){
+                risultati.statGroups[3].stats.fp4.valore = risultati.statGroups[3].stats.fp4.valore +1
             }
         }
-        console.log(risultati)
-        
 
-      //setdatiTabella(partiteTrovate)
-      //stampa le statistiche 
-      //stampa la tabella 
+        //calcola le percentuali
+        let rapp, perc
+        for (let i = 0; i<risultati.statGroups.length ; i++){
+           let statisticheGruppo = risultati.statGroups[i].stats
+           for (var key in statisticheGruppo) {
+                rapp = statisticheGruppo[key].valore/risultati.partiteTrovate
+                perc = Math.trunc(rapp*100)
+                statisticheGruppo[key].percentuale = perc
+           }
+        }
 
-
+        //let rapp, perc
+        let maxs = [[],[],[],[]];
+        for (let i = 0; i<risultati.statGroups.length ; i++){
+           let statisticheGruppo = risultati.statGroups[i].stats
+           let percentualeMassima = 0
+           for (var ky in statisticheGruppo) {
+                if (statisticheGruppo[ky].percentuale === percentualeMassima){
+                    maxs[i].push(statisticheGruppo[ky])
+                }else{
+                    if (statisticheGruppo[ky].percentuale > percentualeMassima){
+                        maxs[i]=[statisticheGruppo[ky]]
+                        percentualeMassima = statisticheGruppo[ky].percentuale
+                    } 
+                }
+           }
+        }
+        maxs = maxs[0].concat(maxs[1]).concat(maxs[2]).concat(maxs[3])
+        risultati.maxs = maxs
+        //risultati.topStat = maxStat
+        setstatistiche(risultati)
+        setStato(5)
     }
-
 
 
 
@@ -170,8 +226,10 @@ function Dashboard(props) {
 
     let pulsantiera = " hidden"
     let form = " hidden"
+    let formSchedina = " hidden"
     let mainMenu = " hidden"
     let tabella = " hidden"
+    let stats = " hidden"
 
     let formTitle = ""
 
@@ -203,6 +261,12 @@ function Dashboard(props) {
                 form = ""
                 formTitle = "Filtra"
                 tastoCerca = ""
+            break;
+            case 5 : 
+                stats = ""
+            break;
+            case 6 : 
+                formSchedina = ""
             break;
             default : 
             break;
@@ -258,13 +322,24 @@ function Dashboard(props) {
                     <div className="mb-6">
                         <button id="calcolabtn" onClick={(e) => {handletasto(e);}} type="button" className="w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Visualizza statistiche estese</button>
                     </div>
-                    <div className="mb-6">
-                        <button id="pronosticobtn" onClick={(e) => {handletasto(e);}} type="button" className="w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Effettua un pronostico schedina</button>
+                    <div className="mb-6 border border-blue-500 rounded-lg py-2 px-2 bg-blue-100">
+                        <div className="mb-2 flex justify-center">
+                            <div className="w-1/2">
+                                <InputNumber doubleAllowed={false} id="numeroPartite" label="Numero partite" step="1" min="1"></InputNumber>
+                            </div>
+                        </div>
+                        <button id="pronosticobtn" onClick={(e) => {handletasto(e);}} type="button" className="w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Effettua un pronostico schedina</button>    
                     </div>
                 </div>
             </div>
             <div id="form" className={"w-full pt-10 overflow-y-scroll"+form}>
                 <Form statoDash={stato} title={formTitle} partitaSelezionata={props.partitaSelezionata}></Form>
+            </div>
+            <div id="formSchedina" className={"w-full pt-10 overflow-y-scroll"+formSchedina}>
+                <FormSchedina schedinaList={schedinaList}></FormSchedina>
+            </div>
+            <div id="stats" className={"w-full pt-10 h-full overflow-y-scroll shadow-lg"+stats}>
+                <OutputStats statistiche={statistiche}></OutputStats>
             </div>
             <div id="tabella" className={"w-full pt-10 h-full overflow-y-scroll"+tabella}> 
                 <Tabella lista={props.datiTabella} explode={explode}> </Tabella>

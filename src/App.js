@@ -186,7 +186,7 @@ function App() {
             <GetCsv  setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
           </div>         
           <div id="dashboard" className="hidden w-full h-full py-2 relative overflow-hidden">
-            <Dashboard cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
+            <Dashboard setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
           </div>
         </div>
     );

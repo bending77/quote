@@ -18,7 +18,6 @@ function Form(props) {
 
     useEffect(()=>{
         if (props.partitaSelezionata.campionato === "empty"){
-            console.log("nessuna squadra selezionata")
             document.getElementById("quotaCasa").value = "";
             document.getElementById("quotaFuori").value = "";
             document.getElementById("quotaGol").value = "";
