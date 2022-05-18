@@ -17,11 +17,17 @@ function App() {
   };
   //--------------
     const removePartita = () => {
-      let nuovodb = fileLetto.slice()
-      nuovodb.splice(indicePSelezionata,1)
-      cleanForm()
-      setFileLetto(nuovodb)
-      setdatiTabella(nuovodb)
+      if (indicePSelezionata < 0){
+        setToast('Prima seleziona una partita')
+      }else{
+        let nuovodb = fileLetto.slice()
+        nuovodb.splice(indicePSelezionata,1)
+        cleanForm()
+        setFileLetto(nuovodb)
+        setdatiTabella(nuovodb)
+        setToast('Partita eliminata dallo storico')
+      }
+      showToast()
     }
 
     const setPartita = () => {
@@ -37,8 +43,10 @@ function App() {
         cleanForm()
         setFileLetto(nuovodb)
         setdatiTabella(nuovodb)
+        setToast('Partita modificata')
+        showToast()
       }else{
-        console.log("la partita che stai tentando di inserire contiene degli errori: le squadre, almeno una quota ed i risultati devono essere valorizzati.")
+        alert("la partita che stai tentando di inserire contiene degli errori: le squadre, almeno una quota ed i risultati devono essere valorizzati.")
       }
     }
 
@@ -55,8 +63,10 @@ function App() {
         cleanForm()
         setFileLetto(nuovodb)
         setdatiTabella(nuovodb)
+        setToast('Partita inserita')
+        showToast()
       }else{
-        console.log("la partita che stai tentando di inserire contiene degli errori: le squadre, almeno una quota ed i risultati devono essere valorizzati.")
+        alert("la partita che stai tentando di inserire contiene degli errori: le squadre, almeno una quota ed i risultati devono essere valorizzati.")
       }
     }
     const getPartitaDaForm = () => {
@@ -64,6 +74,13 @@ function App() {
       partita.campionato =  document.getElementById("campionato").value;
       partita.squadraCasa =  document.getElementById("squadraCasa").value;
       partita.squadraOspite =  document.getElementById("squadraOspite").value;
+      if (partita.campionato === "" && partita.squadraCasa === "" && partita.squadraOspite === "" ){
+        partita.campionato =  document.getElementById("campionatoX").value;
+        partita.squadraCasa =  document.getElementById("squadraCasaX").value;
+        partita.squadraOspite =  document.getElementById("squadraOspiteX").value;
+      }
+
+
       partita.suGiuCasa =  document.getElementById("suGiuCasa").value;
       partita.suGiuFuori =  document.getElementById("suGiuFuori").value;
 
@@ -105,7 +122,22 @@ function App() {
       }
     };
 
-    const matchPartite = (partita, lista) => {
+    // true se almeno una quota O I GOL sono settati
+    const hasMoreThan0Quote = (partita) => {
+      let hasMoreThan0Quote = false
+      if (partita.suGiuCasa !== "" || partita.suGiuFuori!== "" || partita.casa !== "" || partita.fuori !== ""){
+        hasMoreThan0Quote = true
+      }
+      if ( partita.gol !== "" || partita.noGol !== "" || partita.o15 !== "" || partita.u15 !== "" || partita.o25 !== "" || partita.u25 !== "" ){
+        hasMoreThan0Quote = true
+      }
+      if (partita.golCasa !== "" || partita.golOspite !== ""){
+        hasMoreThan0Quote = true
+      }  
+      return hasMoreThan0Quote
+    };
+
+    const matchPartitef = (partita, lista) => {
       let giaAggiunte = []
       let risultato = []
       let biVal = []
@@ -159,8 +191,13 @@ function App() {
 
     const cercaPartite = () => {
       let partita = getPartitaDaForm();
-      let partiteTrovate = matchPartite(partita, fileLetto);
-      return(partiteTrovate)
+      if (!hasMoreThan0Quote(partita)){
+        return "KO"
+      }else{
+        let partiteTrovate = matchPartite(partita, fileLetto);
+        return(partiteTrovate)
+      }
+      
     }
 
     const cercaPartiteSchedina = (partita) => {
@@ -185,16 +222,96 @@ function App() {
     setindicePSelezionata (indicePartita)
   }
 
+  const showToast = () => {
+      var x = document.getElementById("snackbar");
+      x.className = "show";
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
+
+  const setToast = (text) => {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = text;
+}
+
+const downloadFile = () => {
+  let csvContent = "data:text/csv;charset=utf-8,";
+  let primaRiga = "c;c;o;c;s;f;s;g;n;o;u;o;u;c;o;"
+  let oggetto = fileLetto.map(function(elem){
+    let partita = ""
+    for (var key in elem) {
+      partita = partita+elem[key]+";"
+    }
+    return partita
+  }).join("")
+  csvContent += primaRiga+oggetto 
+
+
+  var encodedUri = encodeURI(csvContent);
+  window.open(encodedUri);
+}
+
+
+
+
+
+
+
+const matchPartite = (partita, lista) => {
  
- 
+  let risultati = []
+  for (let i = 0; i < lista.length; i++){
+    let partitaAttuale = lista[i]
+    let match = true
+    for (var key in partita) {
+      let valoreForm = partita[key]
+      if(valoreForm !== null && valoreForm !== "" && valoreForm !== "ND"){
+
+        //check bival fields
+        if (valoreForm.indexOf('%') !== -1){
+          let bival = valoreForm.split("%")
+          if (bival.length < 2){
+            console.log('un bival non è stato settato')
+          }else{
+            if (bival[0] > bival[1]){
+              console.log('un bival è settato male') 
+            }else{
+              if (partitaAttuale[key].replace(",", ".") >= bival[0] && partitaAttuale[key].replace(",", ".") <= bival[1]){
+
+              }else{
+                match = false
+              }
+            }
+          }
+        }else{
+          if (partitaAttuale[key].replace(",", ".") === valoreForm){
+
+          }else{
+            match = false
+          }
+        }
+      }else{
+        //se il campo form è vuoto non fare niente 
+      }
+    }
+    if (match){
+      risultati.push(partitaAttuale)
+    }
+  }
+  return (risultati)
+}
+
+
 
     return (
         <div className="w-screen h-screen">
           <div id="GetCsv" className="w-screen h-5/6 flex items-center">
-            <GetCsv  setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
+            <GetCsv  setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
           </div>         
-          <div id="dashboard" className="hidden w-full h-full py-2 relative overflow-hidden">
-            <Dashboard cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
+          <div id="dashboard" className="hidden w-full h-full relative overflow-hidden">
+            <Dashboard downloadFile={downloadFile} setToast={setToast} showToast={showToast} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
+          </div>
+          <div id="snackbar">
+            testo toast
           </div>
         </div>
     );

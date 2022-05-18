@@ -10,7 +10,7 @@ function Dashboard(props) {
     // stato 0 main menu 
     // stato 1 form inserimento
     // stato 2 tabella 
-    // stato 3 form con partita caricata
+    // stato 3 libero-----------------------------
     // stato 4 form double allowed x filtrare le schedine
     // stato 5 risultati del calcolo statistiche
     // stato 6 form inserimento schedina
@@ -41,7 +41,8 @@ function Dashboard(props) {
                 let numero = document.querySelector('#numeroPartite').value
                 document.querySelector('#numeroPartite').value = ''
                 if (numero < 1){
-                    console.log('inserisci un numero di partite valido prima di iniziare')
+                    props.setToast('inserisci un numero di partite valido prima di iniziare')
+                    props.showToast()
                 }else{
                     setpartiteDaLeggere(numero)
                     setpartiteInSchedina([])
@@ -57,34 +58,26 @@ function Dashboard(props) {
         if (stato === 5){
             setstatistiche(JSON.parse(JSON.stringify(statdata)))
             props.cleanForm()
-            setStato(4)
+            setStato(0)
         }else{
-            if (stato === 3){
-                setStato(2)
+            if (stato === 6){
+                setpartiteLette(0)
+                setpartiteDaLeggere(0)
+                setpartiteInSchedina([]) 
+                props.cleanForm()
+                setStato(0)
             }else{
-                if (stato === 6){
-                    setpartiteLette(0)
-                    setpartiteDaLeggere(0)
-                    setpartiteInSchedina([]) 
-                    props.cleanForm()
-                    setStato(0)
-                }else{
-                    setStato(0)
-                }
-                
-            }
-
+                setStato(0)
+            }    
         }   
-     };
+    };
 
      const explode = (valore) => {
          props.explode(valore)
-         setStato(3)
      }
 
     const setPartita = () => {
         props.setPartita()
-        setStato(2)
     }
 
     const validaPartitaFiltro = (partita) => {
@@ -121,21 +114,54 @@ function Dashboard(props) {
                 setStato(7)
             }
         }else{
-            console.log('partita inserita non valida')
+            alert('La partita inserita non è valida:\n Ogni partita deve contenere entrambe le squadre ed almeno una quota.')
         }
     }
 
 
     const removePartita = () => {
         props.removePartita()
-        setStato(2)
     }
 
+    const finePartite = () => {
+        let partita = props.getPartitaDaForm()
+        if (validaPartitaFiltro(partita)){
+            let schedina = partiteInSchedina.slice()
+            schedina.push(partita)
+            setpartiteInSchedina(schedina)
+            setpartiteLette(0)
+            setpartiteDaLeggere(0)
+            props.cleanForm()
+            setStato(7)
+           
+        }else{
+            setpartiteLette(0)
+            setpartiteDaLeggere(0)
+            props.cleanForm()
+            setStato(7)}
+    }
+
+
+    const filtraAncora = () => {
+        setstatistiche(JSON.parse(JSON.stringify(statdata)))
+        props.cleanForm()
+        setStato(4)
+    }
 
 
 
     const cercaPartite = () => {
         let partite = props.cercaPartite()
+        if (partite === "KO"){
+            alert('inserisci almeno una quota per utilizzare la funzione cerca')
+            return
+        }
+       
+        if (partite.length === 0){
+            props.setToast('Nessuna partita trovata con i criteri selezionati')
+            props.showToast()
+            return
+        }
         let risultati = statJSON
         risultati.partiteTrovate = partite.length
 
@@ -258,7 +284,7 @@ function Dashboard(props) {
         }
         maxs = maxs[0].concat(maxs[1]).concat(maxs[2]).concat(maxs[3])
         risultati.maxs = maxs
-        //risultati.topStat = maxStat
+        props.setdatiTabella(partite)
         setstatistiche(risultati)
         setStato(5)
     }
@@ -273,13 +299,14 @@ function Dashboard(props) {
     let tastoElimina = "hidden"
     let tastoCerca = "hidden"
     let tastoProx = "hidden"
+    let tastoAncora = "hidden"
 
 
 
     let pulsantiera = " hidden"
-    let form = " hidden"
+    let form = " hidden h-full pb-10"
     let mainMenu = " hidden"
-    let tabella = " hidden"
+    let tabella = " hidden h-full pt-10 "
     let stats = " hidden"
     let formSchedina = " hidden"
 
@@ -294,38 +321,42 @@ function Dashboard(props) {
                 pulsantiera = ""
                 tastoAdd = ""
                 tastoClean = ""
-                form = ""
+                form = " h-full pt-12 pb-10"
                 formTitle = "Inserimento"
             break;
             case 2 : 
-                tabella = ""
-                pulsantiera = " hidden"
-            break;
-            case 3 : 
+                tabella = " h-1/2 p-2 "
+                pulsantiera = " "
                 tastoSalva = ""
                 tastoElimina = ""
-                pulsantiera = ""
-                form = ""
+                form = " h-1/2 pt-14 pb-2 "
                 formTitle = "Modifica"
             break;
             case 4 : 
                 pulsantiera = ""
-                form = ""
+                form = " h-1/2 pt-14 pb-2 "
                 formTitle = "Filtra"
                 tastoCerca = ""
+                tabella = " h-1/2 p-2 "
+                tastoClean = ""
             break;
             case 5 : 
-                stats = ""
+                stats = " h-1/2 pt-14 pb-2 "
+                tabella = " h-1/2 p-2 "
+                formTitle = "Statistiche"
+                pulsantiera = ""
+                tastoAncora = ""
             break;
             case 6 : 
                 pulsantiera = ""
-                tastoProx = ""
-                form = ""
+                tastoProx = " mr-2"
+                form = " pt-12 pb-2"
                 formTitle = "Aggiungi alla schedina"
             break;
             case 7 : 
                 pulsantiera = ""
                 formSchedina = ""
+                formTitle = "Pronostici schedina"
             break;
             default : 
             break;
@@ -335,47 +366,71 @@ function Dashboard(props) {
 
     return (
         <div className='relative w-full h-full'>
-            <div id="tastoback" className={"absolute top-0 left-0 mt-2 ml-6 "+tastoback} onClick={goMainMenu}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
-                </svg>
+            <div id="pulsantiera" className={"z-20 shadow-lg h-12 absolute top-0 right-0 left-0 py-2 pr-6 pl-6 flex bg-blue-500 rounded-b-lg"+pulsantiera}>
+                <div className="relative w-full">
+                    <div id="tastoback" className={"z-30 absolute top-0 left-0 "+tastoback} onClick={goMainMenu}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
+                        </svg>
+                    </div>
+
+                    <div className="z-20 w-full absolute top-0 left-0  bottom-0 right-0 flex items-center justify-center text-white">
+                        {formTitle}
+                    </div>
+                    <div className={"z-30 absolute top-0 right-0 flex"}>
+                        <div className={""+tastoAdd} onClick={props.addPartita}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div className={""+tastoClean} onClick={props.cleanForm}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div className={""+tastoSalva} onClick={setPartita}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
+                            </svg>
+                        </div>
+                        <div className={""+tastoElimina} onClick={removePartita}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </div>
+                        <div className={""+tastoCerca} onClick={cercaPartite}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div className={""+tastoAncora} onClick={filtraAncora}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </div>
+                        <div className={""+tastoProx} onClick={prossimaPartita}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        <div className={""+tastoProx} onClick={finePartite}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
+                            </svg>
+                        </div>     
+                    </div>
+                </div>             
             </div>
 
-            <div id="pulsantiera" className={"absolute top-0 right-0 mt-2 mr-6 flex"+pulsantiera}>
-                <div className={""+tastoAdd} onClick={props.addPartita}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <div className={""+tastoClean} onClick={props.cleanForm}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <div className={""+tastoSalva} onClick={setPartita}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3" />
-                    </svg>
-                </div>
-                <div className={""+tastoElimina} onClick={removePartita}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                </div>
-                <div className={""+tastoCerca} onClick={cercaPartite}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <div className={""+tastoProx} onClick={prossimaPartita}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>                
-            </div>
 
-
-            <div id="mainMenu" className={"w-full h-full py-2 overflow-hidden flex items-center"+mainMenu}>
+            <div id="mainMenu" className={"w-full h-full py-2 overflow-hidden flex items-center relative "+mainMenu}>
+                <div className="absolute bottom-0 right-0 mr-4 mb-4">
+                    <div className="bg-blue-500 rounded-full w-16 h-16 flex justify-center items-center" onClick={props.downloadFile}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                        </svg>
+                    </div>
+                </div>
                 <div className="w-full px-6">
                     <div className="mb-6">
                         <button id="inseriscibtn" onClick={(e) => {handletasto(e);}} type="button" className="w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Inserisci partita</button>
@@ -396,16 +451,16 @@ function Dashboard(props) {
                     </div>
                 </div>
             </div>
-            <div id="form" className={"w-full pt-10 overflow-y-scroll"+form}>
-                <Form statoDash={stato} title={formTitle} partitaSelezionata={props.partitaSelezionata}></Form>
+            <div id="form" className={"w-full overflow-y-scroll "+form}>
+                <Form statoDash={stato} partitaSelezionata={props.partitaSelezionata}></Form>
             </div>
             <div id="formSchedina" className={"w-full pt-10 h-full overflow-y-scroll shadow-lg"+formSchedina}>
                 <FormSchedina cercaPartiteSchedina={props.cercaPartiteSchedina} partiteInSchedina={partiteInSchedina}></FormSchedina>
             </div>
-            <div id="stats" className={"w-full pt-10 h-full overflow-y-scroll shadow-lg"+stats}>
+            <div id="stats" className={"z-10 w-full pt-10 overflow-y-scroll shadow-lg "+stats}>
                 <OutputStats statistiche={statistiche}></OutputStats>
             </div>
-            <div id="tabella" className={"w-full pt-10 h-full overflow-y-scroll"+tabella}> 
+            <div id="tabella" className={"w-full overflow-y-scroll "+tabella}> 
                 <Tabella lista={props.datiTabella} explode={explode}> </Tabella>
             </div>
         </div>

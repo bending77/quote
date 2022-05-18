@@ -12,6 +12,12 @@ function Form(props) {
 
     const [doubleAllowed, setdoubleAll] = useState(false);
     const [dropOrText, setdropOrText] = useState(true);
+
+    const [showSquadre, setshowSquadre] = useState("");
+
+    const [showgoal, setshowgoal] = useState("");
+
+
     
     const findSelectIndex = (valore, lista) => {
         let indice = lista.indexOf(valore)
@@ -83,15 +89,29 @@ function Form(props) {
 
 
     useEffect(()=>{
-        if (props.statoDash === 4 || props.statoDash === 6){
-            setdoubleAll(true)
-        }else{
-            if (props.statoDash === 3){
+
+        switch (props.statoDash){
+            case 4 : 
+                setdoubleAll(true)
+                setshowSquadre(" hidden")
+                setshowgoal("")
+            break;
+            case 6:
+                setdoubleAll(true)
+                setshowgoal(" hidden")
+            break;
+            case 2 : 
                 setdropOrText(false)
-            }else{
+                setdoubleAll(false)
+                setshowSquadre(" hidden")
+                setshowgoal("")
+            break;
+            default :
                 setdropOrText(true) 
-            }
-            setdoubleAll(false)
+                setdoubleAll(false)
+                setshowSquadre("")
+                setshowgoal("")
+            break;
         }
     },[props.statoDash]); 
 
@@ -115,11 +135,10 @@ function Form(props) {
     }
 
     return (
-        <div>
+        <div className="h-full overflow-scroll pb-2">
             <div className="px-4 text-center">
-                <p className="text-blue-500 text-4xl">{props.title}</p>
                 <div className="">
-                    <div className="rounded overflow-hidden p-4">
+                    <div className={"rounded overflow-hidden p-4 "+showSquadre}>
                         <div className={"flex justify-center mb-2"+drop}>
                             <Dropdown id="campionato" label="Campionato" lista={getCampionati(getAllLeagues())} trigger={handleCampionatoChange}></Dropdown>
                         </div>
@@ -182,7 +201,7 @@ function Form(props) {
                         </div>
                     </div>
 
-                    <div className="flex">
+                    <div className={"flex"+showgoal}>
                         <div className="w-1/2 px-2">
                             <InputNumber doubleAllowed={doubleAllowed} id="quotaGolCasa" label="Gol casa" step="1" min="0"></InputNumber>
                         </div>
