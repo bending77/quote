@@ -1,15 +1,5 @@
 [
-    {"name" : "serieA","teams" : ["milan", "juve", "inter"]},
-    {
-        "name" : "serieB", 
-        "teams" : ["vicenza", "pordenone", "benevento"]
-    },
-    {
-        "name" : "liga1", 
-        "teams" : ["Barcellona", "Real madrid", "atletico madrid"]
-    },
-    {
-        "name" : "premier", 
-        "teams" : ["liverpool", "chelsea", "arsenal"]
-    }
+    {"name":"Serie A","teams": ["Milan","Inter","Napoli","Juventus","Lazio","Roma","Fiorentina","Atalanta","Verona","Torino","Sassuolo","Udinese","Bologna","Empoli","Spezia","Sampdoria","Salernitana","Cagliari","Genoa","Venezia"]},
+    {"name":"Bundesliga","teams":["Bayern","Dortmund","Leverkusen","RB Lipsia","Union Berlino","Friburgo","Colonia","Magonza","Hoffenheim","Monchengladbach","Francoforte","Wolfsburg","Bochum","Augusta","Stoccarda","Hertha","Bielefeld","Furth"]},
+    {"name":"Liga Profesional","teams":["River Plate","Defensa y Justicia","Talleres Cordoba","Boca Juniors","Velez Sarsfield","Estudiantes","Colon","Huracan","Independiente","Lanus","Gimnasia L.P.","Union Santa Fe","Aldosivi","Argentinos Jrs","Racing Club","Rosario","Godoy Cruz","Platense","Newells Old Boys","Banfield","San Lorenzo","Central Cordoba","Patronato","Sarmiento Junin","Atl. Tucuman","Arsenal Sarandi"]}
 ]

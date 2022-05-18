@@ -139,10 +139,16 @@ function App() {
 
     const cercaPartite = () => {
       let partita = getPartitaDaForm();
+      partita.campionato = ""
+      partita.squadraCasa = ""
+      partita.squadraOspite = ""
       if (!hasMoreThan0Quote(partita)){
         return "KO"
       }else{
         let partiteTrovate = matchPartite(partita, fileLetto);
+        if (partiteTrovate === "KO"){
+          return "DO-NOTHING"
+        }
         return(partiteTrovate)
       }
       
@@ -218,10 +224,14 @@ const matchPartite = (partita, lista) => {
         if (valoreForm.indexOf('%') !== -1){
           let bival = valoreForm.split("%")
           if (bival.length < 2){
-            console.log('un bival non è stato settato')
+            setToast('intervallo non completo per '+key)
+            showToast()
+            return "KO"
           }else{
             if (bival[0] > bival[1]){
-              console.log('un bival è settato male') 
+              setToast('intervallo errato per '+key)
+              showToast()
+              return "KO"
             }else{
               if (partitaAttuale[key].replace(",", ".") >= bival[0] && partitaAttuale[key].replace(",", ".") <= bival[1]){
 
@@ -251,7 +261,7 @@ const matchPartite = (partita, lista) => {
 
 
     return (
-        <div className="w-screen h-screen">
+        <div className="w-screen h-screen bg-yellow-500 bg-opacity-25">
           <div id="GetCsv" className="w-screen h-5/6 flex items-center">
             <GetCsv  setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
           </div>         
