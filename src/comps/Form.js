@@ -4,13 +4,15 @@ import getCampionati from "../functs/getCampionati";
 import getSquadre from "../functs/getSquadre";
 import Dropdown from "./Dropdown";
 import InputNumber from "./InputNumber";
+import InputText from "./InputText";
 
 function Form(props) {
     const [sqCasaenabled, setsqCasaenabled] = useState([]);
     const [sqOspiteenabled, setsqOspiteenabled] = useState([]);
 
     const [doubleAllowed, setdoubleAll] = useState(false);
-
+    const [dropOrText, setdropOrText] = useState(true);
+    
     const findSelectIndex = (valore, lista) => {
         let indice = lista.indexOf(valore)
         return indice +1 
@@ -38,12 +40,6 @@ function Form(props) {
                 document.getElementById("suGiuFuori").selectedIndex = -1;
             }, 100);
         }else{
-            
-            let indexC = findSelectIndex(props.partitaSelezionata.squadraCasa, getSquadre(props.partitaSelezionata.campionato.trim()))
-            let indexO = findSelectIndex(props.partitaSelezionata.squadraOspite, getSquadre(props.partitaSelezionata.campionato.trim()))
-            let indexCam = findSelectIndex(props.partitaSelezionata.campionato.trim(), getCampionati(getAllLeagues()))
-            let indexSGC = findSelectIndex(props.partitaSelezionata.suGiuCasa, ["S","G"])
-            let indexSGF = findSelectIndex(props.partitaSelezionata.suGiuFuori, ["S","G"])
             document.getElementById("quotaCasa").value = parseFloat(props.partitaSelezionata.casa.replace(",","."));
             document.getElementById("quotaFuori").value = parseFloat(props.partitaSelezionata.fuori.replace(",","."));
             document.getElementById("quotaGol").value = parseFloat(props.partitaSelezionata.gol.replace(",","."));
@@ -57,13 +53,29 @@ function Form(props) {
 
             setsqCasaenabled(getSquadre(props.partitaSelezionata.campionato.trim()))
             setsqOspiteenabled(getSquadre(props.partitaSelezionata.campionato.trim()))
+
+            document.getElementById("squadraOspiteX").value = props.partitaSelezionata.squadraOspite
+            document.getElementById("squadraCasaX").value = props.partitaSelezionata.squadraCasa
+            document.getElementById("campionatoX").value = props.partitaSelezionata.campionato.trim()
+
+            let indexSGC = findSelectIndex(props.partitaSelezionata.suGiuCasa, ["S","G"])
+            let indexSGF = findSelectIndex(props.partitaSelezionata.suGiuFuori, ["S","G"])
+            setTimeout(function() {
+                document.getElementById("suGiuCasa").selectedIndex = indexSGC;
+                document.getElementById("suGiuFuori").selectedIndex = indexSGF;
+            }, 100);
+            
+            
+            
+            /*let indexC = findSelectIndex(props.partitaSelezionata.squadraCasa, getSquadre(props.partitaSelezionata.campionato.trim()))
+            let indexO = findSelectIndex(props.partitaSelezionata.squadraOspite, getSquadre(props.partitaSelezionata.campionato.trim()))
+            let indexCam = findSelectIndex(props.partitaSelezionata.campionato.trim(), getCampionati(getAllLeagues()))
+           
             setTimeout(function() {
                 document.getElementById("squadraOspite").selectedIndex = indexO;
                 document.getElementById("squadraCasa").selectedIndex = indexC;
                 document.getElementById("campionato").selectedIndex = indexCam;
-                document.getElementById("suGiuCasa").selectedIndex = indexSGC;
-                document.getElementById("suGiuFuori").selectedIndex = indexSGF;
-            }, 100);
+            }, 100);*/
         }
         
 
@@ -71,9 +83,14 @@ function Form(props) {
 
 
     useEffect(()=>{
-        if (props.statoDash === 4){
+        if (props.statoDash === 4 || props.statoDash === 6){
             setdoubleAll(true)
         }else{
+            if (props.statoDash === 3){
+                setdropOrText(false)
+            }else{
+                setdropOrText(true) 
+            }
             setdoubleAll(false)
         }
     },[props.statoDash]); 
@@ -89,6 +106,13 @@ function Form(props) {
     };
 
    
+    let drop = " hidden"
+    let text = " hidden"
+    if (dropOrText){
+        drop = ""
+    }else{
+        text=""
+    }
 
     return (
         <div>
@@ -96,14 +120,23 @@ function Form(props) {
                 <p className="text-blue-500 text-4xl">{props.title}</p>
                 <div className="">
                     <div className="rounded overflow-hidden p-4">
-                        <div className="flex justify-center mb-2">
+                        <div className={"flex justify-center mb-2"+drop}>
                             <Dropdown id="campionato" label="Campionato" lista={getCampionati(getAllLeagues())} trigger={handleCampionatoChange}></Dropdown>
                         </div>
-                        <div className="flex justify-center mb-2">
+                        <div className={"flex justify-center mb-2"+drop}>
                             <Dropdown id="squadraCasa" label="Squadra casa" lista={sqCasaenabled} trigger={emptytrigger} ></Dropdown>
                         </div>
-                        <div className="flex justify-center mb-2">
-                        <   Dropdown id="squadraOspite" label="Squadra ospite" lista={sqOspiteenabled} trigger={emptytrigger} ></Dropdown>
+                        <div className={"flex justify-center mb-2"+drop}>
+                            <Dropdown id="squadraOspite" label="Squadra ospite" lista={sqOspiteenabled} trigger={emptytrigger} ></Dropdown>
+                        </div>
+                        <div className={"flex justify-center mb-2"+text}>
+                            <InputText id="campionatoX" label="Campionato"></InputText>
+                        </div>
+                        <div className={"flex justify-center mb-2"+text}>
+                            <InputText id="squadraCasaX" label="Campionato"></InputText>
+                        </div>
+                        <div className={"flex justify-center mb-2"+text}>
+                            <InputText id="squadraOspiteX" label="Campionato"></InputText>
                         </div>
                     </div>
 

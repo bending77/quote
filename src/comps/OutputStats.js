@@ -3,10 +3,12 @@ function OutputStats(props) {
 
     const getStatsHTML = (counter) => {
         var gruppi
+        let count = -1
         if (counter === -1){
             gruppi = (props.statistiche.maxs).map((statistica =>{
+                count = count + 1
                 return (
-                    <div className="">
+                    <div key={'statistiche'+counter+''+count} className="">
                         <div className="flex items-center justify-between text-gray-400 text-sm">
                             <p>
                                 {statistica.label}
@@ -31,8 +33,9 @@ function OutputStats(props) {
                     color = " bg-red-200"
                     darkColor = " bg-red-500" 
                 }
+                count = count + 1
                 return( 
-                    <div className="">
+                    <div className="" key={'statistiche'+counter+''+count}>
                         <div className="flex items-center justify-between text-gray-400 text-sm">
                             <p>
                                 {props.statistiche.statGroups[counter].stats[chiave].label}
@@ -55,7 +58,7 @@ function OutputStats(props) {
     var gruppi = (props.statistiche.statGroups).map((gruppo =>{
         counter = counter + 1;
         return (
-            <div className="w-full flex justify-center mt-4">
+            <div key={"gruppoStat"+counter} className="w-full flex justify-center mt-4">
                 <div className="shadow-lg rounded-xl w-60 p-4 bg-white text-gray-700 relative overflow-hidden">
                     <div className="w-full text-center">
                         <p className="text-gray-700 dark:text-white  text-2xl font-light mb-4">

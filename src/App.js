@@ -106,7 +106,6 @@ function App() {
     };
 
     const matchPartite = (partita, lista) => {
-
       let giaAggiunte = []
       let risultato = []
       let biVal = []
@@ -164,6 +163,15 @@ function App() {
       return(partiteTrovate)
     }
 
+    const cercaPartiteSchedina = (partita) => {
+      let partitaJSON = JSON.parse(JSON.stringify(partita));
+      partitaJSON.campionato = ""
+      partitaJSON.squadraCasa = ""
+      partitaJSON.squadraOspite = ""
+      let partiteTrovate = matchPartite(partitaJSON, fileLetto);
+      return(partiteTrovate)
+    }
+
 
   const cleanForm = () => {
     setpartitaSelezionata({campionato : "empty"})
@@ -186,7 +194,7 @@ function App() {
             <GetCsv  setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
           </div>         
           <div id="dashboard" className="hidden w-full h-full py-2 relative overflow-hidden">
-            <Dashboard setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
+            <Dashboard cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
           </div>
         </div>
     );
