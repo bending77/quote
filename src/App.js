@@ -137,58 +137,6 @@ function App() {
       return hasMoreThan0Quote
     };
 
-    const matchPartitef = (partita, lista) => {
-      let giaAggiunte = []
-      let risultato = []
-      let biVal = []
-      let min 
-      let max 
-      let isFormEmpty = true
-      for (var key in partita) {
-        // console.log(partita) // = object {campionato : "serieA" .....}
-        // console.log(key) // = // string "campionato"
-        let valoreForm = partita[key]
-       // partita.campionato === "1"
-        if(valoreForm !== null && valoreForm !== "" && valoreForm !== "ND"){
-          if (valoreForm.indexOf('%') !== -1){
-            biVal = valoreForm.split("%")
-            if (biVal.length < 2){
-              //uno dei due range non è settato 
-              //segnala messaggio ed esci TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-            }else{
-              min = biVal[0]
-              max = biVal[1]
-              isFormEmpty = false
-              for (let i = 0; i < lista.length; i++) {
-                if ((lista[i][key].replace(",", ".") >= min) && (lista[i][key].replace(",", ".") <= max) ) {
-                  if (giaAggiunte.indexOf(i) < 0){
-                    risultato.push(lista[i])
-                    giaAggiunte.push(i)
-                  }
-                }
-              }
-            }
-          }else{
-            // normal search
-            isFormEmpty = false
-            for (let i = 0; i < lista.length; i++) {
-              if (lista[i][key].replace(",", ".") === valoreForm) {
-                if (giaAggiunte.indexOf(i) < 0){
-                  risultato.push(lista[i])
-                  giaAggiunte.push(i)
-                }
-              }
-            }
-          }
-        }             
-      }
-      if (isFormEmpty){
-        risultato = fileLetto
-      }
-      return risultato
-      
-    }
-
     const cercaPartite = () => {
       let partita = getPartitaDaForm();
       if (!hasMoreThan0Quote(partita)){
