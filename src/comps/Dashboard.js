@@ -3,7 +3,6 @@ import { useState } from "react";
 import Tabella from "./Tabella"
 import OutputStats from "./OutputStats";
 import statdata from './../data/Stats';
-import InputNumber from "./InputNumber";
 import FormSchedina from "./FormSchedina";
 function Dashboard(props) {
     const [stato, setStato] = useState(0);
@@ -423,13 +422,6 @@ function Dashboard(props) {
 
 
             <div id="mainMenu" className={"w-full h-full py-2 overflow-hidden flex items-center relative "+mainMenu}>
-                <div className="absolute bottom-0 right-0 mr-4 mb-4">
-                    <div className="bg-blue-500 rounded-full w-16 h-16 flex justify-center items-center" onClick={props.downloadFile}>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-                        </svg>
-                    </div>
-                </div>
                 <div className="w-full px-6">
                     <div className="mb-6">
                         <button id="inseriscibtn" onClick={(e) => {handletasto(e);}} type="button" className="w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Inserisci partita</button>
@@ -439,14 +431,6 @@ function Dashboard(props) {
                     </div>
                     <div className="mb-6">
                         <button id="calcolabtn" onClick={(e) => {handletasto(e);}} type="button" className="w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Visualizza statistiche estese</button>
-                    </div>
-                    <div className="mb-6 border border-blue-500 rounded-lg py-2 px-2 bg-blue-100">
-                        <div className="mb-2 flex justify-center">
-                            <div className="w-1/2">
-                                <InputNumber doubleAllowed={false} id="numeroPartite" label="Numero partite" step="1" min="1"></InputNumber>
-                            </div>
-                        </div>
-                        <button id="pronosticobtn" onClick={(e) => {handletasto(e);}} type="button" className="w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Effettua un pronostico schedina</button>    
                     </div>
                 </div>
             </div>
