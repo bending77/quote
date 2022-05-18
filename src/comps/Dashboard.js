@@ -143,9 +143,9 @@ function Dashboard(props) {
 
 
     const filtraAncora = () => {
-        setstatistiche(JSON.parse(JSON.stringify(statdata)))
         props.cleanForm()
         setStato(4)
+        setstatistiche(JSON.parse(JSON.stringify(statdata)))
     }
 
 
@@ -334,10 +334,9 @@ function Dashboard(props) {
             break;
             case 4 : 
                 pulsantiera = ""
-                form = " h-1/2 pt-14 pb-2 "
+                form = " h-full pt-24 pb-2 "
                 formTitle = "Filtra"
                 tastoCerca = ""
-                tabella = " h-1/2 p-2 "
                 tastoClean = ""
             break;
             case 5 : 
