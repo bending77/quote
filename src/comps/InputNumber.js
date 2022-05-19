@@ -18,7 +18,6 @@ function InputNumber(props) {
         }
         
     };
-
     useEffect(()=>{
         if (props.doubleAllowed){
         }else{
@@ -51,7 +50,7 @@ function InputNumber(props) {
                     document.querySelector("#"+props.id).value = risultato[0]+"%"+risultato[1]
                 }
             }
-        }  
+        } 
     };
 
     
@@ -74,7 +73,7 @@ function InputNumber(props) {
     return (
         <div className="w-full ">
             <div className="flex justify-center">
-                <label className="block text-blue-500 text-md mb-2" htmlFor={props.id}>{props.label}</label>
+                <label className="block text-blue-500 lg:text-lg xl:text-xl text-md mb-2" htmlFor={props.id}>{props.label}</label>
                 <div id={"campo$"+props.id} className={"ml-2"+ tastoDouble} onClick={openDouble}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
@@ -82,10 +81,10 @@ function InputNumber(props) {
                 </div>
             </div>
             <div className="flex justify-center">
-                <input type={inputType} min={props.min} step={props.step} id={props.id} name={props.id} className={"text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+original}></input>
+                <input type={inputType} min={props.min} step={props.step} id={props.id} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+original}></input>
 
-                <input onChange={setRealValue} type="number" min={props.min} step={props.step} id={props.id+"A"} name={props.id} className={"px-2 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+double}></input>
-                <input onChange={setRealValue} type="number" min={props.min} step={props.step} id={props.id+"B"} name={props.id} className={"px-2 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+double}></input>
+                <input onChange={setRealValue} type="number" min={props.min} step={props.step} id={props.id+"A"} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 px-2 mr-2 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+double}></input>
+                <input onChange={setRealValue} type="number" min={props.min} step={props.step} id={props.id+"B"} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 px-2 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+double}></input>
             </div>
         </div>
     );

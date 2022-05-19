@@ -58,8 +58,8 @@ function OutputStats(props) {
     var gruppi = (props.statistiche.statGroups).map((gruppo =>{
         counter = counter + 1;
         return (
-            <div key={"gruppoStat"+counter} className="w-full flex justify-center mt-4">
-                <div className="shadow-lg rounded-xl w-60 p-4 bg-white text-gray-700 relative overflow-hidden">
+            <div key={"gruppoStat"+counter} className="w-full flex justify-center mt-4 lg:h-80">
+                <div className="shadow-lg rounded-xl w-60 p-4 bg-white text-gray-700 relative overflow-hidden lg:overflow-y-scroll">
                     <div className="w-full text-center">
                         <p className="text-gray-700 dark:text-white  text-2xl font-light mb-4">
                             {gruppo.title}
@@ -73,10 +73,10 @@ function OutputStats(props) {
 
 
     return (
-        <div>
-            <div className="w-full flex justify-center">
-                <div className="shadow-lg rounded-xl w-60 p-4 bg-white text-gray-700 relative overflow-hidden">
-                    <div className="w-full text-center">
+        <div className="lg:flex">
+            <div className="w-full flex justify-center ">
+                <div className="lg:mt-4 lg:h-80 shadow-lg rounded-xl w-60 p-4 bg-white text-gray-700 relative overflow-hidden lg:overflow-y-scroll">
+                    <div className="w-full text-center ">
                         <p className="text-gray-700 dark:text-white  text-2xl font-light mb-4">
                             Top matchings
                         </p>

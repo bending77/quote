@@ -10,6 +10,9 @@ function App() {
   const [partitaSelezionata, setpartitaSelezionata] = useState({campionato : "empty"});
   const [indicePSelezionata, setindicePSelezionata] = useState(-1)
   const [datiTabella, setdatiTabella] = useState();
+
+  const [isDbChanged, setisDbChanged] = useState(false);
+
   //------ test 
   const postFile = () => {
     document.getElementById("GetCsv").classList.add("hidden");
@@ -26,6 +29,9 @@ function App() {
         setFileLetto(nuovodb)
         setdatiTabella(nuovodb)
         setToast('Partita eliminata dallo storico')
+        if (!isDbChanged){
+          setisDbChanged(true)
+        }
       }
       showToast()
     }
@@ -45,6 +51,9 @@ function App() {
         setdatiTabella(nuovodb)
         setToast('Partita modificata')
         showToast()
+        if (!isDbChanged){
+          setisDbChanged(true)
+        }
       }else{
         alert("la partita che stai tentando di inserire contiene degli errori: le squadre, almeno una quota ed i risultati devono essere valorizzati.")
       }
@@ -65,6 +74,9 @@ function App() {
         setdatiTabella(nuovodb)
         setToast('Partita inserita')
         showToast()
+        if (!isDbChanged){
+          setisDbChanged(true)
+        }
       }else{
         alert("la partita che stai tentando di inserire contiene degli errori: le squadre, almeno una quota ed i risultati devono essere valorizzati.")
       }
@@ -188,20 +200,23 @@ function App() {
 }
 
 const downloadFile = () => {
-  let csvContent = "data:text/csv;charset=utf-8,";
-  let primaRiga = "c;c;o;c;s;f;s;g;n;o;u;o;u;c;o;"
-  let oggetto = fileLetto.map(function(elem){
-    let partita = ""
-    for (var key in elem) {
-      partita = partita+elem[key]+";"
-    }
-    return partita
-  }).join("")
-  csvContent += primaRiga+oggetto 
-
-
-  var encodedUri = encodeURI(csvContent);
-  window.open(encodedUri);
+  if (isDbChanged){
+    let csvContent = "data:text/csv;charset=utf-8,";
+    let primaRiga = "c;c;o;c;s;f;s;g;n;o;u;o;u;c;o;"
+    let oggetto = fileLetto.map(function(elem){
+      let partita = ""
+      for (var key in elem) {
+        partita = partita+elem[key]+";"
+      }
+      return partita
+    }).join("")
+    csvContent += primaRiga+oggetto 
+  
+  
+    var encodedUri = encodeURI(csvContent);
+    window.open(encodedUri);
+    setisDbChanged(false)
+  }
 }
 
 
@@ -211,7 +226,18 @@ const downloadFile = () => {
 
 
 const matchPartite = (partita, lista) => {
- 
+  let isCounter = false
+  if(partita === "CONTA" && lista === "CONTA"){
+    partita = getPartitaDaForm()
+    partita.campionato = ""
+    partita.squadraCasa = ""
+    partita.squadraOspite = ""
+    if (!hasMoreThan0Quote(partita)){
+      return "KO"
+    }
+    lista = fileLetto
+    isCounter = true
+  }
   let risultati = []
   for (let i = 0; i < lista.length; i++){
     let partitaAttuale = lista[i]
@@ -255,7 +281,11 @@ const matchPartite = (partita, lista) => {
       risultati.push(partitaAttuale)
     }
   }
-  return (risultati)
+  if(isCounter){
+    return (risultati.length)
+  }else{
+    return (risultati)
+  }
 }
 
 
@@ -266,7 +296,7 @@ const matchPartite = (partita, lista) => {
             <GetCsv  setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
           </div>         
           <div id="dashboard" className="hidden w-full h-full relative overflow-hidden">
-            <Dashboard downloadFile={downloadFile} setToast={setToast} showToast={showToast} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
+            <Dashboard matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFile={downloadFile} setToast={setToast} showToast={showToast} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
           </div>
           <div id="snackbar">
             testo toast

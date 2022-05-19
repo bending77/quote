@@ -18,6 +18,13 @@ function Form(props) {
     const [showgoal, setshowgoal] = useState("");
 
 
+    const [formatoForm, setformatoForm] = useState("lg:w-1/2 lg:pt-4");
+
+    const [contatorePartite, setcontatorePartite] = useState("");
+
+
+
+
     
     const findSelectIndex = (valore, lista) => {
         let indice = lista.indexOf(valore)
@@ -36,6 +43,29 @@ function Form(props) {
             document.getElementById("quotaU25").value = "";
             document.getElementById("quotaGolCasa").value = "";
             document.getElementById("quotaGolFuori").value = "";
+
+            document.getElementById("quotaCasaA").value = "";
+            document.getElementById("quotaFuoriA").value = "";
+            document.getElementById("quotaGolA").value = "";
+            document.getElementById("quotaNoGolA").value = "";
+            document.getElementById("quotaO15A").value = "";
+            document.getElementById("quotaU15A").value = "";
+            document.getElementById("quotaO25A").value = "";
+            document.getElementById("quotaU25A").value = "";
+            document.getElementById("quotaGolCasaA").value = "";
+            document.getElementById("quotaGolFuoriA").value = "";
+
+            document.getElementById("quotaCasaB").value = "";
+            document.getElementById("quotaFuoriB").value = "";
+            document.getElementById("quotaGolB").value = "";
+            document.getElementById("quotaNoGolB").value = "";
+            document.getElementById("quotaO15B").value = "";
+            document.getElementById("quotaU15B").value = "";
+            document.getElementById("quotaO25B").value = "";
+            document.getElementById("quotaU25B").value = "";
+            document.getElementById("quotaGolCasaB").value = "";
+            document.getElementById("quotaGolFuoriB").value = "";
+
             setsqCasaenabled([])
             setsqOspiteenabled([])
             setTimeout(function() {
@@ -95,22 +125,30 @@ function Form(props) {
                 setdoubleAll(true)
                 setshowSquadre(" hidden")
                 setshowgoal("")
+                setcontatorePartite(" hidden")
+                setformatoForm("lg:pt-4")
             break;
             case 6:
                 setdoubleAll(true)
                 setshowgoal(" hidden")
+                setcontatorePartite("")
+                setformatoForm("lg:pt-4")
             break;
             case 2 : 
                 setdropOrText(false)
                 setdoubleAll(false)
                 setshowSquadre(" hidden")
+                setcontatorePartite(" hidden")
                 setshowgoal("")
+                setformatoForm(" lg:flex")
             break;
             default :
                 setdropOrText(true) 
                 setdoubleAll(false)
                 setshowSquadre("")
                 setshowgoal("")
+                setcontatorePartite(" hidden")
+                setformatoForm(" lg:w-1/2 lg:pt-4")
             break;
         }
     },[props.statoDash]); 
@@ -125,6 +163,18 @@ function Form(props) {
         
     };
 
+    const contaPartite = () => {
+        let risultato
+        risultato = props.matchPartite("CONTA","CONTA")
+
+        if (risultato === "KO"){
+            risultato = 0
+        }
+        document.querySelector('#partiteTrovate').innerHTML="Partite trovate: "+risultato
+    };
+
+    
+
    
     let drop = " hidden"
     let text = " hidden"
@@ -135,10 +185,11 @@ function Form(props) {
     }
 
     return (
-        <div className="h-full overflow-scroll pb-2">
+        
+        <div className="h-full overflow-y-scroll lg:overflow-y-hidden xl:overflow-y-hidden pb-2 relative">
             <div className="px-4 text-center">
-                <div className="">
-                    <div className={"rounded overflow-hidden p-4 "+showSquadre}>
+                <div className="w-full lg:flex lg:justify-center">
+                    <div className={"lg:w-1/2 rounded overflow-hidden p-4 "+showSquadre}>
                         <div className={"flex justify-center mb-2"+drop}>
                             <Dropdown id="campionato" label="Campionato" lista={getCampionati(getAllLeagues())} trigger={handleCampionatoChange}></Dropdown>
                         </div>
@@ -158,59 +209,69 @@ function Form(props) {
                             <InputText id="squadraOspiteX" label="Campionato"></InputText>
                         </div>
                     </div>
+                    <div className={" "+formatoForm}>
+                        <div className="flex justify-between ">
+                            <div className="w-1/2">
+                                <div className="flex justify-between mb-2 px-2">
+                                    <div className="w-3/5">
+                                        <InputNumber doubleAllowed={doubleAllowed} id="quotaCasa" label="Casa" step="0.1" min="1"></InputNumber>
+                                    </div>
+                                    <div className="w-1/5">
+                                        <Dropdown id="suGiuCasa" label="tend" lista={["S","G"]} trigger={emptytrigger} ></Dropdown>
+                                    </div>
+                                </div>
+                                <div className="flex justify-between mb-2 px-2">
+                                    <div className="w-3/5">
+                                        <InputNumber doubleAllowed={doubleAllowed} id="quotaFuori" label="Fuori" step="0.1" min="1"></InputNumber>
+                                    </div>
+                                    <div className="w-1/5">
+                                        <Dropdown id="suGiuFuori" label="tend" lista={["S","G"]} trigger={emptytrigger} ></Dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div  className="w-1/2 px-2">
+                                <div >
+                                    <div className="">
+                                        <InputNumber doubleAllowed={doubleAllowed} id="quotaGol" label="GOL" step="0.1" min="1"></InputNumber>
+                                    </div>
+                                    <div className="w-2 h-1"></div>
+                                    <div className="">
+                                        <InputNumber doubleAllowed={doubleAllowed} id="quotaNoGol" label="NOGOL" step="0.1" min="1"></InputNumber>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex">
+                            <div className="w-1/2 px-2">
+                                <InputNumber doubleAllowed={doubleAllowed} id="quotaO15" label="OVE 1.5" step="0.1" min="1"></InputNumber>
+                                <InputNumber doubleAllowed={doubleAllowed} id="quotaO25" label="OVE 2.5" step="0.1" min="1"></InputNumber>
+                            </div>
+                            <div className="w-1/2 px-2">
+                                <InputNumber doubleAllowed={doubleAllowed} id="quotaU15" label="UND 1.5" step="0.1" min="1"></InputNumber>
+                                <InputNumber doubleAllowed={doubleAllowed} id="quotaU25" label="UND 2.5" step="0.1" min="1"></InputNumber>
+                            </div>
+                        </div>
 
-                    <div className="flex justify-between">
-                        <div className="w-1/2">
-                            <div className="flex justify-between mb-2 px-2">
-                                <div className="w-3/5">
-                                    <InputNumber doubleAllowed={doubleAllowed} id="quotaCasa" label="Casa" step="0.1" min="1"></InputNumber>
-                                </div>
-                                <div className="w-1/5">
-                                    <Dropdown id="suGiuCasa" label="tend" lista={["S","G"]} trigger={emptytrigger} ></Dropdown>
-                                </div>
+                        <div className={"flex"+showgoal}>
+                            <div className="w-1/2 px-2">
+                                <InputNumber doubleAllowed={doubleAllowed} id="quotaGolCasa" label="Gol casa" step="1" min="0"></InputNumber>
                             </div>
-                            <div className="flex justify-between mb-2 px-2">
-                                <div className="w-3/5">
-                                    <InputNumber doubleAllowed={doubleAllowed} id="quotaFuori" label="Fuori" step="0.1" min="1"></InputNumber>
-                                </div>
-                                <div className="w-1/5">
-                                    <Dropdown id="suGiuFuori" label="tend" lista={["S","G"]} trigger={emptytrigger} ></Dropdown>
-                                </div>
-                            </div>
-                        </div>
-                        <div  className="w-1/2 px-2">
-                            <div >
-                                <div className="">
-                                    <InputNumber doubleAllowed={doubleAllowed} id="quotaGol" label="GOL" step="0.1" min="1"></InputNumber>
-                                </div>
-                                <div className="w-2 h-1"></div>
-                                <div className="">
-                                    <InputNumber doubleAllowed={doubleAllowed} id="quotaNoGol" label="NOGOL" step="0.1" min="1"></InputNumber>
-                                </div>
+                            <div className="w-1/2 px-2">
+                                <InputNumber doubleAllowed={doubleAllowed} id="quotaGolFuori" label="Gol ospiti" step="1" min="0"></InputNumber>  
                             </div>
                         </div>
                     </div>
-                    <div className="flex">
-                        <div className="w-1/2 px-2">
-                            <InputNumber doubleAllowed={doubleAllowed} id="quotaO15" label="OVE 1.5" step="0.1" min="1"></InputNumber>
-                            <InputNumber doubleAllowed={doubleAllowed} id="quotaU15" label="UND 1.5" step="0.1" min="1"></InputNumber>
-                        </div>
-                        <div className="w-1/2 px-2">
-                            <InputNumber doubleAllowed={doubleAllowed} id="quotaO25" label="OVE 2.5" step="0.1" min="1"></InputNumber>
-                            <InputNumber doubleAllowed={doubleAllowed} id="quotaU25" label="UND 2.5" step="0.1" min="1"></InputNumber>
-                        </div>
-                    </div>
-
-                    <div className={"flex"+showgoal}>
-                        <div className="w-1/2 px-2">
-                            <InputNumber doubleAllowed={doubleAllowed} id="quotaGolCasa" label="Gol casa" step="1" min="0"></InputNumber>
-                        </div>
-                        <div className="w-1/2 px-2">
-                            <InputNumber doubleAllowed={doubleAllowed} id="quotaGolFuori" label="Gol ospiti" step="1" min="0"></InputNumber>  
-                        </div>
-                    </div>
+                    
 
                 </div>
+            </div>
+            <div className={"fixed mb-4 lg:mb-16 bottom-0 left-0 right-0 h-16 flex justify-center items-center"+contatorePartite}> 
+                        <div className="bg-gray-900 h-16 w-5/6 flex py-2 pl-4 rounded-lg max-w-sm">
+                            <button onClick={(e) => {contaPartite(e);}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Conta partite</button>
+                            <div id="partiteTrovate" className="w-full px-4 text-white flex items-center">
+                                Partite trovate: 0
+                            </div>
+                        </div>
             </div>
 
  

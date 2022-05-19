@@ -47,19 +47,21 @@ function GetCsv(props) {
             <h1 className="font-medium leading-tight text-3xl mt-0 mb-12 text-blue-500">Benvenuto!</h1>
             <form>
                 <div className="flex justify-center px-12">
-                    <div className="mb-3 w-full">
-                        <label htmlFor="formFile" accept=".csv" className="form-label inline-block mb-2 text-gray-700">Importa il csv per iniziare</label>
-                        <input  onChange={handleOnChange} className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="csvFileInput" />
+                    <div className="mb-3 max-w-sm">
+                        <label htmlFor="formFile" accept=".csv" className="lg:text-xl block text-blue-500 text-sm mb-2">Importa il csv per iniziare</label>
+                        <input  onChange={handleOnChange} className="lg:text-lg form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="csvFileInput" />
                     </div>
                 </div>
-                <div className="px-12">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                        Password
-                    </label>
-                    <input className="shadow appearance-none border border-blue-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="****"></input>
+                <div className=" flex justify-center">
+                    <div className="max-w-sm">
+                        <label className="lg:text-xl block text-blue-500 text-sm mb-2" htmlFor="password">
+                            Password
+                        </label>
+                        <input className="lg:text-lg shadow appearance-none border border-blue-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="****"></input>
+                    </div>
                 </div>     
-                <div className="flex space-x-2 justify-center">
-                    <button onClick={(e) => {handleOnSubmit(e);}} type="button" className="inline-block px-6 py-2.5 bg-blue-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Start</button>
+                <div className="flex space-x-2 justify-center mt-4">
+                    <button onClick={(e) => {handleOnSubmit(e);}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Start</button>
                 </div>
 
             </form>

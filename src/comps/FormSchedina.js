@@ -176,8 +176,8 @@ function FormSchedina(props) {
        // calcola le statistiche
         counter = counter + 1
         return( 
-            <div key={"partitaSchedina"+counter} className="w-full flex justify-center mt-4">
-                <div className="shadow-lg rounded-xl w-60 p-4 bg-white text-gray-700 relative overflow-hidden">
+            <div key={"partitaSchedina"+counter} className="w-full flex justify-center mt-4 lg:mt-8 lg:h-72">
+                <div className="shadow-lg rounded-xl w-60 p-4 bg-white text-gray-700 relative overflow-hidden lg:overflow-scroll">
                     <div className="w-full flex justify-center">
                         <img src={getImageTeam(partita.squadraCasa)} alt={partita.squadraCasa} width="20px" height="20px" className="mr-4"></img>
                         <img src={getImageTeam(partita.squadraOspite)} alt={partita.squadraOspite} width="20px" height="20px" className=""></img>
@@ -190,12 +190,19 @@ function FormSchedina(props) {
 
 
     
-
+    let numRows
+    if (Math.trunc(props.partiteInSchedina.length/5) === props.partiteInSchedina.length/5 ){
+        numRows = props.partiteInSchedina.length/5
+    }else{
+        numRows = Math.trunc(props.partiteInSchedina.length/5)+1
+    }
     
 
     return (
-        <div className="h-full w-full">
-           {cardPartite}
+        <div className="h-full w-full lg:oveflow-y-scroll">
+            <div className={"lg:grid lg:grid-cols-5 lg:grid-rows"+numRows}>
+                {cardPartite}
+            </div>
         </div>
     );
 }
