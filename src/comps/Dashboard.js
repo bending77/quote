@@ -48,6 +48,7 @@ function Dashboard(props) {
                 }else{
                     setpartiteDaLeggere(numero)
                     setpartiteInSchedina([])
+                    props.cleanForm()
                     setStato(6)
                 }
             break;
