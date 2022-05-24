@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
-import getAllLeagues from "../functs/mayorLeagues";
-import getCampionati from "../functs/getCampionati";
-import getSquadre from "../functs/getSquadre";
 import Dropdown from "./Dropdown";
 import InputNumber from "./InputNumber";
+import InputSearch from "./inputSearch";
 import InputText from "./InputText";
 
 function Form(props) {
-    const [sqCasaenabled, setsqCasaenabled] = useState([]);
-    const [sqOspiteenabled, setsqOspiteenabled] = useState([]);
 
     const [doubleAllowed, setdoubleAll] = useState(false);
     const [dropOrText, setdropOrText] = useState(true);
@@ -23,16 +19,20 @@ function Form(props) {
     const [contatorePartite, setcontatorePartite] = useState("");
 
 
-
-
-    
     const findSelectIndex = (valore, lista) => {
         let indice = lista.indexOf(valore)
         return indice +1 
-      };
+    };
+
+    const emptytrigger = () => {
+        
+    };
+
 
     useEffect(()=>{
         if (props.partitaSelezionata.campionato === "empty"){
+            document.getElementById("squadraCasa").value = "";
+            document.getElementById("squadraOspite").value = "";
             document.getElementById("quotaCasa").value = "";
             document.getElementById("quotaFuori").value = "";
             document.getElementById("quotaGol").value = "";
@@ -66,33 +66,64 @@ function Form(props) {
             document.getElementById("quotaGolCasaB").value = "";
             document.getElementById("quotaGolFuoriB").value = "";
 
-            setsqCasaenabled([])
-            setsqOspiteenabled([])
+
             setTimeout(function() {
-                document.getElementById("squadraOspite").selectedIndex = -1;
-                document.getElementById("squadraCasa").selectedIndex = -1;
-                document.getElementById("campionato").selectedIndex = -1;
-                document.getElementById("suGiuCasa").selectedIndex = -1;
-                document.getElementById("suGiuFuori").selectedIndex = -1;
+                document.getElementById("suGiuCasa").selectedIndex = -1; // da tenere
+                document.getElementById("suGiuFuori").selectedIndex = -1; //da tenere 
             }, 100);
         }else{
-            document.getElementById("quotaCasa").value = parseFloat(props.partitaSelezionata.casa.replace(",","."));
-            document.getElementById("quotaFuori").value = parseFloat(props.partitaSelezionata.fuori.replace(",","."));
-            document.getElementById("quotaGol").value = parseFloat(props.partitaSelezionata.gol.replace(",","."));
-            document.getElementById("quotaNoGol").value = parseFloat(props.partitaSelezionata.noGol.replace(",","."));
-            document.getElementById("quotaO15").value = parseFloat(props.partitaSelezionata.o15.replace(",","."));
-            document.getElementById("quotaU15").value = parseFloat(props.partitaSelezionata.u15.replace(",","."));
-            document.getElementById("quotaO25").value = parseFloat(props.partitaSelezionata.o25.replace(",","."));
-            document.getElementById("quotaU25").value = parseFloat(props.partitaSelezionata.u25.replace(",","."));
+            if (props.partitaSelezionata.casa !== '' && props.partitaSelezionata.casa !== "ND"){
+                document.getElementById("quotaCasa").value = parseFloat(props.partitaSelezionata.casa.replace(",","."));
+            }else{
+                document.getElementById("quotaCasa").value = ''  
+            }
+
+
+            if (props.partitaSelezionata.fuori !== '' && props.partitaSelezionata.fuori !== "ND"){
+                document.getElementById("quotaFuori").value = parseFloat(props.partitaSelezionata.fuori.replace(",","."));
+            }else{
+                document.getElementById("quotaFuori").value = ''  
+            }
+            if (props.partitaSelezionata.gol !== '' && props.partitaSelezionata.gol !== "ND"){
+                document.getElementById("quotaGol").value = parseFloat(props.partitaSelezionata.gol.replace(",","."));
+            }else{
+                document.getElementById("quotaGol").value = ''  
+            }
+            if (props.partitaSelezionata.noGol !== '' && props.partitaSelezionata.noGol !== "ND"){
+                document.getElementById("quotaNoGol").value = parseFloat(props.partitaSelezionata.noGol.replace(",","."));
+            }else{
+                document.getElementById("quotaNoGol").value = ''  
+            }
+
+            if (props.partitaSelezionata.o15 !== '' && props.partitaSelezionata.o15 !== "ND"){
+                document.getElementById("quotaO15").value = parseFloat(props.partitaSelezionata.o15.replace(",","."));
+            }else{
+                document.getElementById("quotaO15").value = ''  
+            }
+            if (props.partitaSelezionata.u15 !== '' && props.partitaSelezionata.u15 !== "ND"){
+                document.getElementById("quotaU15").value = parseFloat(props.partitaSelezionata.u15.replace(",","."));
+            }else{
+                document.getElementById("quotaU15").value = ''  
+            }
+            if (props.partitaSelezionata.o25 !== '' && props.partitaSelezionata.o25 !== "ND"){
+                document.getElementById("quotaO25").value = parseFloat(props.partitaSelezionata.o25.replace(",","."));
+            }else{
+                document.getElementById("quotaO25").value = ''  
+            }
+            if (props.partitaSelezionata.u25 !== '' && props.partitaSelezionata.u25 !== "ND"){
+                document.getElementById("quotaU25").value = parseFloat(props.partitaSelezionata.u25.replace(",","."));
+            }else{
+                document.getElementById("quotaU25").value = ''  
+            }
+            
             document.getElementById("quotaGolCasa").value = parseInt(props.partitaSelezionata.golCasa);
             document.getElementById("quotaGolFuori").value = parseInt(props.partitaSelezionata.golOspite);
 
-            setsqCasaenabled(getSquadre(props.partitaSelezionata.campionato.trim()))
-            setsqOspiteenabled(getSquadre(props.partitaSelezionata.campionato.trim()))
+
 
             document.getElementById("squadraOspiteX").value = props.partitaSelezionata.squadraOspite
             document.getElementById("squadraCasaX").value = props.partitaSelezionata.squadraCasa
-            document.getElementById("campionatoX").value = props.partitaSelezionata.campionato.trim()
+           
 
             let indexSGC = findSelectIndex(props.partitaSelezionata.suGiuCasa, ["S","G"])
             let indexSGF = findSelectIndex(props.partitaSelezionata.suGiuFuori, ["S","G"])
@@ -100,18 +131,6 @@ function Form(props) {
                 document.getElementById("suGiuCasa").selectedIndex = indexSGC;
                 document.getElementById("suGiuFuori").selectedIndex = indexSGF;
             }, 100);
-            
-            
-            
-            /*let indexC = findSelectIndex(props.partitaSelezionata.squadraCasa, getSquadre(props.partitaSelezionata.campionato.trim()))
-            let indexO = findSelectIndex(props.partitaSelezionata.squadraOspite, getSquadre(props.partitaSelezionata.campionato.trim()))
-            let indexCam = findSelectIndex(props.partitaSelezionata.campionato.trim(), getCampionati(getAllLeagues()))
-           
-            setTimeout(function() {
-                document.getElementById("squadraOspite").selectedIndex = indexO;
-                document.getElementById("squadraCasa").selectedIndex = indexC;
-                document.getElementById("campionato").selectedIndex = indexCam;
-            }, 100);*/
         }
         
 
@@ -153,16 +172,6 @@ function Form(props) {
         }
     },[props.statoDash]); 
 
-    const handleCampionatoChange = (value) => {
-        setsqCasaenabled(getSquadre(value.trim()))
-        setsqOspiteenabled(getSquadre(value.trim()))
-        document.getElementById("squadraCasa").selectedIndex = -1;
-        document.getElementById("squadraOspite").selectedIndex = -1;
-    };
-    const emptytrigger = () => {
-        
-    };
-
     const contaPartite = () => {
         let risultato
         risultato = props.matchPartite("CONTA","CONTA")
@@ -190,23 +199,23 @@ function Form(props) {
             <div className="px-4 text-center">
                 <div className="w-full lg:flex lg:justify-center">
                     <div className={"lg:w-1/2 rounded overflow-hidden p-4 "+showSquadre}>
+                        
                         <div className={"flex justify-center mb-2"+drop}>
-                            <Dropdown id="campionato" label="Campionato" lista={getCampionati(getAllLeagues())} trigger={handleCampionatoChange}></Dropdown>
+                            <InputSearch setToast={props.setToast} showToast={props.showToast} id="squadraCasa" label="Squadra casa"></InputSearch>
                         </div>
                         <div className={"flex justify-center mb-2"+drop}>
-                            <Dropdown id="squadraCasa" label="Squadra casa" lista={sqCasaenabled} trigger={emptytrigger} ></Dropdown>
+                            <InputSearch setToast={props.setToast} showToast={props.showToast} id="squadraOspite" label="Squadra ospite"></InputSearch>
                         </div>
-                        <div className={"flex justify-center mb-2"+drop}>
-                            <Dropdown id="squadraOspite" label="Squadra ospite" lista={sqOspiteenabled} trigger={emptytrigger} ></Dropdown>
-                        </div>
+
+
                         <div className={"flex justify-center mb-2"+text}>
                             <InputText id="campionatoX" label="Campionato"></InputText>
                         </div>
                         <div className={"flex justify-center mb-2"+text}>
-                            <InputText id="squadraCasaX" label="Campionato"></InputText>
+                            <InputText id="squadraCasaX" label="Squadra casa"></InputText>
                         </div>
                         <div className={"flex justify-center mb-2"+text}>
-                            <InputText id="squadraOspiteX" label="Campionato"></InputText>
+                            <InputText id="squadraOspiteX" label="Squadra ospite"></InputText>
                         </div>
                     </div>
                     <div className={" "+formatoForm}>
@@ -266,7 +275,7 @@ function Form(props) {
                 </div>
             </div>
             <div className={"fixed mb-4 lg:mb-16 bottom-0 left-0 right-0 h-16 flex justify-center items-center"+contatorePartite}> 
-                        <div className="bg-gray-900 h-16 w-5/6 flex py-2 pl-4 rounded-lg max-w-sm">
+                        <div className="bg-gray-400 h-16 w-5/6 flex py-2 pl-4 rounded-lg max-w-sm">
                             <button onClick={(e) => {contaPartite(e);}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Conta partite</button>
                             <div id="partiteTrovate" className="w-full px-4 text-white flex items-center">
                                 Partite trovate: 0

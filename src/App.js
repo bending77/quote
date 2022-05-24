@@ -2,6 +2,9 @@ import { useState } from "react";
 import GetCsv from "./comps/GetCsv";
 import './AppStyle.css';
 import Dashboard from "./comps/Dashboard"
+import ImportSettings from "./comps/ImportSettings";
+import squadre from "./data/Squadre.json"
+import setFormat from "./functs/setFormat";
 
 
 function App() {
@@ -17,6 +20,11 @@ function App() {
   const postFile = () => {
     document.getElementById("GetCsv").classList.add("hidden");
     document.getElementById("dashboard").classList.remove("hidden");    
+  };
+
+  const importST = () => {
+    document.getElementById("GetCsv").classList.add("hidden");
+    document.getElementById("ImportSettings").classList.remove("hidden");    
   };
   //--------------
     const removePartita = () => {
@@ -61,6 +69,8 @@ function App() {
 
     const addPartita = () => {
       let partita = getPartitaDaForm();
+      partita.squadraCasa = setFormat(partita.squadraCasa)
+      partita.squadraOspite = setFormat(partita.squadraOspite)
       if (validaPartita(partita)){
         for (var key in partita) {
           if(partita[key] === null || partita[key] === ""){
@@ -83,13 +93,11 @@ function App() {
     }
     const getPartitaDaForm = () => {
       let partita = {campionato : "", squadraCasa : "", squadraOspite : "",casa : "", fuori : "", suGiuCasa : "", suGiuFuori : "", gol : "", noGol : "", o15 : "", u15 : "", o25 : "", u25 : "", golCasa : "", golOspite : "" } 
-      partita.campionato =  document.getElementById("campionato").value;
-      partita.squadraCasa =  document.getElementById("squadraCasa").value;
-      partita.squadraOspite =  document.getElementById("squadraOspite").value;
-      if (partita.campionato === "" && partita.squadraCasa === "" && partita.squadraOspite === "" ){
-        partita.campionato =  document.getElementById("campionatoX").value;
-        partita.squadraCasa =  document.getElementById("squadraCasaX").value;
-        partita.squadraOspite =  document.getElementById("squadraOspiteX").value;
+      partita.squadraCasa =  setFormat(document.getElementById("squadraCasa").value);
+      partita.squadraOspite =  setFormat(document.getElementById("squadraOspite").value);
+      if (partita.squadraCasa === "" && partita.squadraOspite === "" ){
+        partita.squadraCasa =  setFormat(document.getElementById("squadraCasaX").value);
+        partita.squadraOspite =  setFormat(document.getElementById("squadraOspiteX").value);
       }
 
 
@@ -116,7 +124,9 @@ function App() {
       let hasMoreThan0Quote = false
       let hasResult = false
       if (partita.squadraCasa !== "" && partita.squadraOspite !== ""){
-        hasTeams = true
+        if (squadre.indexOf(partita.squadraCasa) !== -1 && squadre.indexOf(partita.squadraOspite) !== -1){
+          hasTeams = true
+        }
       }
       if (partita.suGiuCasa !== "" || partita.suGiuFuori!== "" || partita.casa !== "" || partita.fuori !== ""){
         hasMoreThan0Quote = true
@@ -219,12 +229,6 @@ const downloadFile = () => {
   }
 }
 
-
-
-
-
-
-
 const matchPartite = (partita, lista) => {
   let isCounter = false
   if(partita === "CONTA" && lista === "CONTA"){
@@ -291,10 +295,13 @@ const matchPartite = (partita, lista) => {
 
 
     return (
-        <div className="w-screen h-screen bg-yellow-500 bg-opacity-25">
+        <div className="w-screen h-screen bg-gray-900 ">
           <div id="GetCsv" className="w-screen h-5/6 flex items-center">
-            <GetCsv  setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
-          </div>         
+            <GetCsv  ImportSettings={importST} setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
+          </div> 
+          <div id="ImportSettings" className="hidden w-screen h-full">
+            <ImportSettings fileLetto={fileLetto}></ImportSettings>
+          </div>        
           <div id="dashboard" className="hidden w-full h-full relative overflow-hidden">
             <Dashboard matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFile={downloadFile} setToast={setToast} showToast={showToast} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
           </div>

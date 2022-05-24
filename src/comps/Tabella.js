@@ -1,4 +1,4 @@
-import getImage from "../functs/getImage";
+
 import getImageTeam from "../functs/getImageTeam";
 
 function Tabella(props) {
@@ -34,24 +34,24 @@ function Tabella(props) {
                 <tr onClick={handleRowClick} id={"rig_"+counter} key={"rig_"+counter} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
                     <td className="hidden px-2 py-4 font-medium text-gray-900 dark:text-white whitespace-normal">
                         <div className="flex">
-                            <img src={getImage(partita.campionato.trim())} alt={partita.campionato.trim()} width="30px" height="30px" className="mr-6"></img>
+                            
                             <div className="hidden">
                                 {partita.campionato}
                             </div>
                         </div>
                     </td>
                     <td className="px-2 py-4 font-medium text-gray-900 dark:text-white whitespace-normal">
-                        <div className="flex justify-center">
+                        <div className="flex justify-center lg:justify-start">
                             <img src={getImageTeam(partita.squadraCasa)} alt={partita.squadraCasa}  className="w-5 h-5 lg:w-8 lg:h-8"></img>
-                            <div className={" ml-2 "+large}>
+                            <div className={"lg:ml-4 ml-2 "+large}>
                                 {partita.squadraCasa}
                             </div>
                         </div>
                     </td>
                     <td className="px-2 py-4 font-medium text-gray-900 dark:text-white whitespace-normal">
-                    <div className="flex justify-center">
+                    <div className="flex justify-center lg:justify-start">
                         <img src={getImageTeam(partita.squadraOspite)} alt={partita.squadraOspite} className="w-5 h-5 lg:w-8 lg:h-8"></img>
-                        <div className={" ml-2 "+large}>
+                        <div className={"lg:ml-4 ml-2 "+large}>
                             {partita.squadraOspite}
                         </div>
                     </div>

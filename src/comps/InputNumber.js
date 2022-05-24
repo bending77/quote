@@ -73,9 +73,9 @@ function InputNumber(props) {
     return (
         <div className="w-full ">
             <div className="flex justify-center">
-                <label className="block text-blue-500 lg:text-lg xl:text-xl text-md mb-2" htmlFor={props.id}>{props.label}</label>
+                <label className="block text-blue-400 lg:text-lg xl:text-xl text-md mb-2" htmlFor={props.id}>{props.label}</label>
                 <div id={"campo$"+props.id} className={"ml-2"+ tastoDouble} onClick={openDouble}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 lg:h-6 lg:w-6" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
                     </svg>
                 </div>

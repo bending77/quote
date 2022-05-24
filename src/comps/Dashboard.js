@@ -5,11 +5,13 @@ import OutputStats from "./OutputStats";
 import statdata from './../data/Stats';
 import InputNumber from "./InputNumber";
 import FormSchedina from "./FormSchedina";
+
+
 function Dashboard(props) {
     const [stato, setStato] = useState(0);
     // stato 0 main menu 
     // stato 1 form inserimento
-    // stato 2 tabella 
+    // stato 2 tabella + form modifica
     // stato 3 libero-----------------------------
     // stato 4 form double allowed x filtrare le schedine
     // stato 5 risultati del calcolo statistiche
@@ -20,7 +22,8 @@ function Dashboard(props) {
     const [partiteInSchedina, setpartiteInSchedina] = useState([]);
     const [partiteDaLeggere, setpartiteDaLeggere] = useState(0);
     const [partiteLette, setpartiteLette] = useState(0);
-    
+
+   
     
 
 
@@ -70,18 +73,23 @@ function Dashboard(props) {
                 props.cleanForm()
                 setStato(0)
             }else{
-                setStato(0)
+                if (stato === 3){
+                    setStato(1)
+                }else{
+                    setStato(0)
+                }
+                
             }    
         }   
     };
 
-     const explode = (valore) => {
+    const explode = (valore) => {
          props.explode(valore)
-     }
+    };
 
     const setPartita = () => {
         props.setPartita()
-    }
+    };
 
     const validaPartitaFiltro = (partita) => {
         let hasTeams = false
@@ -100,7 +108,8 @@ function Dashboard(props) {
         }else{
           return false 
         }
-      };
+    };
+
     const prossimaPartita = () => {
         let partita = props.getPartitaDaForm()
         if (validaPartitaFiltro(partita)){
@@ -119,12 +128,11 @@ function Dashboard(props) {
         }else{
             alert('La partita inserita non è valida:\n Ogni partita deve contenere entrambe le squadre ed almeno una quota.')
         }
-    }
-
+    };
 
     const removePartita = () => {
         props.removePartita()
-    }
+    };
 
     const finePartite = () => {
         let partita = props.getPartitaDaForm()
@@ -147,16 +155,13 @@ function Dashboard(props) {
                 setStato(7)}
             }
            
-    }
-
+    };
 
     const filtraAncora = () => {
         props.cleanForm()
         setStato(4)
         setstatistiche(JSON.parse(JSON.stringify(statdata)))
-    }
-
-
+    };
 
     const cercaPartite = () => {
         let partite = props.cercaPartite()
@@ -299,7 +304,12 @@ function Dashboard(props) {
         props.setdatiTabella(partite)
         setstatistiche(risultati)
         setStato(5)
-    }
+    };
+
+
+
+
+
 
     let dbButtonColor
 
@@ -471,7 +481,7 @@ function Dashboard(props) {
                 </div>
             </div>
             <div id="form" className={"w-full overflow-y-scroll "+form}>
-                <Form matchPartite={props.matchPartite} statoDash={stato} partitaSelezionata={props.partitaSelezionata}></Form>
+                <Form setToast={props.setToast} showToast={props.showToast} matchPartite={props.matchPartite} statoDash={stato} partitaSelezionata={props.partitaSelezionata}></Form>
             </div>
             <div id="formSchedina" className={"w-full pt-10 h-full overflow-y-scroll shadow-lg"+formSchedina}>
                 <FormSchedina cercaPartiteSchedina={props.cercaPartiteSchedina} partiteInSchedina={partiteInSchedina}></FormSchedina>

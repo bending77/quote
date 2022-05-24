@@ -140,7 +140,7 @@ function FormSchedina(props) {
                 count = count + 1
                 return (
                     <div key={"grafico"+count+' '+risultati.partiteTrovate} className="">
-                        <div className="flex items-center justify-between text-gray-400 text-sm">
+                        <div className="flex items-center justify-between text-gray-400 text-sm lg:text-lg">
                             <p>
                                 {statistica.label}
                             </p>
@@ -148,7 +148,7 @@ function FormSchedina(props) {
                                 {statistica.valore+"/"+risultati.partiteTrovate+" - "+statistica.percentuale+"%"}
                             </p>
                         </div>
-                        <div className="w-full h-2 bg-red-200 rounded-full mb-4">
+                        <div className="w-full h-2 lg:h-4 bg-red-200 rounded-full mb-4">
                             <div className={"h-full text-center text-xs text-white bg-red-500 rounded-full"} style={{width : statistica.percentuale+"%"}}>
                             </div>
                         </div>
@@ -176,11 +176,32 @@ function FormSchedina(props) {
        // calcola le statistiche
         counter = counter + 1
         return( 
-            <div key={"partitaSchedina"+counter} className="w-full flex justify-center mt-4 lg:mt-8 lg:h-72">
-                <div className="shadow-lg rounded-xl w-60 p-4 bg-white text-gray-700 relative overflow-hidden lg:overflow-scroll">
-                    <div className="w-full flex justify-center">
-                        <img src={getImageTeam(partita.squadraCasa)} alt={partita.squadraCasa} width="20px" height="20px" className="mr-4"></img>
-                        <img src={getImageTeam(partita.squadraOspite)} alt={partita.squadraOspite} width="20px" height="20px" className=""></img>
+            <div key={"partitaSchedina"+counter} className="w-full flex justify-center mt-4 lg:mt-8 lg:h-96">
+                <div className="shadow-lg rounded-xl lg:w-72 w-60 p-4 bg-white text-gray-700 relative overflow-hidden lg:overflow-scroll">
+                    <div className="w-full flex justify-between mb-2 items-center">
+                            <div className="w-1/3">
+                                <div className="w-full flex justify-center">
+                                    <img src={getImageTeam(partita.squadraCasa)} alt={partita.squadraCasa} className="w-8 h-8 lg:w-12 lg:h-12"></img>
+                                </div> 
+                                <div className="w-full flex justify-center my-1">
+                                    {partita.squadraCasa}
+                                </div>                            
+                               
+                            </div>
+                            <div className="w-1/3">
+                                <div className="w-full flex justify-center">
+                                    <img src={getImageTeam(partita.squadraOspite)} alt={partita.squadraOspite} className="w-8 h-8 lg:w-12 lg:h-12"></img>
+                                </div> 
+                                <div className="w-full flex justify-center my-1">
+                                    {partita.squadraOspite}
+                                </div>  
+
+
+                                
+                            </div>
+
+                        
+                       
                     </div>
                     {getStatsHTML(risultati)}
                 </div>
