@@ -81,10 +81,10 @@ function InputNumber(props) {
                 </div>
             </div>
             <div className="flex justify-center">
-                <input type={inputType} min={props.min} step={props.step} id={props.id} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+original}></input>
+                <input autoComplete='off' type={inputType} min={props.min} step={props.step} id={props.id} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+original}></input>
 
-                <input onChange={setRealValue} type="number" min={props.min} step={props.step} id={props.id+"A"} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 px-2 mr-2 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+double}></input>
-                <input onChange={setRealValue} type="number" min={props.min} step={props.step} id={props.id+"B"} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 px-2 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+double}></input>
+                <input autoComplete='off' onChange={setRealValue} type="number" min={props.min} step={props.step} id={props.id+"A"} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 px-2 mr-2 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+double}></input>
+                <input autoComplete='off' onChange={setRealValue} type="number" min={props.min} step={props.step} id={props.id+"B"} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 px-2 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+double}></input>
             </div>
         </div>
     );
