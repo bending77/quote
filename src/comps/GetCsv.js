@@ -1,5 +1,6 @@
 import { useState } from "react";
 import setFormat from "../functs/setFormat";
+import Storico from "../data/StoricoPartite.txt"
 
 function GetCsv(props) {
     const [file, setFile] = useState();
@@ -12,7 +13,7 @@ function GetCsv(props) {
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-        if (file && document.querySelector('#password').value === "pw") {
+        if (file && document.querySelector('#password').value === "Gianni77") {
             fileReader.onload = function (event) {
                 const csvOutput = event.target.result;
                 let stringaDaLeggere = csvOutput
@@ -44,7 +45,7 @@ function GetCsv(props) {
 
     const readfile = (e) => {
         e.preventDefault();
-        if (file && document.querySelector('#password').value === "Allspark2019") {
+        if (file && document.querySelector('#password').value === "Gianni77") {
             fileReader.onload = function (event) {
                 const csvOutput = event.target.result;
                 let stringaDaLeggere = csvOutput
@@ -70,6 +71,28 @@ function GetCsv(props) {
         }
     };
 
+    const usaStoricoDefault = () => {
+        if (document.querySelector('#password').value === "Gianni77") {
+            let risultato = []
+            fetch(Storico)
+            .then(r => r.text())
+            .then(text => {
+                let lista = text.split("\r")
+                for (let i=1; i<lista.length ; i++){
+                    let arrayPartita = lista[i].split(";")
+                    let partitAttuale = {campionato : arrayPartita[0], squadraCasa : arrayPartita[1] ,squadraOspite : arrayPartita[2] , casa : arrayPartita[3] , suGiuCasa : arrayPartita[4], fuori : arrayPartita[5], suGiuFuori : arrayPartita[6], gol : arrayPartita[7], noGol :arrayPartita[8], o15 : arrayPartita[9], u15 : arrayPartita[10] , o25 :arrayPartita[11], u25 : arrayPartita[12] , golCasa : arrayPartita[13], golOspite : arrayPartita[14] };
+                    risultato.push(partitAttuale)
+                }
+            });
+            props.postFile()
+            props.setFile(risultato)
+            props.setTabella(risultato)
+        }else{
+            props.setToast('password errata')
+            props.showToast()
+        }
+    };
+
    
 
     
@@ -91,14 +114,20 @@ function GetCsv(props) {
                         </label>
                         <input className="lg:text-lg shadow appearance-none border border-blue-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="****"></input>
                     </div>
-                </div>     
-                <div className="flex space-x-2 justify-center mt-4">
-                    <button onClick={(e) => {handleOnSubmit(e);}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Start</button>
-                </div>
+                </div> 
+                <div className="flex justify-center">
+                    <div className="flex space-x-2 justify-center mt-4 mr-4">
+                        <button onClick={(e) => {handleOnSubmit(e);}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Start</button>
+                    </div>
 
-                <div className="flex space-x-2 justify-center mt-4 hidden">
-                    <button onClick={(e) => {readfile(e)}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Getter</button>
-                </div>
+                    <div className="flex space-x-2 justify-center mt-4 hidden">
+                        <button onClick={(e) => {readfile(e)}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Getter</button>
+                    </div>
+                    <div className="flex space-x-2 justify-center mt-4 ">
+                        <button onClick={(e) => {usaStoricoDefault()}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Utilizza storico salvato</button>
+                    </div>
+                </div>    
+                
 
             </form>
         </div>

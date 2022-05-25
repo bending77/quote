@@ -212,12 +212,13 @@ function App() {
 const downloadFile = () => {
   if (isDbChanged){
     let csvContent = "data:text/csv;charset=utf-8,";
-    let primaRiga = "c;c;o;c;s;f;s;g;n;o;u;o;u;c;o;"
+    let primaRiga = "c;c;o;c;s;f;s;g;n;o;u;o;u;c;o;\r"
     let oggetto = fileLetto.map(function(elem){
       let partita = ""
       for (var key in elem) {
         partita = partita+elem[key]+";"
       }
+      partita = partita + "\r"
       return partita
     }).join("")
     csvContent += primaRiga+oggetto 
