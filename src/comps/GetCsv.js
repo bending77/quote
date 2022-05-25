@@ -1,6 +1,6 @@
 import { useState } from "react";
 import setFormat from "../functs/setFormat";
-import Storico from "../data/StoricoPartite.txt"
+import storico from "../data/StoricoPartite.json";
 
 
 function GetCsv(props) {
@@ -73,34 +73,14 @@ function GetCsv(props) {
     };
 
     const usaStoricoDefault = () => {
-        if (document.querySelector('#password').value === "Gianni78") {
-            let risultato = []
-
-
-
-
-
-            fetch(Storico,{headers : { 'Content-Type': 'text/html','Accept': 'text/html' }})
-            //fetch(Storico)
-            
-            .then(r => r.text())
-            .then(text => {
-                let lista = text.split("\r")
-                for (let i=1; i<lista.length ; i++){
-                    let arrayPartita = lista[i].split(";")
-                    let partitAttuale = {campionato : arrayPartita[0], squadraCasa : arrayPartita[1] ,squadraOspite : arrayPartita[2] , casa : arrayPartita[3] , suGiuCasa : arrayPartita[4], fuori : arrayPartita[5], suGiuFuori : arrayPartita[6], gol : arrayPartita[7], noGol :arrayPartita[8], o15 : arrayPartita[9], u15 : arrayPartita[10] , o25 :arrayPartita[11], u25 : arrayPartita[12] , golCasa : arrayPartita[13], golOspite : arrayPartita[14] };
-                    risultato.push(partitAttuale)
-                }
-
-               
-                    props.postFile()
-                    props.setFile(risultato)
-                    props.setTabella(risultato)
-               
-                
-            });
+        if (document.querySelector('#password').value === "Gianni77") {
+             // test -------------
+             props.postFile()
+             //---------------------
+             props.setFile(storico)
+             props.setTabella(storico)
         }else{
-            props.setToast('password errata')
+            props.setToast('Funzione in fase di sviluppo')
             props.showToast()
         }
     };

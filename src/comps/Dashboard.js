@@ -392,6 +392,16 @@ function Dashboard(props) {
         }
     }
 
+    var fileToPrint = ""
+    let buttonHref = null
+    if (props.isDbChanged){
+        let fileToPrint = JSON.stringify(props.fileLetto)
+        fileToPrint = fileToPrint.split("},")
+        fileToPrint = fileToPrint.join("},\r")
+        buttonHref = `data:text/html;charset=utf-8,${encodeURIComponent(fileToPrint)}`
+    }
+    
+
     return (
         <div className='relative w-full h-full'>
             <div id="pulsantiera" className={"z-20 shadow-lg h-12 absolute top-0 right-0 left-0 py-2 pr-6 pl-6 flex bg-blue-500 rounded-b-lg"+pulsantiera}>
@@ -452,12 +462,29 @@ function Dashboard(props) {
 
 
             <div id="mainMenu" className={" w-full h-full py-2 overflow-hidden flex items-center relative "+mainMenu}>
-                <div className="absolute bottom-0 right-0 mr-4 mb-4">
-                    <div className={"rounded-full lg:w-20 xl:w-24 lg:h-20 xl:h-24 w-16 h-16 flex justify-center items-center "+dbButtonColor} onClick={props.downloadFile}>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-                        </svg>
+                <div className="absolute bottom-0 right-0 mr-4 mb-4 flex">
+                    <div className={"rounded-full mr-4 p-4 flex justify-center items-center "+dbButtonColor} onClick={props.downloadFileCsv}>
+                        <div className="text-white text-center text-sm lg:text-lg">
+                            <div className="w-full j-full flex justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 lg:h-8 lg:w-8" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                                </svg>
+                            </div>
+                            
+                        Csv
+                        </div>
                     </div>
+                    <a id="jsonDownloader" className={"rounded-full p-4 flex justify-center items-center "+dbButtonColor} onClick={props.downloadFileJson} href={buttonHref} download="StoricoPartite.json">
+                        <div className="text-white text-center text-sm lg:text-lg">
+                            <div className="w-full j-full flex justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 lg:h-8 lg:w-8" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                                </svg>
+                            </div>
+                            
+                        Json
+                        </div>
+                    </a>
                 </div>
                 <div className="flex w-full justify-center">
                     <div className="max-w-md w-full px-6">

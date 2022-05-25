@@ -209,7 +209,7 @@ function App() {
     x.innerHTML = text;
 }
 
-const downloadFile = () => {
+const downloadFileCsv = () => {
   if (isDbChanged){
     let csvContent = "data:text/csv;charset=utf-8,";
     let primaRiga = "c;c;o;c;s;f;s;g;n;o;u;o;u;c;o;\r"
@@ -226,8 +226,12 @@ const downloadFile = () => {
   
     var encodedUri = encodeURI(csvContent);
     window.open(encodedUri);
-    setisDbChanged(false)
+
   }
+}
+
+const downloadFileJson = () => {
+  // do nothing 
 }
 
 const matchPartite = (partita, lista) => {
@@ -304,7 +308,7 @@ const matchPartite = (partita, lista) => {
             <ImportSettings fileLetto={fileLetto}></ImportSettings>
           </div>        
           <div id="dashboard" className="hidden w-full h-full relative overflow-hidden">
-            <Dashboard matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFile={downloadFile} setToast={setToast} showToast={showToast} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
+            <Dashboard matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFileJson={downloadFileJson} downloadFileCsv={downloadFileCsv} setToast={setToast} showToast={showToast} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
           </div>
           <div id="snackbar">
             testo toast
