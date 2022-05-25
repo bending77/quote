@@ -83,10 +83,10 @@ function GetCsv(props) {
                     let partitAttuale = {campionato : arrayPartita[0], squadraCasa : arrayPartita[1] ,squadraOspite : arrayPartita[2] , casa : arrayPartita[3] , suGiuCasa : arrayPartita[4], fuori : arrayPartita[5], suGiuFuori : arrayPartita[6], gol : arrayPartita[7], noGol :arrayPartita[8], o15 : arrayPartita[9], u15 : arrayPartita[10] , o25 :arrayPartita[11], u25 : arrayPartita[12] , golCasa : arrayPartita[13], golOspite : arrayPartita[14] };
                     risultato.push(partitAttuale)
                 }
+                props.postFile()
+                props.setFile(risultato)
+                props.setTabella(risultato)
             });
-            props.postFile()
-            props.setFile(risultato)
-            props.setTabella(risultato)
         }else{
             props.setToast('password errata')
             props.showToast()
