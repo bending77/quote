@@ -48,17 +48,12 @@ function InputSearch(props) {
         if (document.querySelector('#'+props.id).value === ''){
             //do nothing
         }else{
-            if (search(document.querySelector('#'+props.id).value).length !== 1 ){
-                props.setToast('la squadra inserita non è presente nel db delle squadre')
-                props.showToast()
-            }else{
                 if (search(document.querySelector('#'+props.id).value)[0].length === document.querySelector('#'+props.id).value.length){
                    //eseguo il test tutto uppercase 
                 }else{
                     props.setToast('la squadra inserita non è presente nel db delle squadre')
                     props.showToast() 
-                }        
-            }    
+                }           
             setlistaChooser([])
             //[nascondi il menu]
             document.querySelector('#teamChooser'+props.id).classList.add('hidden') 
