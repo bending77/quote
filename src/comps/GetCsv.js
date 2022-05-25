@@ -73,7 +73,7 @@ function GetCsv(props) {
     };
 
     const usaStoricoDefault = () => {
-        if (document.querySelector('#password').value === "Gianni77") {
+        if (document.querySelector('#password').value === "Gianni77" || document.querySelector('#password').value === "Sauell") {
              // test -------------
              props.postFile()
              //---------------------
