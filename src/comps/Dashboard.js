@@ -395,7 +395,7 @@ function Dashboard(props) {
     var fileToPrint = ""
     let buttonHref = null
     if (props.isDbChanged){
-        let fileToPrint = JSON.stringify(props.fileLetto)
+        fileToPrint = JSON.stringify(props.fileLetto)
         fileToPrint = fileToPrint.split("},")
         fileToPrint = fileToPrint.join("},\r")
         buttonHref = `data:text/html;charset=utf-8,${encodeURIComponent(fileToPrint)}`
