@@ -80,7 +80,7 @@ function GetCsv(props) {
              props.setFile(storico)
              props.setTabella(storico)
         }else{
-            props.setToast('Funzione in fase di sviluppo')
+            props.setToast('Password errata')
             props.showToast()
         }
     };
