@@ -202,7 +202,7 @@ function Dashboard(props) {
                 risultati.statGroups[0].stats.xdue.valore = risultati.statGroups[0].stats.xdue.valore +1
             }
             //gol nogol
-            if (parseFloat(match.golCasa) === 0 && parseFloat(match.golOspite) === 0){
+            if (parseFloat(match.golCasa) === 0 || parseFloat(match.golOspite) === 0){
                 risultati.statGroups[1].stats.noGoal.valore = risultati.statGroups[1].stats.noGoal.valore +1
             }
             if (parseFloat(match.golCasa) > 0 && parseFloat(match.golOspite) > 0){
