@@ -36,6 +36,7 @@ function Dashboard(props) {
                 setStato(1)
             break;
             case "modificabtn" : 
+                props.cleanForm()
                 setStato(2)
             break;
             case "calcolabtn" : 
