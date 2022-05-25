@@ -1,5 +1,6 @@
 import { useState } from "react";
 import setFormat from "../functs/setFormat";
+import Storico from "../data/StoricoPartite.txt"
 
 
 function GetCsv(props) {
@@ -74,7 +75,14 @@ function GetCsv(props) {
     const usaStoricoDefault = () => {
         if (document.querySelector('#password').value === "Gianni78") {
             let risultato = []
-            fetch("../../public/StoricoPartite.txt")
+
+
+
+
+
+            fetch(Storico,{headers : { 'Content-Type': 'text/html','Accept': 'text/html' }})
+            //fetch(Storico)
+            
             .then(r => r.text())
             .then(text => {
                 let lista = text.split("\r")
