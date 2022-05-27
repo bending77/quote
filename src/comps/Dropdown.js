@@ -1,20 +1,27 @@
+import { useState, useEffect } from "react";
 function Dropdown(props) {
+
+    const [listaD, setListaD] = useState(null);
 
     function trigger(){
         props.trigger(document.querySelector('#'+props.id).value)
     }
 
+    useEffect(()=>{
+        let counter = 0
+        counter = 0
+        var lista = (props.lista).map((campionato =>{
+            counter = counter + 1;
+        return (
+            <option key={props.id+counter} className="text-center text-md">
+                {campionato}
+            </option>
+        )
+        }));
+        setListaD(lista)
+    },[props.lista,props.id]); 
 
-    let counter = 0
-    counter = 0
-    var lista = (props.lista).map((campionato =>{
-        counter = counter + 1;
-    return (
-        <option key={props.id+counter} className="text-center text-md">
-            {campionato}
-        </option>
-    )
-    }));
+   
 
  
     
@@ -26,7 +33,7 @@ function Dropdown(props) {
             </div>
             <select onChange={trigger} id={props.id} name={props.id} className="lg:text-lg xl:text-xl text-md block appearance-none w-full bg-white border border-gray-500 hover:border-gray-500 px-1 py-1 pr-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                 <option value=""></option>
-                {lista}
+                {listaD}
             </select>
         </div>
     );

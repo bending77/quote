@@ -253,7 +253,12 @@ const matchPartite = (partita, lista) => {
     let match = true
     for (var key in partita) {
       let valoreForm = partita[key]
-      if(valoreForm !== null && valoreForm !== "" && valoreForm !== "ND"){
+      let isFormFieldSetted = valoreForm !== null && valoreForm !== "" && valoreForm !== "ND"
+      if (key === "suGiuCasa" || key === "suGiuFuori"){
+        isFormFieldSetted = valoreForm !== null && valoreForm !== ""
+      }
+
+      if(isFormFieldSetted){
 
         //check bival fields
         if (valoreForm.indexOf('%') !== -1){

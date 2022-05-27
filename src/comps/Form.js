@@ -18,6 +18,7 @@ function Form(props) {
 
     const [contatorePartite, setcontatorePartite] = useState("");
 
+    const [listaDrop, setlistaDrop] = useState(["S","G"]);
 
     const findSelectIndex = (valore, lista) => {
         let indice = lista.indexOf(valore)
@@ -146,12 +147,14 @@ function Form(props) {
                 setshowgoal("")
                 setcontatorePartite(" hidden")
                 setformatoForm("lg:pt-4")
+                setlistaDrop(["S","G","ND"])
             break;
             case 6:
                 setdoubleAll(true)
                 setshowgoal(" hidden")
                 setcontatorePartite("")
                 setformatoForm("lg:pt-4")
+                setlistaDrop(["S","G","ND"])
             break;
             case 2 : 
                 setdropOrText(false)
@@ -160,6 +163,7 @@ function Form(props) {
                 setcontatorePartite(" hidden")
                 setshowgoal("")
                 setformatoForm(" lg:flex")
+                setlistaDrop(["S","G"])
             break;
             default :
                 setdropOrText(true) 
@@ -168,6 +172,7 @@ function Form(props) {
                 setshowgoal("")
                 setcontatorePartite(" hidden")
                 setformatoForm(" lg:w-1/2 lg:pt-4")
+                setlistaDrop(["S","G"])
             break;
         }
     },[props.statoDash]); 
@@ -226,7 +231,7 @@ function Form(props) {
                                         <InputNumber doubleAllowed={doubleAllowed} id="quotaCasa" label="Casa" step="0.1" min="1"></InputNumber>
                                     </div>
                                     <div className="w-1/5">
-                                        <Dropdown id="suGiuCasa" label="tend" lista={["S","G"]} trigger={emptytrigger} ></Dropdown>
+                                        <Dropdown id="suGiuCasa" label="tend" lista={listaDrop} trigger={emptytrigger} ></Dropdown>
                                     </div>
                                 </div>
                                 <div className="flex justify-between mb-2 px-2">
@@ -234,7 +239,7 @@ function Form(props) {
                                         <InputNumber doubleAllowed={doubleAllowed} id="quotaFuori" label="Fuori" step="0.1" min="1"></InputNumber>
                                     </div>
                                     <div className="w-1/5">
-                                        <Dropdown id="suGiuFuori" label="tend" lista={["S","G"]} trigger={emptytrigger} ></Dropdown>
+                                        <Dropdown id="suGiuFuori" label="tend" lista={listaDrop} trigger={emptytrigger} ></Dropdown>
                                     </div>
                                 </div>
                             </div>
