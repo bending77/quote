@@ -210,7 +210,7 @@ function App() {
 }
 
 const downloadFileCsv = () => {
-  if (isDbChanged){
+ /* if (isDbChanged){
     let csvContent = "data:text/csv;charset=utf-8,";
     let primaRiga = "c;c;o;c;s;f;s;g;n;o;u;o;u;c;o;\r"
     let oggetto = fileLetto.map(function(elem){
@@ -227,7 +227,7 @@ const downloadFileCsv = () => {
     var encodedUri = encodeURI(csvContent);
     window.open(encodedUri);
 
-  }
+  }*/
 }
 
 const downloadFileJson = () => {

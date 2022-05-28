@@ -394,11 +394,25 @@ function Dashboard(props) {
 
     var fileToPrint = ""
     let buttonHref = null
+    var csvToPrint = ""
+    let csvHref = null
     if (props.isDbChanged){
         fileToPrint = JSON.stringify(props.fileLetto)
         fileToPrint = fileToPrint.split("},")
         fileToPrint = fileToPrint.join("},\r")
         buttonHref = `data:text/html;charset=utf-8,${encodeURIComponent(fileToPrint)}`
+
+        csvToPrint = "c;c;o;c;s;f;s;g;n;o;u;o;u;c;o;"
+        let oggetto = props.fileLetto.map(function(elem){
+          let partita = ""
+          for (var key in elem) {
+            partita = partita+elem[key]+";"
+          }
+          partita = "\r"+ partita
+          return partita
+        }).join("")
+        csvToPrint = csvToPrint+oggetto 
+        csvHref = `data:text/csv;charset=utf-8,${encodeURIComponent(csvToPrint)}`
     }
     
 
@@ -463,7 +477,7 @@ function Dashboard(props) {
 
             <div id="mainMenu" className={" w-full h-full py-2 overflow-hidden flex items-center relative "+mainMenu}>
                 <div className="absolute bottom-0 right-0 mr-4 mb-4 flex">
-                    <div className={"rounded-full mr-4 p-4 flex justify-center items-center "+dbButtonColor} onClick={props.downloadFileCsv}>
+                    <a className={"rounded-full mr-4 p-4 flex justify-center items-center "+dbButtonColor} onClick={props.downloadFileCsv} href={csvHref} download="StoricoPartite.csv">
                         <div className="text-white text-center text-sm lg:text-lg">
                             <div className="w-full j-full flex justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 lg:h-8 lg:w-8" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
@@ -473,7 +487,7 @@ function Dashboard(props) {
                             
                         Csv
                         </div>
-                    </div>
+                    </a>
                     <a id="jsonDownloader" className={"rounded-full p-4 flex justify-center items-center "+dbButtonColor} onClick={props.downloadFileJson} href={buttonHref} download="StoricoPartite.json">
                         <div className="text-white text-center text-sm lg:text-lg">
                             <div className="w-full j-full flex justify-center">
