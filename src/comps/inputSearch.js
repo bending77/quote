@@ -1,3 +1,4 @@
+import React from 'react';
 import teams from './../data/Squadre.json';
 import { useState } from "react";
 

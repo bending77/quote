@@ -1,8 +1,8 @@
+import React from 'react';
 import { useState } from "react";
 import GetCsv from "./comps/GetCsv";
 import './AppStyle.css';
 import Dashboard from "./comps/Dashboard"
-import ImportSettings from "./comps/ImportSettings";
 import squadre from "./data/Squadre.json"
 import setFormat from "./functs/setFormat";
 
@@ -22,10 +22,7 @@ function App() {
     document.getElementById("dashboard").classList.remove("hidden");    
   };
 
-  const importST = () => {
-    document.getElementById("GetCsv").classList.add("hidden");
-    document.getElementById("ImportSettings").classList.remove("hidden");    
-  };
+
   //--------------
     const removePartita = () => {
       if (indicePSelezionata < 0){
@@ -307,11 +304,8 @@ const matchPartite = (partita, lista) => {
     return (
         <div className="w-screen h-screen bg-gray-900 ">
           <div id="GetCsv" className="w-screen h-5/6 flex items-center">
-            <GetCsv  ImportSettings={importST} setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
-          </div> 
-          <div id="ImportSettings" className="hidden w-screen h-full">
-            <ImportSettings fileLetto={fileLetto}></ImportSettings>
-          </div>        
+            <GetCsv setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
+          </div>       
           <div id="dashboard" className="hidden w-full h-full relative overflow-hidden">
             <Dashboard matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFileJson={downloadFileJson} downloadFileCsv={downloadFileCsv} setToast={setToast} showToast={showToast} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
           </div>

@@ -1,3 +1,4 @@
+import React from 'react';
 import getImageTeam from "../functs/getImageTeam";
 import statdata from './../data/Stats';
 

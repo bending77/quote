@@ -1,3 +1,4 @@
+import React from 'react';
 import Form from "./Form";
 import { useState } from "react";
 import Tabella from "./Tabella"
@@ -5,6 +6,8 @@ import OutputStats from "./OutputStats";
 import statdata from './../data/Stats';
 import InputNumber from "./InputNumber";
 import FormSchedina from "./FormSchedina";
+import GestoreBudget from "./GestoreBudget";
+import BudgetSettings from "./BudgetSettings";
 
 
 function Dashboard(props) {
@@ -16,6 +19,9 @@ function Dashboard(props) {
     // stato 4 form double allowed x filtrare le schedine
     // stato 5 risultati del calcolo statistiche
     // stato 6 form inserimento schedina
+    // stato 7 pronostici schedina
+    // stato 8 gestione budget
+    // stato 9 budget settings
     let statJSON = JSON.parse(JSON.stringify(statdata));
     const [statistiche, setstatistiche] = useState(statJSON);
 
@@ -56,6 +62,12 @@ function Dashboard(props) {
                     setStato(6)
                 }
             break;
+            case "budgetbtn" : 
+                setStato(8)
+            break;
+
+
+            
             default : 
             break;
        }
@@ -77,7 +89,11 @@ function Dashboard(props) {
                 if (stato === 3){
                     setStato(1)
                 }else{
-                    setStato(0)
+                    if (stato === 9){
+                        setStato(8)
+                    }else{
+                        setStato(0)
+                    }
                 }
                 
             }    
@@ -133,7 +149,7 @@ function Dashboard(props) {
 
     const removePartita = () => {
         props.removePartita()
-    };
+    };  
 
     const finePartite = () => {
         let partita = props.getPartitaDaForm()
@@ -307,7 +323,11 @@ function Dashboard(props) {
         setStato(5)
     };
 
-
+    //gestore budget -------------------------------------------------------------------------------------------
+    const OpenSettingsGestioneBudget = () => {
+        setStato(9)
+    };
+    //----------------------------------------------------------------------------------------------------------
 
 
 
@@ -329,6 +349,8 @@ function Dashboard(props) {
     let tastoCerca = "hidden"
     let tastoProx = "hidden"
     let tastoAncora = "hidden"
+    let tastoSettings = "hidden"
+    
 
 
 
@@ -338,6 +360,8 @@ function Dashboard(props) {
     let tabella = " hidden h-full pt-10 "
     let stats = " hidden"
     let formSchedina = " hidden"
+    let budget = " hidden"
+    let budgetSetting = " hidden"
 
     let formTitle = ""
 
@@ -385,6 +409,17 @@ function Dashboard(props) {
                 pulsantiera = ""
                 formSchedina = ""
                 formTitle = "Pronostici schedina"
+            break;
+            case 8 : 
+                pulsantiera = ""
+                tastoSettings = ""
+                budget = ""
+                formTitle = "Gestione del budget"
+            break;
+            case 9 : 
+                pulsantiera = ""
+                budgetSetting = ""
+                formTitle = "Impostazioni gestore budget"
             break;
             default : 
             break;
@@ -469,7 +504,13 @@ function Dashboard(props) {
                             <svg xmlns="http://www.w3.org/2000/svg" className="xl:w-9 xl:h-9 lg:w-9 lg:h-9 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
                             </svg>
-                        </div>     
+                        </div> 
+                        <div className={""+tastoSettings} onClick={OpenSettingsGestioneBudget}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="xl:w-9 xl:h-9 lg:w-9 lg:h-9 h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>  
+                        </div>    
                     </div>
                 </div>             
             </div>
@@ -519,6 +560,9 @@ function Dashboard(props) {
                             </div>
                             <button id="pronosticobtn" onClick={(e) => {handletasto(e);}} type="button" className="w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Effettua un pronostico schedina</button>    
                         </div>
+                        <div className="mb-6 hidden">
+                            <button id="budgetbtn" onClick={(e) => {handletasto(e);}} type="button" className="w-full inline-block px-6 py-2.5 bg-yellow-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Gestione del budget</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -533,6 +577,12 @@ function Dashboard(props) {
             </div>
             <div id="tabella" className={"w-full "+tabella}> 
                 <Tabella lista={props.datiTabella} explode={explode}> </Tabella>
+            </div>
+            <div id="budget" className={"w-full "+budget}> 
+                <GestoreBudget></GestoreBudget>
+            </div>
+            <div id="budgetSettings" className={"w-full "+budgetSetting}> 
+                <BudgetSettings></BudgetSettings>
             </div>
         </div>
     );

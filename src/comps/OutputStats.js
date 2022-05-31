@@ -1,4 +1,4 @@
-
+import React from 'react';
 function OutputStats(props) {
 
     const getStatsHTML = (counter) => {

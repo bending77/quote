@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import setFormat from "../functs/setFormat";
 import storico from "../data/StoricoPartite.json";
@@ -44,36 +45,9 @@ function GetCsv(props) {
 
     
 
-    const readfile = (e) => {
-        e.preventDefault();
-        if (file && document.querySelector('#password').value === "Gianni77") {
-            fileReader.onload = function (event) {
-                const csvOutput = event.target.result;
-                let stringaDaLeggere = csvOutput
-                let arrayRaw = stringaDaLeggere.split(";")
-                let arrayLetto = []; 
-                let partitAttuale
-                let i = 15;
-                while ( i < arrayRaw.length-15) {
-                  partitAttuale = {campionato : arrayRaw[i], squadraCasa : arrayRaw[i+1] ,squadraOspite : arrayRaw[i+2] , casa : arrayRaw[i+3] , suGiuCasa : arrayRaw[i+4], fuori : arrayRaw[i+5], suGiuFuori : arrayRaw[i+6], gol : arrayRaw[i+7], noGol : arrayRaw[i+8], o15 : arrayRaw[i+9], u15 : arrayRaw[i+10] , o25 : arrayRaw[i+11], u25 : arrayRaw[i+12] , golCasa : arrayRaw[i+13], golOspite : arrayRaw[i+14] };
-                  arrayLetto.push(partitAttuale);
-                  i = i+15
-                }
-                // test -------------
-                props.ImportSettings()
-                //---------------------
-                props.setFile(arrayLetto)
-                
-            };
-            fileReader.readAsText(file); 
-        }else{
-            props.setToast('password errata per il getter')
-            props.showToast()
-        }
-    };
-
+    
     const usaStoricoDefault = () => {
-        if (document.querySelector('#password').value === "Gianni77") {
+        if (true/*document.querySelector('#password').value === "Gianni77"*/) {
              // test -------------
              props.postFile()
              //---------------------
@@ -110,10 +84,6 @@ function GetCsv(props) {
                 <div className="flex justify-center">
                     <div className="flex space-x-2 justify-center mt-4 mr-4">
                         <button onClick={(e) => {handleOnSubmit(e);}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Start</button>
-                    </div>
-
-                    <div className="flex space-x-2 justify-center mt-4 hidden">
-                        <button onClick={(e) => {readfile(e)}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Getter</button>
                     </div>
                     <div className="flex space-x-2 justify-center mt-4 ">
                         <button onClick={(e) => {usaStoricoDefault()}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Utilizza  lo storico salvato</button>

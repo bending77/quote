@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from "react";
 import Dropdown from "./Dropdown";
 import InputNumber from "./InputNumber";

@@ -1,4 +1,4 @@
-
+import React from 'react';
 import getImageTeam from "../functs/getImageTeam";
 
 function Tabella(props) {
