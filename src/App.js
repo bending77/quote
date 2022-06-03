@@ -13,8 +13,13 @@ function App() {
   const [partitaSelezionata, setpartitaSelezionata] = useState({campionato : "empty"});
   const [indicePSelezionata, setindicePSelezionata] = useState(-1)
   const [datiTabella, setdatiTabella] = useState();
+  
 
   const [isDbChanged, setisDbChanged] = useState(false);
+
+  const [budgetSettings, setbudgetSettings] = useState({budget_step : "empty"});
+  const [budgetData, setbudgetData] = useState([]);
+  const [vecchiBudget, setvecchiBudget] = useState([]);
 
   //------ test 
   const postFile = () => {
@@ -75,15 +80,30 @@ function App() {
           }             
         }
         let nuovodb = fileLetto.slice()
-        nuovodb.push(partita)
-        cleanForm()
-        setFileLetto(nuovodb)
-        setdatiTabella(nuovodb)
-        setToast('Partita inserita')
-        showToast()
-        if (!isDbChanged){
-          setisDbChanged(true)
+        let isIn = false
+        for (let i=0 ; i<fileLetto.length ; i++){
+          let indb = JSON.stringify(fileLetto[i])
+          let inserted = JSON.stringify(partita)
+          if (indb === inserted){
+            isIn = true
+          }
         }
+        if (!isIn){
+          nuovodb.push(partita)
+          cleanForm()
+          setFileLetto(nuovodb)
+          setdatiTabella(nuovodb)
+          setToast('Partita inserita')
+          
+          if (!isDbChanged){
+            setisDbChanged(true)
+          }
+        }else{
+          setToast('Partita già presente nello storico')
+        }
+
+        showToast()
+        
       }else{
         alert("la partita che stai tentando di inserire contiene degli errori: le squadre, almeno una quota ed i risultati devono essere valorizzati.")
       }
@@ -304,10 +324,10 @@ const matchPartite = (partita, lista) => {
     return (
         <div className="w-screen h-screen bg-gray-900 ">
           <div id="GetCsv" className="w-screen h-5/6 flex items-center">
-            <GetCsv setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
+            <GetCsv setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
           </div>       
           <div id="dashboard" className="hidden w-full h-full relative overflow-hidden">
-            <Dashboard matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFileJson={downloadFileJson} downloadFileCsv={downloadFileCsv} setToast={setToast} showToast={showToast} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
+            <Dashboard setisDbChanged={setisDbChanged} vecchiBudget={vecchiBudget} setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} budgetData={budgetData} budgetSettings={budgetSettings} matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFileJson={downloadFileJson} downloadFileCsv={downloadFileCsv} setToast={setToast} showToast={showToast} setFileLetto={setFileLetto} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
           </div>
           <div id="snackbar">
             testo toast

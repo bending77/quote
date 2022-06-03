@@ -202,6 +202,11 @@ function Form(props) {
     return (
         
         <div className="h-full overflow-y-scroll lg:overflow-y-hidden xl:overflow-y-hidden pb-2 relative">
+            <div className="absolute bottom-0 right-0 mr-12">
+                <div className='text-white bg-blue-500 p-2 rounded-lg'>
+                    Partite nel db : {props.numero}
+                </div>
+            </div>
             <div className="px-4 text-center">
                 <div className="w-full lg:flex lg:justify-center">
                     <div className={"lg:w-1/2 rounded overflow-hidden p-4 "+showSquadre}>
@@ -229,7 +234,7 @@ function Form(props) {
                             <div className="w-1/2">
                                 <div className="flex justify-between mb-2 px-2">
                                     <div className="w-3/5">
-                                        <InputNumber doubleAllowed={doubleAllowed} id="quotaCasa" label="Casa" step="0.1" min="1"></InputNumber>
+                                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="quotaCasa" label="Casa" step="0.1" min="1"></InputNumber>
                                     </div>
                                     <div className="w-1/5">
                                         <Dropdown id="suGiuCasa" label="tend" lista={listaDrop} trigger={emptytrigger} ></Dropdown>
@@ -237,7 +242,7 @@ function Form(props) {
                                 </div>
                                 <div className="flex justify-between mb-2 px-2">
                                     <div className="w-3/5">
-                                        <InputNumber doubleAllowed={doubleAllowed} id="quotaFuori" label="Fuori" step="0.1" min="1"></InputNumber>
+                                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="quotaFuori" label="Fuori" step="0.1" min="1"></InputNumber>
                                     </div>
                                     <div className="w-1/5">
                                         <Dropdown id="suGiuFuori" label="tend" lista={listaDrop} trigger={emptytrigger} ></Dropdown>
@@ -247,37 +252,34 @@ function Form(props) {
                             <div  className="w-1/2 px-2">
                                 <div >
                                     <div className="">
-                                        <InputNumber doubleAllowed={doubleAllowed} id="quotaGol" label="GOL" step="0.1" min="1"></InputNumber>
+                                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="quotaGol" label="GOL" step="0.1" min="1"></InputNumber>
                                     </div>
                                     <div className="w-2 h-1"></div>
                                     <div className="">
-                                        <InputNumber doubleAllowed={doubleAllowed} id="quotaNoGol" label="NOGOL" step="0.1" min="1"></InputNumber>
+                                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="quotaNoGol" label="NOGOL" step="0.1" min="1"></InputNumber>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="flex">
                             <div className="w-1/2 px-2">
-                                <InputNumber doubleAllowed={doubleAllowed} id="quotaO15" label="OVE 1.5" step="0.1" min="1"></InputNumber>
-                                <InputNumber doubleAllowed={doubleAllowed} id="quotaO25" label="OVE 2.5" step="0.1" min="1"></InputNumber>
+                                <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="quotaO15" label="OVE 1.5" step="0.1" min="1"></InputNumber>
+                                <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="quotaO25" label="OVE 2.5" step="0.1" min="1"></InputNumber>
                             </div>
                             <div className="w-1/2 px-2">
-                                <InputNumber doubleAllowed={doubleAllowed} id="quotaU15" label="UND 1.5" step="0.1" min="1"></InputNumber>
-                                <InputNumber doubleAllowed={doubleAllowed} id="quotaU25" label="UND 2.5" step="0.1" min="1"></InputNumber>
+                                <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="quotaU15" label="UND 1.5" step="0.1" min="1"></InputNumber>
+                                <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="quotaU25" label="UND 2.5" step="0.1" min="1"></InputNumber>
                             </div>
                         </div>
-
                         <div className={"flex"+showgoal}>
                             <div className="w-1/2 px-2">
-                                <InputNumber doubleAllowed={doubleAllowed} id="quotaGolCasa" label="Gol casa" step="1" min="0"></InputNumber>
+                                <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="quotaGolCasa" label="Gol casa" step="1" min="0"></InputNumber>
                             </div>
                             <div className="w-1/2 px-2">
-                                <InputNumber doubleAllowed={doubleAllowed} id="quotaGolFuori" label="Gol ospiti" step="1" min="0"></InputNumber>  
+                                <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="quotaGolFuori" label="Gol ospiti" step="1" min="0"></InputNumber>  
                             </div>
                         </div>
                     </div>
-                    
-
                 </div>
             </div>
             <div className={"fixed mb-4 lg:mb-16 bottom-0 left-0 right-0 h-16 flex justify-center items-center"+contatorePartite}> 

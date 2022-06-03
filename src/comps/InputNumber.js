@@ -54,6 +54,10 @@ function InputNumber(props) {
         } 
     };
 
+    function trigger(){
+        props.trigger(document.querySelector('#'+props.id).value+'%'+props.id)
+    }
+
     
 
     let original = " hidden"
@@ -71,6 +75,11 @@ function InputNumber(props) {
         tastoDouble = ""
     }
 
+    let blocked = false
+    if (props.bloccato){
+        blocked = true
+    }
+
     return (
         <div className="w-full ">
             <div className="flex justify-center">
@@ -82,7 +91,7 @@ function InputNumber(props) {
                 </div>
             </div>
             <div className="flex justify-center">
-                <input autoComplete='off' type={inputType} min={props.min} step={props.step} id={props.id} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+original}></input>
+                <input readOnly={blocked} onChange={trigger} autoComplete='off' type={inputType} min={props.min} step={props.step} id={props.id} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+original}></input>
 
                 <input autoComplete='off' onChange={setRealValue} type="number" min={props.min} step={props.step} id={props.id+"A"} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 px-2 mr-2 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+double}></input>
                 <input autoComplete='off' onChange={setRealValue} type="number" min={props.min} step={props.step} id={props.id+"B"} name={props.id} className={"lg:text-lg xl:text-xl border border-gray-500 px-2 text-xs shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"+double}></input>

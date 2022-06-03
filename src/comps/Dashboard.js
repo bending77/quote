@@ -323,6 +323,46 @@ function Dashboard(props) {
         setStato(5)
     };
 
+    const emptytrigger = () => {  
+    };
+
+    const checkDupli = () => {
+        let partite = props.fileLetto.slice()
+        let singole = []
+        let doppie = []
+        let duplicateFound = 0
+        for (let i = 0; i<partite.length ; i++){
+            let dadb = JSON.stringify(partite[i]);
+            let isIn = false;
+            for (let j = 0; j<singole.length; j++){
+                let dainserted = JSON.stringify(singole[j])
+                if (dadb === dainserted){
+                    isIn = true
+                }
+            }
+            if (isIn){
+                duplicateFound ++
+                doppie.push(partite[i])
+            }else{
+                singole.push(partite[i])
+            }
+        }
+        if (!(duplicateFound > 0)){
+            props.setToast('Nessun duplicato trovato')
+        }else{
+            if (window.confirm('Trovati '+duplicateFound+' duplicati. Rimuoverli dallo storico?')) {
+                props.setFileLetto(singole)
+                props.setdatiTabella(singole)
+                props.setToast('Duplicati rimossi')
+            }else{
+                //non rimuovere
+                props.setdatiTabella(doppie)
+                props.setToast('Duplicati mostrati in tabella')
+            }
+        }
+        props.showToast()
+    };
+
     //gestore budget -------------------------------------------------------------------------------------------
     const OpenSettingsGestioneBudget = () => {
         setStato(9)
@@ -330,14 +370,12 @@ function Dashboard(props) {
     //----------------------------------------------------------------------------------------------------------
 
 
-
-
     let dbButtonColor
 
     if (props.isDbChanged){
         dbButtonColor = " bg-blue-500"
     }else{
-        dbButtonColor = " bg-blue-500 opacity-50"
+        dbButtonColor = " bg-blue-500 bg-opacity-50"
     }
 
     let tastoback = " hidden"
@@ -431,11 +469,37 @@ function Dashboard(props) {
     let buttonHref = null
     var csvToPrint = ""
     let csvHref = null
+    let attualeToPrint = ""
+    let settingsToPrint = ""
+    let storicoToPrint = ""
     if (props.isDbChanged){
         fileToPrint = JSON.stringify(props.fileLetto)
+        fileToPrint = fileToPrint.replace("[","");
+        fileToPrint = fileToPrint.replace("]","");
         fileToPrint = fileToPrint.split("},")
         fileToPrint = fileToPrint.join("},\r")
-        buttonHref = `data:text/html;charset=utf-8,${encodeURIComponent(fileToPrint)}`
+        //settings
+        settingsToPrint = JSON.stringify(props.budgetSettings)
+        settingsToPrint = settingsToPrint.replace("{",'{"tipo" : "Settings", ');
+        settingsToPrint = settingsToPrint + ",\r"
+        //attuale
+        attualeToPrint = JSON.stringify(props.budgetData)
+        attualeToPrint = attualeToPrint.replace("{",'{"tipo" : "Attuale", ');
+        attualeToPrint = attualeToPrint + "\r"
+
+        //storico
+        storicoToPrint = JSON.stringify(props.vecchiBudget)
+        storicoToPrint = storicoToPrint.replace("[","");
+        storicoToPrint = storicoToPrint.replace("]","");
+        storicoToPrint = storicoToPrint.split("{")
+        storicoToPrint = storicoToPrint.join('{"tipo" : "Chiuso", ')
+        storicoToPrint = storicoToPrint.split("},")
+        storicoToPrint = storicoToPrint.join("},\r")
+        if (storicoToPrint !== ''){
+            storicoToPrint = storicoToPrint + ","
+        }
+
+        buttonHref = `data:text/html;charset=utf-8,${encodeURIComponent("["+fileToPrint+",\r"+settingsToPrint+storicoToPrint+'\r'+attualeToPrint+"]")}`
 
         csvToPrint = "c;c;o;c;s;f;s;g;n;o;u;o;u;c;o;"
         let oggetto = props.fileLetto.map(function(elem){
@@ -446,7 +510,26 @@ function Dashboard(props) {
           partita = "\r"+ partita
           return partita
         }).join("")
-        csvToPrint = csvToPrint+oggetto 
+
+        let settings = "budget;settings;"+props.budgetSettings.budget_step+";"+props.budgetSettings.percentuale+";ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;"
+        let attuale = "budget;attuale;"+props.budgetData.cassa_attuale+";"+props.budgetData.target_step+";"+props.budgetData.incassi+";"+props.budgetData.uscite+";"+props.budgetData.vinte+";"+props.budgetData.giocate+";ND;ND;ND;ND;ND;ND;ND;"
+        
+        
+        let storicoBudget = props.vecchiBudget.map(function(elem){
+            let oldBudg = ""
+            oldBudg = oldBudg + "budget;oldbudg;"
+
+            oldBudg = oldBudg + elem.cassa_attuale + ";"
+            oldBudg = oldBudg + elem.target_step + ";"
+            oldBudg = oldBudg + elem.incassi + ";"
+            oldBudg = oldBudg + elem.uscite + ";"
+            oldBudg = oldBudg + elem.giocate + ";"
+            oldBudg = oldBudg + elem.vinte + ";"
+            oldBudg = oldBudg + "ND;ND;ND;ND;ND;ND;ND;"
+            oldBudg = oldBudg + "\r"
+            return oldBudg
+        }).join("")
+        csvToPrint = csvToPrint+oggetto+"\r"+settings+"\r"+attuale+"\r"+storicoBudget 
         csvHref = `data:text/csv;charset=utf-8,${encodeURIComponent(csvToPrint)}`
     }
     
@@ -473,6 +556,12 @@ function Dashboard(props) {
                         <div className={""+tastoClean} onClick={props.cleanForm}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="xl:w-9 xl:h-9 lg:w-9 lg:h-9 h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+
+                        <div className={""+tastoSalva} onClick={checkDupli}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="xl:w-9 xl:h-9 lg:w-9 lg:h-9 h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                             </svg>
                         </div>
                         <div className={""+tastoSalva} onClick={setPartita}>
@@ -555,19 +644,19 @@ function Dashboard(props) {
                         <div className="mb-6 border border-blue-500 rounded-lg py-2 px-2 bg-blue-100">
                             <div className="mb-2 flex justify-center">
                                 <div className="w-1/2">
-                                    <InputNumber doubleAllowed={false} id="numeroPartite" label="Numero partite" step="1" min="1"></InputNumber>
+                                    <InputNumber trigger={emptytrigger} doubleAllowed={false} id="numeroPartite" label="Numero partite" step="1" min="1"></InputNumber>
                                 </div>
                             </div>
                             <button id="pronosticobtn" onClick={(e) => {handletasto(e);}} type="button" className="w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Effettua un pronostico schedina</button>    
                         </div>
-                        <div className="mb-6 hidden">
+                        <div className="mb-6">
                             <button id="budgetbtn" onClick={(e) => {handletasto(e);}} type="button" className="w-full inline-block px-6 py-2.5 bg-yellow-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Gestione del budget</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div id="form" className={"w-full overflow-y-scroll "+form}>
-                <Form setToast={props.setToast} showToast={props.showToast} matchPartite={props.matchPartite} statoDash={stato} partitaSelezionata={props.partitaSelezionata}></Form>
+                <Form numero={props.fileLetto? props.fileLetto.length : 0} setToast={props.setToast} showToast={props.showToast} matchPartite={props.matchPartite} statoDash={stato} partitaSelezionata={props.partitaSelezionata}></Form>
             </div>
             <div id="formSchedina" className={"w-full pt-10 h-full overflow-y-scroll shadow-lg"+formSchedina}>
                 <FormSchedina cercaPartiteSchedina={props.cercaPartiteSchedina} partiteInSchedina={partiteInSchedina}></FormSchedina>
@@ -579,10 +668,10 @@ function Dashboard(props) {
                 <Tabella lista={props.datiTabella} explode={explode}> </Tabella>
             </div>
             <div id="budget" className={"w-full "+budget}> 
-                <GestoreBudget></GestoreBudget>
+                <GestoreBudget setisDbChanged={props.setisDbChanged} vecchiBudget={props.vecchiBudget} setvecchiBudget={props.setvecchiBudget} setToast={props.setToast} showToast={props.showToast} setbudgetData={props.setbudgetData} budgetData={props.budgetData} budgetSettings={props.budgetSettings}></GestoreBudget>
             </div>
             <div id="budgetSettings" className={"w-full "+budgetSetting}> 
-                <BudgetSettings></BudgetSettings>
+                <BudgetSettings setbudgetData={props.setbudgetData} setbudgetSettings={props.setbudgetSettings} budgetSettings={props.budgetSettings}></BudgetSettings>
             </div>
         </div>
     );
