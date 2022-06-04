@@ -34,7 +34,7 @@ function GetCsv(props) {
                         }else{
                             //salva il record nell'array dati budget
                             if (setFormat(arrayRaw[i+1]) === "Attuale"){
-                                let budgetAttuale = {cassa_attuale: arrayRaw[i+2], target_step : arrayRaw[i+3], incassi : arrayRaw[i+4], uscite :arrayRaw[i+5], vinte : arrayRaw[i+6],giocate : arrayRaw[i+7]}
+                                let budgetAttuale = {cassa_attuale: parseFloat(arrayRaw[i+2]), target_step : parseFloat(arrayRaw[i+3]), incassi : parseFloat(arrayRaw[i+4]), uscite :parseFloat(arrayRaw[i+5]), vinte : parseFloat(arrayRaw[i+6]),giocate : parseFloat(arrayRaw[i+7])}
                                 budgetData.push(budgetAttuale);
                             }else{
                                 let budget = {cassa_attuale: arrayRaw[i+2], target_step : arrayRaw[i+3], incassi : arrayRaw[i+4], uscite :arrayRaw[i+5], vinte : arrayRaw[i+6],giocate : arrayRaw[i+7]}
@@ -117,7 +117,7 @@ function GetCsv(props) {
 
     return (
         <div className="w-full text-center">
-            <h1 className="font-medium leading-tight text-3xl mt-0 mb-12 text-white">Benvenuto!</h1>
+            <h1 className="font-medium leading-tight text-3xl mt-0 mb-12 text-white">Metodo block</h1>
             <form>
                 <div className="flex justify-center px-12">
                     <div className="mb-3 max-w-sm">
