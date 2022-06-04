@@ -967,11 +967,6 @@
 {"campionato":"Premier League","squadraCasa":"Newcastle","squadraOspite":"Arsenal","casa":"3","suGiuCasa":"G","fuori":"1,36","suGiuFuori":"S","gol":"1,75","noGol":"2","o15":"1,28","u15":"3,75","o25":"1,88","u25":"2,02","golCasa":"2","golOspite":"0"},
 {"campionato":"Laliga2","squadraCasa":"R Oviedo","squadraOspite":"Saragozza","casa":"1,25","suGiuCasa":"ND","fuori":"3,75","suGiuFuori":"ND","gol":"2,2","noGol":"1,61","o15":"1,4","u15":"2,75","o25":"2,35","u25":"1,57","golCasa":"3","golOspite":"3"},
 {"tipo" : "Settings", "budget_step":"50","percentuale":"20"},
-<<<<<<< HEAD
+{"tipo" : "Attuale", "cassa_attuale":"E","target_step":"E","incassi":"E","uscite":"E","vinte":"E","giocate":"E"}
+]
 
-{"tipo" : "Attuale", "cassa_attuale":"E","target_step":"E","incassi":"E","uscite":"E","vinte":"E","giocate":"E"}
-]
-=======
-{"tipo" : "Attuale", "cassa_attuale":"E","target_step":"E","incassi":"E","uscite":"E","vinte":"E","giocate":"E"}
-]
->>>>>>> e1c0fba9203d4930a0f767ce45c7535430b3feaf
