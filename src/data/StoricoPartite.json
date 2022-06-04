@@ -966,9 +966,12 @@
 {"campionato":"Serie A","squadraCasa":"Juventus","squadraOspite":"Lazio","casa":"1,44","suGiuCasa":"G","fuori":"2,62","suGiuFuori":"S","gol":"1,61","noGol":"2,2","o15":"1,25","u15":"4","o25":"1,8","u25":"2","golCasa":"2","golOspite":"2"},
 {"campionato":"Premier League","squadraCasa":"Newcastle","squadraOspite":"Arsenal","casa":"3","suGiuCasa":"G","fuori":"1,36","suGiuFuori":"S","gol":"1,75","noGol":"2","o15":"1,28","u15":"3,75","o25":"1,88","u25":"2,02","golCasa":"2","golOspite":"0"},
 {"campionato":"Laliga2","squadraCasa":"R Oviedo","squadraOspite":"Saragozza","casa":"1,25","suGiuCasa":"ND","fuori":"3,75","suGiuFuori":"ND","gol":"2,2","noGol":"1,61","o15":"1,4","u15":"2,75","o25":"2,35","u25":"1,57","golCasa":"3","golOspite":"3"},
-{"campionato":"ND","squadraCasa":"Milan","squadraOspite":"Lazio","casa":"1.22","suGiuCasa":"1.22","fuori":"S","suGiuFuori":"S","gol":"1.22","noGol":"1.22","o15":"1.22","u15":"1.22","o25":"1.22","u25":"1.22","golCasa":"1.22","golOspite":"1.22"},
-{"campionato":"ND","squadraCasa":"Roma","squadraOspite":"Roma","casa":"1","suGiuCasa":"3","fuori":"S","suGiuFuori":"S","gol":"2","noGol":"4","o15":"5","u15":"7","o25":"6","u25":"8","golCasa":"9","golOspite":"10"},
 {"tipo" : "Settings", "budget_step":"50","percentuale":"20"},
+<<<<<<< HEAD
 
 {"tipo" : "Attuale", "cassa_attuale":"E","target_step":"E","incassi":"E","uscite":"E","vinte":"E","giocate":"E"}
 ]
+=======
+{"tipo" : "Attuale", "cassa_attuale":"E","target_step":"E","incassi":"E","uscite":"E","vinte":"E","giocate":"E"}
+]
+>>>>>>> e1c0fba9203d4930a0f767ce45c7535430b3feaf
