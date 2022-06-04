@@ -970,5 +970,5 @@
 {"campionato":"ND","squadraCasa":"Roma","squadraOspite":"Roma","casa":"1","suGiuCasa":"3","fuori":"S","suGiuFuori":"S","gol":"2","noGol":"4","o15":"5","u15":"7","o25":"6","u25":"8","golCasa":"9","golOspite":"10"},
 {"tipo" : "Settings", "budget_step":"50","percentuale":"20"},
 
-{"tipo" : "Attuale", "cassa_attuale":45,"target_step":60,"incassi":0,"uscite":5,"vinte":0,"giocate":1}
+{"tipo" : "Attuale", "cassa_attuale":"E","target_step":"E","incassi":"E","uscite":"E","vinte":"E","giocate":"E"}
 ]

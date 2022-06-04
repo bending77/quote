@@ -509,9 +509,14 @@ function Dashboard(props) {
         csvToPrint = "c;c;o;c;s;f;s;g;n;o;u;o;u;c;o;"
         let oggetto = props.fileLetto.map(function(elem){
           let partita = ""
-          for (var key in elem) {
-            partita = partita+elem[key]+";"
-          }
+          //for (var key in elem) {
+          //  partita = partita+elem[key]+";"
+          //}
+          partita=partita + elem.campionato+';'+elem.squadraCasa+';'+elem.squadraOspite+';'
+          partita=partita + elem.casa+';'+elem.suGiuCasa+';'+elem.fuori+';'+elem.suGiuFuori+';'
+          partita=partita + elem.gol+';'+elem.noGol+';'
+          partita=partita + elem.o15+';'+elem.u15+';'+elem.o25+';'+elem.u25+';'
+          partita=partita + elem.golCasa+';'+elem.golOspite+';'
           partita = "\r"+ partita
           return partita
         }).join("")
