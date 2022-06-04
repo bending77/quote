@@ -326,6 +326,11 @@ function Dashboard(props) {
     const emptytrigger = () => {  
     };
 
+    const contaPartite = () => {  
+        props.setToast(props.fileLetto.length+' partite nel db')
+        props.showToast()
+    };
+
     const checkDupli = () => {
         let partite = props.fileLetto.slice()
         let singole = []
@@ -559,6 +564,13 @@ function Dashboard(props) {
                             </svg>
                         </div>
 
+
+                       
+                        <div className={""+tastoSalva} onClick={contaPartite}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="xl:w-9 xl:h-9 lg:w-9 lg:h-9 h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>
                         <div className={""+tastoSalva} onClick={checkDupli}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="xl:w-9 xl:h-9 lg:w-9 lg:h-9 h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -656,7 +668,7 @@ function Dashboard(props) {
                 </div>
             </div>
             <div id="form" className={"w-full overflow-y-scroll "+form}>
-                <Form numero={props.fileLetto? props.fileLetto.length : 0} setToast={props.setToast} showToast={props.showToast} matchPartite={props.matchPartite} statoDash={stato} partitaSelezionata={props.partitaSelezionata}></Form>
+                <Form setToast={props.setToast} showToast={props.showToast} matchPartite={props.matchPartite} statoDash={stato} partitaSelezionata={props.partitaSelezionata}></Form>
             </div>
             <div id="formSchedina" className={"w-full pt-10 h-full overflow-y-scroll shadow-lg"+formSchedina}>
                 <FormSchedina cercaPartiteSchedina={props.cercaPartiteSchedina} partiteInSchedina={partiteInSchedina}></FormSchedina>

@@ -42,7 +42,7 @@ function GetCsv(props) {
                             }
                         }
                     }else{
-                        partitAttuale = {campionato : setFormat(arrayRaw[i]), squadraCasa : setFormat(arrayRaw[i+1]) ,squadraOspite : setFormat(arrayRaw[i+2]) , casa : arrayRaw[i+3] , suGiuCasa : arrayRaw[i+4], fuori : arrayRaw[i+5], suGiuFuori : arrayRaw[i+6], gol : arrayRaw[i+7], noGol : arrayRaw[i+8], o15 : arrayRaw[i+9], u15 : arrayRaw[i+10] , o25 : arrayRaw[i+11], u25 : arrayRaw[i+12] , golCasa : arrayRaw[i+13], golOspite : arrayRaw[i+14] };
+                        partitAttuale = {campionato : setFormat(arrayRaw[i]), squadraCasa : setFormat(arrayRaw[i+1]) ,squadraOspite : setFormat(arrayRaw[i+2]) , casa : arrayRaw[i+3] , suGiuCasa : arrayRaw[i+5], fuori : arrayRaw[i+4], suGiuFuori : arrayRaw[i+6], gol : arrayRaw[i+7], noGol : arrayRaw[i+8], o15 : arrayRaw[i+9], u15 : arrayRaw[i+10] , o25 : arrayRaw[i+11], u25 : arrayRaw[i+12] , golCasa : arrayRaw[i+13], golOspite : arrayRaw[i+14] };
                         arrayLetto.push(partitAttuale);
                     }
                     i = i+15
@@ -117,17 +117,17 @@ function GetCsv(props) {
 
     return (
         <div className="w-full text-center">
-            <h1 className="font-medium leading-tight text-3xl mt-0 mb-12 text-blue-500">Benvenuto!</h1>
+            <h1 className="font-medium leading-tight text-3xl mt-0 mb-12 text-white">Benvenuto!</h1>
             <form>
                 <div className="flex justify-center px-12">
                     <div className="mb-3 max-w-sm">
-                        <label htmlFor="formFile" accept=".csv" className="lg:text-xl block text-blue-500 text-sm mb-2">Importa il csv per iniziare</label>
+                        <label htmlFor="formFile" accept=".csv" className="lg:text-xl block text-white text-sm mb-2">Importa il csv per iniziare</label>
                         <input  onChange={handleOnChange} className="lg:text-lg form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="csvFileInput" />
                     </div>
                 </div>
                 <div className=" flex justify-center">
                     <div className="max-w-sm">
-                        <label className="lg:text-xl block text-blue-500 text-sm mb-2" htmlFor="password">
+                        <label className="lg:text-xl block text-white text-sm mb-2" htmlFor="password">
                             Password
                         </label>
                         <input className="lg:text-lg shadow appearance-none border border-blue-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="****"></input>

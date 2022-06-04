@@ -212,6 +212,7 @@ function App() {
   const explode = (valore) => {
     let indicePartita = valore.split("_")[1]
     setpartitaSelezionata(fileLetto[indicePartita])
+    
     setindicePSelezionata (indicePartita)
   }
 
@@ -322,17 +323,17 @@ const matchPartite = (partita, lista) => {
 
 
     return (
-        <div className="w-screen h-screen bg-gray-900 ">
-          <div id="GetCsv" className="w-screen h-5/6 flex items-center">
-            <GetCsv setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
-          </div>       
-          <div id="dashboard" className="hidden w-full h-full relative overflow-hidden">
-            <Dashboard setisDbChanged={setisDbChanged} vecchiBudget={vecchiBudget} setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} budgetData={budgetData} budgetSettings={budgetSettings} matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFileJson={downloadFileJson} downloadFileCsv={downloadFileCsv} setToast={setToast} showToast={showToast} setFileLetto={setFileLetto} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
+        <div className="w-screen h-screen bg-gray-900 relative">
+            <div id="GetCsv" className="w-screen h-5/6 flex items-center">
+              <GetCsv setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
+            </div>       
+            <div id="dashboard" className="hidden w-full h-full relative overflow-hidden">
+              <Dashboard setisDbChanged={setisDbChanged} vecchiBudget={vecchiBudget} setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} budgetData={budgetData} budgetSettings={budgetSettings} matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFileJson={downloadFileJson} downloadFileCsv={downloadFileCsv} setToast={setToast} showToast={showToast} setFileLetto={setFileLetto} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
+            </div>
+            <div id="snackbar">
+              testo toast
+            </div>
           </div>
-          <div id="snackbar">
-            testo toast
-          </div>
-        </div>
     );
 }
 

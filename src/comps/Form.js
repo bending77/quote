@@ -134,8 +134,6 @@ function Form(props) {
                 document.getElementById("suGiuFuori").selectedIndex = indexSGF;
             }, 100);
         }
-        
-
     },[props.partitaSelezionata]);
 
 
@@ -202,11 +200,6 @@ function Form(props) {
     return (
         
         <div className="h-full overflow-y-scroll lg:overflow-y-hidden xl:overflow-y-hidden pb-2 relative">
-            <div className="absolute bottom-0 right-0 mr-12">
-                <div className='text-white bg-blue-500 p-2 rounded-lg'>
-                    Partite nel db : {props.numero}
-                </div>
-            </div>
             <div className="px-4 text-center">
                 <div className="w-full lg:flex lg:justify-center">
                     <div className={"lg:w-1/2 rounded overflow-hidden p-4 "+showSquadre}>

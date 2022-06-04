@@ -31,7 +31,7 @@ function BudgetSettings(props) {
     
     return (
         <div className="w-full text-center h-full pt-14">
-            <div className="w-full px-6">
+            <div className="w-full px-6 lg:px-96">
                 <InputNumber trigger={trigger} doubleAllowed={false} id="budget_step" label="Budget step" step="0.1" min="1"></InputNumber> 
                 <InputNumber trigger={trigger} doubleAllowed={false} id="percentuale" label="Target percentuale" step="0.1" min="1"></InputNumber>    
             </div>

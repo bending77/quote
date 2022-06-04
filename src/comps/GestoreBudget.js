@@ -266,34 +266,42 @@ function GestoreBudget(props) {
                 <button id="aggiungiSch" onClick={(e) => {handletasto(e);}} type="button" className="mt-4 w-full inline-block px-6 py-2.5 bg-yellow-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg transition duration-150 ease-in-out mr-1">Gioca o incassa</button>
                 <button id="grafici" onClick={(e) => {handletasto(e);}} type="button" className="hidden mt-4 w-full inline-block px-6 py-2.5 bg-yellow-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg transition duration-150 ease-in-out mr-1">Storico degli step</button>
             </div>
-            <div className={'mt-2 '+normalStats}>
+            <div className={'mt-2 lg:flex lg:items-center '+normalStats}>
                 <div className="w-full h-1/2 lg:w-1/2 lg:h-full px-6">
                     <InputNumber bloccato={true} doubleAllowed={false} id="cassa_attuale" label="Cassa attuale" step="0.1" min="1"></InputNumber> 
                     <InputNumber bloccato={true} doubleAllowed={false} id="target_step" label="Target per lo step" step="0.1" min="1"></InputNumber>    
                     <div className="flex justify-evenly">
-                        <InputNumber bloccato={true} doubleAllowed={false} id="incassi_mese" label="Incassi dello step" step="0.1" min="1"></InputNumber> 
-                        <InputNumber bloccato={true} doubleAllowed={false} id="uscite_mese" label="Uscite dello step" step="0.1" min="1"></InputNumber>    
+                        <div className='mr-1'>
+                            <InputNumber bloccato={true} doubleAllowed={false} id="incassi_mese" label="Incassi dello step" step="0.1" min="1"></InputNumber> 
+                        </div>
+                        <div className='ml-1'>
+                            <InputNumber bloccato={true} doubleAllowed={false} id="uscite_mese" label="Uscite dello step" step="0.1" min="1"></InputNumber>    
+                        </div>
                     </div>    
                     <div className="flex justify-evenly">
-                        <InputNumber bloccato={true} doubleAllowed={false} id="schedine_vinte" label="Schedine vinte" step="0.1" min="1"></InputNumber> 
-                        <InputNumber bloccato={true} doubleAllowed={false} id="schedine_giocate" label="Schedine giocate" step="0.1" min="1"></InputNumber>    
+                        <div className='mr-1'>
+                            <InputNumber bloccato={true} doubleAllowed={false} id="schedine_vinte" label="Schedine vinte" step="0.1" min="1"></InputNumber> 
+                        </div>
+                        <div className='ml-1'>
+                            <InputNumber bloccato={true} doubleAllowed={false} id="schedine_giocate" label="Schedine giocate" step="0.1" min="1"></InputNumber>    
+                        </div>
                     </div> 
                     <InputNumber doubleAllowed={false} id="target_attuale" label="Target attuale" step="0.1" min="1"></InputNumber>                      
                     <div className="flex justify-evenly">
-                        <button id="nuovo_step" onClick={(e) => {handletasto(e);}} type="button" className="mt-4 w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Nuovo step</button>
-                        <button id="chiudi_step" onClick={(e) => {handletasto(e);}} type="button" className="mt-4 w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Chiudi step</button>
-                    </div>
-                    <div className='w-full h-40 overflow-y-scroll mt-4'>
-                        <TabellaQuote lista={righeTab}></TabellaQuote>
+                        <button id="nuovo_step" onClick={(e) => {handletasto(e);}} type="button" className="mt-4 mr-1 w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Nuovo step</button>
+                        <button id="chiudi_step" onClick={(e) => {handletasto(e);}} type="button" className="mt-4 ml-1 w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Chiudi step</button>
                     </div>
                     
+                </div>
+                <div className='w-full h-40  px-6 lg:h-96 lg:w-1/2 overflow-y-scroll mt-4 lg:mt-1'>
+                        <TabellaQuote lista={righeTab}></TabellaQuote>
                 </div>
             </div>
             <div className={"w-full h-1/2 lg:w-1/2 lg:h-full pt-6 px-6"+ insertSch}>
                 <InputNumber trigger={trigger} doubleAllowed={false} id="importo" label="Importo" step="0.1" min="1"></InputNumber>  
                 <div className="lg:flex lg:justify-evenly">
-                    <button id="vincita" onClick={(e) => {handletasto(e);}} type="button" className="mt-4 w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Inserisci vincita</button>
-                    <button id="giocata" onClick={(e) => {handletasto(e);}} type="button" className="mt-4 w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Inserisci giocata</button>
+                    <button id="vincita" onClick={(e) => {handletasto(e);}} type="button" className="mt-4 mr-1 w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Inserisci vincita</button>
+                    <button id="giocata" onClick={(e) => {handletasto(e);}} type="button" className="mt-4 ml-1 w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Inserisci giocata</button>
                 </div>
             </div>
             <div className={"w-full pt-2 h-screen "+ andamento_mensile}>
