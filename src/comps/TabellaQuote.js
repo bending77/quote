@@ -28,7 +28,7 @@ function TabellaQuote(props) {
                             </div>
                         </td>
                         <td className="px-2 py-1 font-medium text-gray-900 dark:text-white whitespace-normal">
-                            <div className="flex justify-center lg:justify-start">
+                            <div className="flex justify-center ">
                                 <div className={"lg:ml-4 ml-2"}>
                                     {Number.parseFloat(riga.importo)}
                                 </div>
