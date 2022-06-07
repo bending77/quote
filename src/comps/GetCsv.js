@@ -117,7 +117,10 @@ function GetCsv(props) {
 
     return (
         <div className="w-full text-center">
-            <h1 className="font-medium leading-tight text-3xl mt-0 mb-12 text-white">Metodo block</h1>
+            <h1 className="font-medium leading-tight text-3xl mt-0 text-white">Metodo block</h1>
+            <div className='mt-6 mb-8 flex justify-center w-full lg:h-48 h-32'>
+                <img src="./metodoblock.png" alt="logo"></img>
+            </div>
             <form>
                 <div className="flex justify-center px-12">
                     <div className="mb-3 max-w-sm">
