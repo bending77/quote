@@ -15,6 +15,11 @@ function Form(props) {
     const [showgoal, setshowgoal] = useState("");
 
 
+
+    const [isQuoteValore, setisQuoteValore] = useState(" hidden");
+    const [isNotQuoteValore, setisNotQuoteValore] = useState("");
+
+
     const [formatoForm, setformatoForm] = useState("lg:w-1/2 lg:pt-4");
 
     const [contatorePartite, setcontatorePartite] = useState("");
@@ -140,6 +145,16 @@ function Form(props) {
     useEffect(()=>{
 
         switch (props.statoDash){
+            case 10 : 
+                setdoubleAll(false)
+                setshowSquadre(" hidden")
+                setshowgoal(" hidden")
+                setcontatorePartite(" hidden")
+                setformatoForm("lg:pt-4")
+                setlistaDrop(["S","G","ND"])
+                setisQuoteValore("")
+                setisNotQuoteValore(" hidden")
+            break;
             case 4 : 
                 setdoubleAll(true)
                 setshowSquadre(" hidden")
@@ -147,6 +162,8 @@ function Form(props) {
                 setcontatorePartite(" hidden")
                 setformatoForm("lg:pt-4")
                 setlistaDrop(["S","G","ND"])
+                setisQuoteValore(" hidden")
+                setisNotQuoteValore("")
             break;
             case 6:
                 setdoubleAll(true)
@@ -154,6 +171,8 @@ function Form(props) {
                 setcontatorePartite("")
                 setformatoForm("lg:pt-4")
                 setlistaDrop(["S","G","ND"])
+                setisQuoteValore(" hidden")
+                setisNotQuoteValore("")
             break;
             case 2 : 
                 setdropOrText(false)
@@ -163,6 +182,8 @@ function Form(props) {
                 setshowgoal("")
                 setformatoForm(" lg:flex")
                 setlistaDrop(["S","G"])
+                setisQuoteValore(" hidden")
+                setisNotQuoteValore("")
             break;
             default :
                 setdropOrText(true) 
@@ -172,6 +193,8 @@ function Form(props) {
                 setcontatorePartite(" hidden")
                 setformatoForm(" lg:w-1/2 lg:pt-4")
                 setlistaDrop(["S","G"])
+                setisQuoteValore(" hidden")
+                setisNotQuoteValore("")
             break;
         }
     },[props.statoDash]); 
@@ -187,7 +210,8 @@ function Form(props) {
     };
 
     
-
+    
+    
    
     let drop = " hidden"
     let text = " hidden"
@@ -200,7 +224,7 @@ function Form(props) {
     return (
         
         <div className="h-full overflow-y-scroll lg:overflow-y-hidden xl:overflow-y-hidden pb-2 relative">
-            <div className="px-4 text-center">
+            <div className={"px-4 text-center "+isNotQuoteValore}>
                 <div className="w-full lg:flex lg:justify-center">
                     <div className={"lg:w-1/2 rounded overflow-hidden p-4 "+showSquadre}>
                         
@@ -275,6 +299,76 @@ function Form(props) {
                     </div>
                 </div>
             </div>
+            <div className={"px-4 text-center lg:px-64 "+isQuoteValore}>
+                <div className='flex justify-between'>
+                    <div className="w-1/2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxuno" label="1" step="0.1" min="1"></InputNumber>
+                    </div>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxx" label="X" step="0.1" min="1"></InputNumber>
+                    </div>
+                </div>
+                <div className='flex justify-between'>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxdue" label="2" step="0.1" min="1"></InputNumber>
+                    </div>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxunox" label="1 - X" step="0.1" min="1"></InputNumber>
+                    </div>
+                </div>
+                <div className='flex justify-between'>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxunodue" label="1 - 2" step="0.1" min="1"></InputNumber>
+                    </div>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxxdue" label="X - 2" step="0.1" min="1"></InputNumber>
+                    </div>
+                </div>
+                <div className='flex justify-between'>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxgoal" label="Gol" step="0.1" min="1"></InputNumber>
+                    </div>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxnoGoal" label="no Gol" step="0.1" min="1"></InputNumber>
+                    </div>
+                </div>
+                <div className='flex justify-between'>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxgolCasa" label="Gol casa" step="0.1" min="1"></InputNumber>
+                    </div>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxgolFuori" label="Gol fuori" step="0.1" min="1"></InputNumber>
+                    </div>
+                </div>
+                <div className='flex justify-between'>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxu15" label="Under 1.5" step="0.1" min="1"></InputNumber>
+                    </div>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxo15" label="Over 1.5" step="0.1" min="1"></InputNumber>
+                    </div>
+                </div>
+                <div className='flex justify-between'>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxu25" label="Under 2.5" step="0.1" min="1"></InputNumber>
+                    </div>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxo25" label="Over 2.5" step="0.1" min="1"></InputNumber>
+                    </div>
+                    
+                </div>
+                <div className='flex justify-between'>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxu35" label="Under 3.5" step="0.1" min="1"></InputNumber>
+                    </div>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxo35" label="Over 3.5" step="0.1" min="1"></InputNumber>
+                    </div>
+                </div>
+            </div>
+
+            
+
             <div className={"fixed mb-4 lg:mb-16 bottom-0 left-0 right-0 h-16 flex justify-center items-center"+contatorePartite}> 
                         <div className="bg-gray-400 h-16 w-5/6 flex py-2 pl-4 rounded-lg max-w-sm">
                             <button onClick={(e) => {contaPartite(e);}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Conta partite</button>

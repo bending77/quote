@@ -77,6 +77,7 @@ function Dashboard(props) {
         if (stato === 5){
             setstatistiche(JSON.parse(JSON.stringify(statdata)))
             props.cleanForm()
+            props.cleanValueForm()
             setStato(0)
         }else{
             if (stato === 6){
@@ -92,7 +93,12 @@ function Dashboard(props) {
                     if (stato === 9){
                         setStato(8)
                     }else{
-                        setStato(0)
+                        if (stato === 10){
+                            setStato(5)
+                        }else{
+                            setStato(0)
+                        }
+
                     }
                 }
                 
@@ -176,6 +182,7 @@ function Dashboard(props) {
 
     const filtraAncora = () => {
         props.cleanForm()
+        props.cleanValueForm()
         setStato(4)
         setstatistiche(JSON.parse(JSON.stringify(statdata)))
     };
@@ -373,7 +380,52 @@ function Dashboard(props) {
         setStato(9)
     };
     //----------------------------------------------------------------------------------------------------------
+    const openQuoteValore = () => {
+        props.cleanForm()
+        setStato(10)
+    };
 
+    
+
+    const calcolaValore = () => {
+        let arr=props.calcolaValore(statistiche)
+        //pulisco la form
+        props.cleanValueForm();
+        setStato(5)
+       // setTimeout(function(){ 
+            for (let i=0 ; i<arr.length ; i++){
+                let attuale = arr[i].split(';;');
+                let idCampo = attuale[0]
+                let numero = attuale[1]
+                let colore;
+                //rosso scuro 
+                if (numero <= -0.5){
+                    colore = "bg-red-700"
+                }
+                //rosso chiaro
+                if (numero < 0 && numero > -0.5){
+                    colore = "bg-red-400"
+                }
+                //giallo
+                if (numero >= 0 && numero <= 0){
+                    colore = "bg-yellow-500"
+                }
+                //verde chiaro
+                if (numero > 0 && numero < 0.5){
+                    colore = "bg-green-400"
+                }
+                //verde scuro
+                if (numero >= 0.5){
+                    colore = "bg-green-700"
+                }
+             
+                document.getElementById("idcontainer"+idCampo).classList.remove('hidden')
+                document.getElementById("idtext"+idCampo).innerHTML = numero
+                document.getElementById("idcolor"+idCampo).classList.add(colore)
+               
+            } 
+       // }, 5000);
+    };
 
     let dbButtonColor
 
@@ -393,6 +445,8 @@ function Dashboard(props) {
     let tastoProx = "hidden"
     let tastoAncora = "hidden"
     let tastoSettings = "hidden"
+    let tastoQuoteVal = " hidden"
+    let tastocalcolaVal = " hidden"
     
 
 
@@ -441,6 +495,7 @@ function Dashboard(props) {
                 formTitle = "Statistiche"
                 pulsantiera = ""
                 tastoAncora = ""
+                tastoQuoteVal = ""
             break;
             case 6 : 
                 pulsantiera = ""
@@ -463,6 +518,12 @@ function Dashboard(props) {
                 pulsantiera = ""
                 budgetSetting = ""
                 formTitle = "Impostazioni gestore budget"
+            break;
+            case 10 : 
+                pulsantiera = ""
+                form = " h-full pt-24 pb-2 "
+                formTitle = "Inserisci le quote attuali"
+                tastocalcolaVal = ""
             break;
             default : 
             break;
@@ -570,7 +631,20 @@ function Dashboard(props) {
                         </div>
 
 
-                       
+
+
+                        <div className={""+tastocalcolaVal} onClick={calcolaValore}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="xl:w-9 xl:h-9 lg:w-9 lg:h-9 h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+
+                        <div className={""+tastoQuoteVal} onClick={openQuoteValore}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="xl:w-9 xl:h-9 lg:w-9 lg:h-9 h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            </svg>
+                        </div>
+
                         <div className={""+tastoSalva} onClick={contaPartite}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="xl:w-9 xl:h-9 lg:w-9 lg:h-9 h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -673,7 +747,7 @@ function Dashboard(props) {
                 </div>
             </div>
             <div id="form" className={"w-full overflow-y-scroll "+form}>
-                <Form setToast={props.setToast} showToast={props.showToast} matchPartite={props.matchPartite} statoDash={stato} partitaSelezionata={props.partitaSelezionata}></Form>
+                <Form calcolaValore={calcolaValore} setToast={props.setToast} showToast={props.showToast} matchPartite={props.matchPartite} statoDash={stato} partitaSelezionata={props.partitaSelezionata}></Form>
             </div>
             <div id="formSchedina" className={"w-full pt-10 h-full overflow-y-scroll shadow-lg"+formSchedina}>
                 <FormSchedina cercaPartiteSchedina={props.cercaPartiteSchedina} partiteInSchedina={partiteInSchedina}></FormSchedina>

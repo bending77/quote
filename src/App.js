@@ -57,6 +57,15 @@ function App() {
         let nuovodb = fileLetto.slice()
         nuovodb[indicePSelezionata] = partita
         cleanForm()
+
+
+        //ordina l'array delle partite
+        nuovodb = mergeSort(nuovodb,'gol');
+        nuovodb = mergeSort(nuovodb,'sugiu');
+        nuovodb = mergeSort(nuovodb,'casa');
+        //-----
+
+
         setFileLetto(nuovodb)
         setdatiTabella(nuovodb)
         setToast('Partita modificata')
@@ -91,6 +100,14 @@ function App() {
         if (!isIn){
           nuovodb.push(partita)
           cleanForm()
+        //ordina l'array delle partite
+        nuovodb = mergeSort(nuovodb,'gol');
+        nuovodb = mergeSort(nuovodb,'sugiu');
+        nuovodb = mergeSort(nuovodb,'casa');
+        //-----
+
+
+
           setFileLetto(nuovodb)
           setdatiTabella(nuovodb)
           setToast('Partita inserita')
@@ -108,6 +125,113 @@ function App() {
         alert("la partita che stai tentando di inserire contiene degli errori: le squadre, almeno una quota ed i risultati devono essere valorizzati.")
       }
     }
+
+    const getQuoteForm = () => {
+      let chiavi = ['uno','x','due','unox','unodue','xdue', 'goal', 'noGoal', 'golCasa', 'golFuori', 'u15', 'o15', 'u25', 'o25', 'u35', 'o35'];
+      let quote=[[],[]];
+      for (let i=0 ; i<chiavi.length ; i++){
+        let valore = document.getElementById('xx'+chiavi[i]).value;
+        if (valore !== 0 && valore !== null && valore !== ''){
+          quote[0].push(chiavi[i])
+          quote[1].push(valore)
+        }
+      }
+      return quote
+    };
+    
+
+  function calcolaValore(statistiche) {
+    let quote = getQuoteForm();
+      if (quote[0].length > 0){
+        let listaGruppi = statistiche.statGroups
+        let perc = []
+        for (let i=0 ; i<listaGruppi.length ; i++){
+          let gruppoAttuale = listaGruppi[i]
+          for (let j=0; j<quote[0].length; j++){
+            if (gruppoAttuale.list.indexOf(quote[0][j]) > -1){
+              perc.push(gruppoAttuale.stats[quote[0][j]].percentuale)
+            }
+          }
+          
+        }
+        let htmls = [];
+        for (let i=0 ; i<quote[0].length ; i++){
+          let honest = ((1*quote[1][i])*(perc[i]/100)-1);
+          //arrotonda honest 
+          honest=honest+''
+          let arr = honest.split('.')
+          let numero;
+          if(arr.length === 1){
+            numero = arr[0]
+          }else{
+            let decimali = arr[1]
+            if (decimali.length > 2){
+              decimali=decimali.substring(0, 2)
+            }
+            numero = parseFloat(arr[0]+'.'+decimali)
+          }
+          
+          //lo pusho dentro la stat 
+          htmls.push(quote[0][i]+";;"+numero)
+        }
+        return htmls;
+      }else{
+        setToast('Inserisci almeno una quota per calcolare le quote di valore.')
+        showToast()
+        return -1;
+      }
+  }
+
+  function merge(left, right,chiave) {
+      let arr = []
+      // Break out of loop if any one of the array gets empty
+      while (left.length && right.length) {
+
+          switch (chiave){
+              case 'gol' : 
+                  if (left[0].gol < right[0].gol) {
+                      arr.push(left.shift())  
+                  } else {
+                      arr.push(right.shift()) 
+                  }
+              break;
+              case 'sugiu' :
+                  if (left[0].suGiuCasa < right[0].suGiuCasa) {
+                      arr.push(left.shift())  
+                  } else {
+                      arr.push(right.shift()) 
+                  }
+              break;
+              case 'casa' :
+                  if (left[0].casa < right[0].casa) {
+                      arr.push(left.shift())  
+                  } else {
+                      arr.push(right.shift()) 
+                  }
+              break;
+              default :
+
+              break;
+          }
+      }
+      
+      // Concatenating the leftover elements
+      // (in case we didn't go through the entire left or right array)
+      return [ ...arr, ...left, ...right ]
+  }
+
+  function mergeSort(array,chiave) {
+      const half = array.length / 2
+      
+      // Base case or terminating case
+      if(array.length < 2){
+        return array 
+      }
+      
+      const left = array.splice(0, half)
+      return merge(mergeSort(left,chiave),mergeSort(array,chiave),chiave)
+    }
+
     const getPartitaDaForm = () => {
       let partita = {campionato : "", squadraCasa : "", squadraOspite : "",casa : "", fuori : "", suGiuCasa : "", suGiuFuori : "", gol : "", noGol : "", o15 : "", u15 : "", o25 : "", u25 : "", golCasa : "", golOspite : "" } 
       partita.squadraCasa =  setFormat(document.getElementById("squadraCasa").value);
@@ -135,6 +259,9 @@ function App() {
 
       return partita
     };
+
+
+
 
     const validaPartita = (partita) => {
       let hasTeams = false
@@ -207,6 +334,21 @@ function App() {
     setpartitaSelezionata({campionato : "empty"})
     setindicePSelezionata (-1)
     setdatiTabella(fileLetto)
+  }
+
+  const cleanValueForm = () => {
+    let chiavi = ['uno','x','due','unox','unodue','xdue', 'goal', 'noGoal', 'golCasa', 'golFuori', 'u15', 'o15', 'u25', 'o25', 'u35', 'o35'];
+    for (let i=0 ; i<chiavi.length ; i++){
+      document.getElementById("idcontainer"+chiavi[i]).classList.add('hidden')
+      document.getElementById("idtext"+chiavi[i]).innerHTML = ''
+      document.getElementById("idcolor"+chiavi[i]).classList.remove('bg-red-700')
+      document.getElementById("idcolor"+chiavi[i]).classList.remove('bg-red-400')
+      document.getElementById("idcolor"+chiavi[i]).classList.remove('bg-yellow-500')
+      document.getElementById("idcolor"+chiavi[i]).classList.remove('bg-green-700')
+      document.getElementById("idcolor"+chiavi[i]).classList.remove('bg-green-400')
+      document.getElementById("xx"+chiavi[i]).value = ""
+      
+    }
   }
 
   const explode = (valore) => {
@@ -328,7 +470,7 @@ const matchPartite = (partita, lista) => {
               <GetCsv setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
             </div>       
             <div id="dashboard" className="hidden w-full h-full relative overflow-hidden">
-              <Dashboard setisDbChanged={setisDbChanged} vecchiBudget={vecchiBudget} setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} budgetData={budgetData} budgetSettings={budgetSettings} matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFileJson={downloadFileJson} downloadFileCsv={downloadFileCsv} setToast={setToast} showToast={showToast} setFileLetto={setFileLetto} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
+              <Dashboard cleanValueForm={cleanValueForm} calcolaValore={calcolaValore} setisDbChanged={setisDbChanged} vecchiBudget={vecchiBudget} setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} budgetData={budgetData} budgetSettings={budgetSettings} matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFileJson={downloadFileJson} downloadFileCsv={downloadFileCsv} setToast={setToast} showToast={showToast} setFileLetto={setFileLetto} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
             </div>
             <div id="snackbar">
               testo toast

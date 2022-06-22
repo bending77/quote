@@ -34,15 +34,20 @@ function OutputStats(props) {
                     darkColor = " bg-red-500" 
                 }
                 count = count + 1
+                //console.log('idtext'+chiave)
                 return( 
                     <div className="" key={'statistiche'+counter+''+count}>
-                        <div className="flex items-center justify-between text-gray-400 text-sm">
+                        <div  className="flex items-center justify-between text-gray-400 text-sm">
                             <p>
                                 {props.statistiche.statGroups[counter].stats[chiave].label}
                             </p>
-                            <p>
+                            <p >
                                 {props.statistiche.statGroups[counter].stats[chiave].valore+"/"+props.statistiche.partiteTrovate+" - "+props.statistiche.statGroups[counter].stats[chiave].percentuale+"%"}
                             </p>
+                            <div id={'idcontainer'+chiave} className='flex items-center hidden'>
+                                <div id={'idcolor'+chiave} className='h-3 w-3 rounded-full mr-2'></div>
+                                 <p id={'idtext'+chiave}></p> 
+                            </div>
                         </div>
                         <div className={"w-full h-2 rounded-full mb-4"+color}>
                             <div className={"h-full text-center text-xs text-white rounded-full"+darkColor} style={{width : props.statistiche.statGroups[counter].stats[chiave].percentuale+"%"}}>

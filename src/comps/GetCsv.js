@@ -50,6 +50,16 @@ function GetCsv(props) {
                 // test -------------
                 props.postFile()
                 //---------------------
+                //ordina l'array delle partite
+                arrayLetto = mergeSort(arrayLetto,'gol');
+                arrayLetto = mergeSort(arrayLetto,'sugiu');
+                arrayLetto = mergeSort(arrayLetto,'casa');
+                //-----
+
+
+
+
+
                 props.setFile(arrayLetto)
                 props.setTabella(arrayLetto)
 
@@ -97,14 +107,20 @@ function GetCsv(props) {
             }
             return(null)            
             }));
-        // test -------------
-        props.postFile()
-        //---------------------
+        //ordina l'array delle partite
+        partite = mergeSort(partite,'gol');
+        partite = mergeSort(partite,'sugiu');
+        partite = mergeSort(partite,'casa');
+        //-----
+
+
+
         props.setFile(partite)
         props.setTabella(partite)
         props.setbudgetData(attuale[0])
         props.setbudgetSettings(setting[0])  
         props.setvecchiBudget(storicobudget) 
+        props.postFile()
         }else{
             props.setToast('Password errata')
             props.showToast()
@@ -112,7 +128,55 @@ function GetCsv(props) {
     };
 
    
+    function merge(left, right,chiave) {
+        let arr = []
+        // Break out of loop if any one of the array gets empty
+        while (left.length && right.length) {
 
+            switch (chiave){
+                case 'gol' : 
+                    if (left[0].gol < right[0].gol) {
+                        arr.push(left.shift())  
+                    } else {
+                        arr.push(right.shift()) 
+                    }
+                break;
+                case 'sugiu' :
+                    if (left[0].suGiuCasa < right[0].suGiuCasa) {
+                        arr.push(left.shift())  
+                    } else {
+                        arr.push(right.shift()) 
+                    }
+                break;
+                case 'casa' :
+                    if (left[0].casa < right[0].casa) {
+                        arr.push(left.shift())  
+                    } else {
+                        arr.push(right.shift()) 
+                    }
+                break;
+                default :
+
+                break;
+            }
+        }
+        
+        // Concatenating the leftover elements
+        // (in case we didn't go through the entire left or right array)
+        return [ ...arr, ...left, ...right ]
+    }
+
+    function mergeSort(array,chiave) {
+        const half = array.length / 2
+        
+        // Base case or terminating case
+        if(array.length < 2){
+          return array 
+        }
+        
+        const left = array.splice(0, half)
+        return merge(mergeSort(left,chiave),mergeSort(array,chiave),chiave)
+      }
     
 
     return (
