@@ -294,7 +294,27 @@ function Dashboard(props) {
             if (parseFloat(match.golOspite) > 4){
                 risultati.statGroups[3].stats.fp4.valore = risultati.statGroups[3].stats.fp4.valore +1
             }
+            if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 1 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 3){
+                risultati.statGroups[4].stats.mg13.valore = risultati.statGroups[4].stats.mg13.valore +1
+            }
+            if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 1 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 4){
+                risultati.statGroups[4].stats.mg14.valore = risultati.statGroups[4].stats.mg14.valore +1
+            }
+            if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 2 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 2){
+                risultati.statGroups[4].stats.mg24.valore = risultati.statGroups[4].stats.mg24.valore +1
+            }
+            if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 2 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 5){
+                risultati.statGroups[4].stats.mg25.valore = risultati.statGroups[4].stats.mg25.valore +1
+            }
         }
+
+        let app = risultati.statGroups[4]
+
+        risultati.statGroups[4] = risultati.statGroups[3]
+        risultati.statGroups[3] = app
+
+
+
 
         //calcola le percentuali
         let rapp, perc
@@ -308,7 +328,7 @@ function Dashboard(props) {
         }
 
         //let rapp, perc
-        let maxs = [[],[],[],[]];
+        let maxs = [[],[],[],[],[]];
         for (let i = 0; i<risultati.statGroups.length ; i++){
            let statisticheGruppo = risultati.statGroups[i].stats
            let percentualeMassima = 0
@@ -323,7 +343,7 @@ function Dashboard(props) {
                 }
            }
         }
-        maxs = maxs[0].concat(maxs[1]).concat(maxs[2]).concat(maxs[3])
+        maxs = maxs[0].concat(maxs[1]).concat(maxs[2]).concat(maxs[3]).concat(maxs[4])
         risultati.maxs = maxs
         props.setdatiTabella(partite)
         setstatistiche(risultati)
@@ -389,10 +409,12 @@ function Dashboard(props) {
 
     const calcolaValore = () => {
         let arr=props.calcolaValore(statistiche)
+        console.log(arr)
         //pulisco la form
         props.cleanValueForm();
         setStato(5)
        // setTimeout(function(){ 
+            
             for (let i=0 ; i<arr.length ; i++){
                 let attuale = arr[i].split(';;');
                 let idCampo = attuale[0]
@@ -418,7 +440,7 @@ function Dashboard(props) {
                 if (numero >= 0.5){
                     colore = "bg-green-700"
                 }
-             
+                
                 document.getElementById("idcontainer"+idCampo).classList.remove('hidden')
                 document.getElementById("idtext"+idCampo).innerHTML = numero
                 document.getElementById("idcolor"+idCampo).classList.add(colore)

@@ -127,7 +127,7 @@ function App() {
     }
 
     const getQuoteForm = () => {
-      let chiavi = ['uno','x','due','unox','unodue','xdue', 'goal', 'noGoal', 'golCasa', 'golFuori', 'u15', 'o15', 'u25', 'o25', 'u35', 'o35'];
+      let chiavi = ['uno','x','due','unox','unodue','xdue', 'goal', 'noGoal', 'golCasa', 'golFuori', 'u15', 'o15', 'u25', 'o25', 'u35', 'o35','mg13','mg14','mg24','mg25'];
       let quote=[[],[]];
       for (let i=0 ; i<chiavi.length ; i++){
         let valore = document.getElementById('xx'+chiavi[i]).value;
@@ -175,6 +175,7 @@ function App() {
           htmls.push(quote[0][i]+";;"+numero)
         }
         return htmls;
+
       }else{
         setToast('Inserisci almeno una quota per calcolare le quote di valore.')
         showToast()
@@ -337,7 +338,7 @@ function App() {
   }
 
   const cleanValueForm = () => {
-    let chiavi = ['uno','x','due','unox','unodue','xdue', 'goal', 'noGoal', 'golCasa', 'golFuori', 'u15', 'o15', 'u25', 'o25', 'u35', 'o35'];
+    let chiavi = ['uno','x','due','unox','unodue','xdue', 'goal', 'noGoal', 'golCasa', 'golFuori', 'u15', 'o15', 'u25', 'o25', 'u35', 'o35','mg13','mg14','mg24', 'mg25'];
     for (let i=0 ; i<chiavi.length ; i++){
       document.getElementById("idcontainer"+chiavi[i]).classList.add('hidden')
       document.getElementById("idtext"+chiavi[i]).innerHTML = ''

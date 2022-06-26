@@ -98,7 +98,25 @@ function FormSchedina(props) {
             if (parseFloat(match.golOspite) > 4){
                 risultati.statGroups[3].stats.fp4.valore = risultati.statGroups[3].stats.fp4.valore +1
             }
+            if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 1 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 3){
+                risultati.statGroups[4].stats.ut.valore = risultati.statGroups[4].stats.ut.valore +1
+            }
+            if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 1 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 4){
+                risultati.statGroups[4].stats.uq.valore = risultati.statGroups[4].stats.uq.valore +1
+            }
+            if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 2 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 2){
+                risultati.statGroups[4].stats.dq.valore = risultati.statGroups[4].stats.dq.valore +1
+            }
+            if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 2 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 5){
+                risultati.statGroups[4].stats.dc.valore = risultati.statGroups[4].stats.dc.valore +1
+            }
         }
+
+        let app = risultati.statGroups[4]
+
+        risultati.statGroups[4] = risultati.statGroups[3]
+        risultati.statGroups[3] = app
+
 
         //calcola le percentuali
         let rapp, perc
@@ -112,7 +130,7 @@ function FormSchedina(props) {
         }
 
         //let rapp, perc
-        let maxs = [[],[],[],[]];
+        let maxs = [[],[],[],[],[]];
         for (let i = 0; i<risultati.statGroups.length ; i++){
            let statisticheGruppo = risultati.statGroups[i].stats
            let percentualeMassima = 0
@@ -127,7 +145,7 @@ function FormSchedina(props) {
                 }
            }
         }
-        maxs = maxs[0].concat(maxs[1]).concat(maxs[2]).concat(maxs[3])
+        maxs = maxs[0].concat(maxs[1]).concat(maxs[2]).concat(maxs[3]).concat(maxs[4])
         risultati.maxs = maxs
         //risultati.topStat = maxStat
         return(risultati)

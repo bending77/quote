@@ -74,6 +74,7 @@ function Form(props) {
             document.getElementById("quotaGolFuoriB").value = "";
 
 
+
             setTimeout(function() {
                 document.getElementById("suGiuCasa").selectedIndex = -1; // da tenere
                 document.getElementById("suGiuFuori").selectedIndex = -1; //da tenere 
@@ -130,7 +131,9 @@ function Form(props) {
 
             document.getElementById("squadraOspiteX").value = props.partitaSelezionata.squadraOspite
             document.getElementById("squadraCasaX").value = props.partitaSelezionata.squadraCasa
-           
+                              
+         
+
 
             let indexSGC = findSelectIndex(props.partitaSelezionata.suGiuCasa, ["S","G"])
             let indexSGF = findSelectIndex(props.partitaSelezionata.suGiuFuori, ["S","G"])
@@ -363,6 +366,23 @@ function Form(props) {
                     </div>
                     <div className="w-1/2 ml-2">
                         <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxo35" label="Over 3.5" step="0.1" min="1"></InputNumber>
+                    </div>
+                </div>             
+                <div className='flex justify-between'>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxmg13" label="Multigol 1-3" step="0.1" min="1"></InputNumber>
+                    </div>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxmg14" label="Multigol 1-4" step="0.1" min="1"></InputNumber>
+                    </div>
+                   
+                </div>
+                <div className='flex justify-between'>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxmg24" label="Multigol 2-4" step="0.1" min="1"></InputNumber>
+                    </div>
+                    <div className="w-1/2 ml-2">
+                        <InputNumber trigger={emptytrigger} doubleAllowed={doubleAllowed} id="xxmg25" label="Multigol 2-5" step="0.1" min="1"></InputNumber>
                     </div>
                 </div>
             </div>

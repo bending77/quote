@@ -34,7 +34,7 @@ function OutputStats(props) {
                     darkColor = " bg-red-500" 
                 }
                 count = count + 1
-                //console.log('idtext'+chiave)
+               
                 return( 
                     <div className="" key={'statistiche'+counter+''+count}>
                         <div  className="flex items-center justify-between text-gray-400 text-sm">
