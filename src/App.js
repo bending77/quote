@@ -337,6 +337,11 @@ function App() {
     setdatiTabella(fileLetto)
   }
 
+  const cleanFormnoTab = () => {
+    setpartitaSelezionata({campionato : "empty"})
+    setindicePSelezionata (-1)
+  }
+
   const cleanValueForm = () => {
     let chiavi = ['uno','x','due','unox','unodue','xdue', 'goal', 'noGoal', 'golCasa', 'golFuori', 'u15', 'o15', 'u25', 'o25', 'u35', 'o35','mg13','mg14','mg24', 'mg25'];
     for (let i=0 ; i<chiavi.length ; i++){
@@ -471,7 +476,7 @@ const matchPartite = (partita, lista) => {
               <GetCsv setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} setToast={setToast} showToast={showToast} setTabella={setdatiTabella} setFile={setFileLetto} postFile={postFile}></GetCsv>
             </div>       
             <div id="dashboard" className="hidden w-full h-full relative overflow-hidden">
-              <Dashboard cleanValueForm={cleanValueForm} calcolaValore={calcolaValore} setisDbChanged={setisDbChanged} vecchiBudget={vecchiBudget} setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} budgetData={budgetData} budgetSettings={budgetSettings} matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFileJson={downloadFileJson} downloadFileCsv={downloadFileCsv} setToast={setToast} showToast={showToast} setFileLetto={setFileLetto} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
+              <Dashboard cleanFormnoTab={cleanFormnoTab} cleanValueForm={cleanValueForm} calcolaValore={calcolaValore} setisDbChanged={setisDbChanged} vecchiBudget={vecchiBudget} setvecchiBudget={setvecchiBudget} setbudgetData={setbudgetData} setbudgetSettings={setbudgetSettings} budgetData={budgetData} budgetSettings={budgetSettings} matchPartite={matchPartite} isDbChanged={isDbChanged} downloadFileJson={downloadFileJson} downloadFileCsv={downloadFileCsv} setToast={setToast} showToast={showToast} setFileLetto={setFileLetto} fileLetto={fileLetto} cercaPartiteSchedina={cercaPartiteSchedina} getPartitaDaForm={getPartitaDaForm} setdatiTabella={setdatiTabella} cercaPartite={cercaPartite} cleanForm={cleanForm} setPartita={setPartita} removePartita={removePartita} addPartita={addPartita} explode={explode} datiTabella={datiTabella} partitaSelezionata={partitaSelezionata}></Dashboard>
             </div>
             <div id="snackbar">
               testo toast

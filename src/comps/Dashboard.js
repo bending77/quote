@@ -401,7 +401,7 @@ function Dashboard(props) {
     };
     //----------------------------------------------------------------------------------------------------------
     const openQuoteValore = () => {
-        props.cleanForm()
+        props.cleanFormnoTab()
         setStato(10)
     };
 
@@ -409,7 +409,6 @@ function Dashboard(props) {
 
     const calcolaValore = () => {
         let arr=props.calcolaValore(statistiche)
-        console.log(arr)
         //pulisco la form
         props.cleanValueForm();
         setStato(5)
