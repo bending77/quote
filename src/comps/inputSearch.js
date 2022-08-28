@@ -8,16 +8,32 @@ function InputSearch(props) {
     
 
     // cerca i matching 
-    const search = (text) => {
+    const search = (text, toTrim) => {
         let dati = teams
         let prime = []
         let seconde = []
         for (let i = 0; i < dati.length; i++) {
             // controlla che la squadra nella lista inizi con la stringa inserita dall'utente
-            if (dati[i].substring(0, text.length).toUpperCase() === text.toUpperCase()) {
-                //inserisci nel primo array
-                prime.push(dati[i])
+            if (toTrim){
+
+                if (dati[i].toUpperCase().split(' ').join('') === text.toUpperCase().split(' ').join('')) {
+                    //inserisci nel primo array
+                    prime.push(dati[i])
+                    /*console.log(dati[i].substring(0, text.length).toUpperCase())
+                    console.log(dati[i].substring(0, text.length).toUpperCase().split(' '))
+                    console.log(dati[i].substring(0, text.length).toUpperCase().split(' ').join(''))
+                    console.log('---')
+                    console.log(text.toUpperCase())
+                    console.log(text.toUpperCase().split(' '))
+                    console.log(text.toUpperCase().split(' ').join(''))*/
+                }
+            }else{
+                if (dati[i].substring(0, text.length).toUpperCase() === text.toUpperCase()) {
+                    //inserisci nel primo array
+                    prime.push(dati[i])
+                }
             }
+           
         }
         return prime.concat(seconde)
     }
@@ -32,7 +48,7 @@ function InputSearch(props) {
             document.querySelector('#teamChooser'+props.id).classList.add('hidden')
         }else{
             //[aggiorna la lista di ricerca]
-            setlistaChooser(search(e.currentTarget.value))
+            setlistaChooser(search(e.currentTarget.value),false)
             //[mostro la lista]
             document.querySelector('#teamChooser'+props.id).classList.remove('hidden')
               //[sposto la lista all'alteza giusta]
@@ -49,11 +65,19 @@ function InputSearch(props) {
         if (document.querySelector('#'+props.id).value === ''){
             //do nothing
         }else{
-                let foundTeams = search(document.querySelector('#'+props.id).value).length
+                let foundTeams = search(document.querySelector('#'+props.id).value,true).length
                 if (foundTeams === 1){
                 //=== document.querySelector('#'+props.id).value.length){
                 }else{
-                    props.setToast('la squadra inserita non è presente nel db delle squadre')
+                    if (foundTeams === 0){
+                        props.setToast('la squadra inserita non è presente nel db delle squadre')
+                    }else{
+                            console.log(document.querySelector('#'+props.id).value)
+                            console.log(search(document.querySelector('#'+props.id).value,true))
+                            
+                            props.setToast('la squadra che hai inserito ha più di un riscontro nel db')
+                        
+                    }
                     props.showToast() 
                 }           
             setlistaChooser([])

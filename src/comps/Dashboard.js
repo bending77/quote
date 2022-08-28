@@ -148,6 +148,9 @@ function Dashboard(props) {
                 props.cleanForm()
                 setStato(7)
             }
+            document.querySelector('#partiteTrovate').innerHTML='partite trovate: '
+            props.setToast('partita inserita nella schedina')
+            props.showToast()
         }else{
             alert('La partita inserita non è valida:\n Ogni partita deve contenere entrambe le squadre ed almeno una quota.')
         }
