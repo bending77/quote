@@ -9,6 +9,7 @@ function FormSchedina(props) {
         let statJSON = JSON.parse(JSON.stringify(statdata));
         let risultati = statJSON
         risultati.partiteTrovate = partite.length
+       
 
         //calcola le statistiche
         for (let i = 0; i < partite.length; i++) {
@@ -99,16 +100,16 @@ function FormSchedina(props) {
                 risultati.statGroups[3].stats.fp4.valore = risultati.statGroups[3].stats.fp4.valore +1
             }
             if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 1 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 3){
-                risultati.statGroups[4].stats.ut.valore = risultati.statGroups[4].stats.ut.valore +1
+                risultati.statGroups[4].stats.mg13.valore = risultati.statGroups[4].stats.mg13.valore +1
             }
             if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 1 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 4){
-                risultati.statGroups[4].stats.uq.valore = risultati.statGroups[4].stats.uq.valore +1
+                risultati.statGroups[4].stats.mg14.valore = risultati.statGroups[4].stats.mg14.valore +1
             }
             if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 2 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 2){
-                risultati.statGroups[4].stats.dq.valore = risultati.statGroups[4].stats.dq.valore +1
+                risultati.statGroups[4].stats.mg24.valore = risultati.statGroups[4].stats.mg24.valore +1
             }
             if (parseFloat(match.golOspite)+parseFloat(match.golCasa) >= 2 && parseFloat(match.golOspite)+parseFloat(match.golCasa) <= 5){
-                risultati.statGroups[4].stats.dc.valore = risultati.statGroups[4].stats.dc.valore +1
+                risultati.statGroups[4].stats.mg25.valore = risultati.statGroups[4].stats.mg25.valore +1
             }
         }
 
