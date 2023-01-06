@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from "react";
-import setFormat from "../functs/setFormat";
-import storico from "../data/StoricoPartite.json";
+
 
 
 function GetCsv(props) {
@@ -15,8 +14,13 @@ function GetCsv(props) {
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-        if (file && document.querySelector('#password').value === "Gianni77") {
-            fileReader.onload = function (event) {
+        if (file && document.querySelector('#password').value === "Gingi") {
+            //use file name to detect team name
+
+
+
+
+            /*fileReader.onload = function (event) {
                 const csvOutput = event.target.result;
                 let stringaDaLeggere = csvOutput
                 let arrayRaw = stringaDaLeggere.split(";")
@@ -68,6 +72,7 @@ function GetCsv(props) {
                 props.setvecchiBudget(vecchiBudget)  
             };
             fileReader.readAsText(file); 
+            */
         }else{
             props.setToast('seleziona il file ed inserisci la password per accedere')
             props.showToast()
@@ -78,49 +83,9 @@ function GetCsv(props) {
     
 
     
-    const usaStoricoDefault = () => {
-        if (document.querySelector('#password').value === "Gianni77") {
-
-            let partite = []
-            let attuale = []
-            let setting = []
-            let storicobudget = []
-            // cicla l'array - crea file letto - crea settings - crea attuale - crea storico
-            // eslint-disable-next-line
-            var lista = (storico).map((oggetto =>{
-            if (oggetto.campionato !== undefined){
-                partite.push(oggetto)
-            }else{
-                switch(oggetto.tipo){
-                    case 'Attuale' : 
-                        attuale.push(oggetto)
-                    break;
-                    case 'Settings' : 
-                    setting.push(oggetto)
-                    break;
-                    case 'Chiuso' :
-                        storicobudget.push(oggetto)
-                    break;
-                    default : 
-                    break;
-                }
-            }
-            return(null)            
-            }));
-        //ordina l'array delle partite
-        partite = mergeSort(partite,'gol');
-        partite = mergeSort(partite,'sugiu');
-        partite = mergeSort(partite,'casa');
-        //-----
-
-
-
-        props.setFile(partite)
-        props.setTabella(partite)
-        props.setbudgetData(attuale[0])
-        props.setbudgetSettings(setting[0])  
-        props.setvecchiBudget(storicobudget) 
-        props.postFile()
+    const creaSquadra = () => {
+        if (document.querySelector('#password').value === "Gingi") {
+        props.creaSquadra()
         }else{
             props.setToast('Password errata')
             props.showToast()
@@ -128,67 +93,13 @@ function GetCsv(props) {
     };
 
    
-    function merge(left, right,chiave) {
-        let arr = []
-        // Break out of loop if any one of the array gets empty
-        while (left.length && right.length) {
-
-            switch (chiave){
-                case 'gol' : 
-                    if (left[0].gol < right[0].gol) {
-                        arr.push(left.shift())  
-                    } else {
-                        arr.push(right.shift()) 
-                    }
-                break;
-                case 'sugiu' :
-                    if (left[0].suGiuCasa < right[0].suGiuCasa) {
-                        arr.push(left.shift())  
-                    } else {
-                        arr.push(right.shift()) 
-                    }
-                break;
-                case 'casa' :
-                    if (left[0].casa < right[0].casa) {
-                        arr.push(left.shift())  
-                    } else {
-                        arr.push(right.shift()) 
-                    }
-                break;
-                default :
-
-                break;
-            }
-        }
-        
-        // Concatenating the leftover elements
-        // (in case we didn't go through the entire left or right array)
-        return [ ...arr, ...left, ...right ]
-    }
-
-    function mergeSort(array,chiave) {
-        const half = array.length / 2
-        
-        // Base case or terminating case
-        if(array.length < 2){
-          return array 
-        }
-        
-        const left = array.splice(0, half)
-        return merge(mergeSort(left,chiave),mergeSort(array,chiave),chiave)
-      }
-    
-
     return (
         <div className="w-full text-center">
-            <h1 className="font-medium leading-tight text-3xl mt-0 text-white">Metodo block</h1>
-            <div className='mt-6 mb-8 flex justify-center w-full lg:h-48 h-32'>
-                <img src="./metodoblock.png" alt="logo"></img>
-            </div>
+            <h1 className="font-medium leading-tight text-3xl mt-0 text-white">Statistiche</h1>
             <form>
                 <div className="flex justify-center px-12">
                     <div className="mb-3 max-w-sm">
-                        <label htmlFor="formFile" accept=".csv" className="lg:text-xl block text-white text-sm mb-2">Importa il csv per iniziare</label>
+                        <label htmlFor="formFile" accept=".csv" className="lg:text-xl block text-white text-sm mb-2">Carica una squadra</label>
                         <input  onChange={handleOnChange} className="lg:text-lg form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="csvFileInput" />
                     </div>
                 </div>
@@ -205,7 +116,7 @@ function GetCsv(props) {
                         <button onClick={(e) => {handleOnSubmit(e);}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Start</button>
                     </div>
                     <div className="flex space-x-2 justify-center mt-4 ">
-                        <button onClick={(e) => {usaStoricoDefault()}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Utilizza  lo storico salvato</button>
+                        <button onClick={(e) => {creaSquadra()}} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium lg:text-lg xl:text-xl text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Crea nuova squadra</button>
                     </div>
                 </div> 
                    
