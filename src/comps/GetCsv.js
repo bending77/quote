@@ -6,7 +6,7 @@ import { useState } from "react";
 function GetCsv(props) {
     const [file, setFile] = useState();
 
-    const fileReader = new FileReader();
+    //const fileReader = new FileReader();
 
     const handleOnChange = (e) => {
         setFile(e.target.files[0]);

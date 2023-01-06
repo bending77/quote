@@ -2,14 +2,13 @@ import React from 'react';
 import GetCsv from "./comps/GetCsv";
 import CreateTeam from "./comps/CreateTeam";
 import Dashboard from './comps/Dashboard';
-import { useState } from "react";
 import './AppStyle.css';
 
 
 
 function App() {
 
-  const [squadra, setsquadra] = useState([]);
+  
 
   const postFile = () => {
     document.getElementById("GetCsv").classList.add("hidden");
@@ -25,7 +24,6 @@ function App() {
     document.getElementById("GetCsv").classList.add("hidden");
     document.getElementById("TeamCreator").classList.add("hidden");
     document.getElementById("Dashboard").classList.remove("hidden"); 
-    setsquadra(squadra)
   };
 
 
